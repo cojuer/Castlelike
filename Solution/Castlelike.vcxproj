@@ -1,0 +1,453 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{DB44AD0A-3BC9-4D00-AF7C-1552E85BA0FC}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>HeroCreator</RootNamespace>
+    <ProjectName>Castlelike</ProjectName>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\Source;$(SolutionDir)\Source\Common;$(SolutionDir)\Source\SceneManagement;$(SolutionDir)\Source\ResourceManagement\Caches;$(SolutionDir)\Source\ResourceManagement\Factories;$(SolutionDir)\Source\ResourceManagement\Loaders;$(SolutionDir)\Source\ResourceManagement\Parsers;$(SolutionDir)\Source\ResourceManagement\Resources;$(SolutionDir)\Source\ResourceManagement;$(SolutionDir)\Source\AppStates;$(SolutionDir)\Source\EventBus;$(SolutionDir)\Source\EventBus\Events;$(SolutionDir)\Source\EventBus\Factories;$(SolutionDir)\Source\EventBus\Listeners;$(SolutionDir)\Source\GUI;$(SolutionDir)\Source\GUI\GUI elements;$(SolutionDir)\Source\GUI\Behaviour;$(SolutionDir)\Source\GUI\Common;$(SolutionDir)\Source\GUI\Widgets;$(SolutionDir)\Source\GameLogic;$(SolutionDir)\Source\GameLogic\Actions;$(SolutionDir)\Source\GameLogic\Actors;$(SolutionDir)\Source\GameLogic\Conditions;$(SolutionDir)\Source\GameLogic\Abilities;$(SolutionDir)\Source\GameLogic\Components;$(SolutionDir)\Source\GameLogic\AI;$(SolutionDir)\Source\Subsystems;$(SolutionDir)\Source\Subsystems\Sound;$(SolutionDir)\Source\Subsystems\Input;$(SolutionDir)\Source\Subsystems\IO;$(SolutionDir)\Source\Subsystems\Time;$(SolutionDir)\Source\Subsystems\Rendering;$(SolutionDir)\Source\Subsystems\Rendering\Renderables;$(SolutionDir)\Source\Systems\ActorControllers;$(SolutionDir)\Source\Systems\Rendering;$(SolutionDir)\Source\Systems\Game;$(SolutionDir)\Source\Systems\Sound;$(SolutionDir)Source\Systems\Sheduler;$(SolutionDir)Source\Systems\CutscenePlayer;$(SolutionDir)Source\Systems\CutscenePlayer\Cutscenes;$(SolutionDir)Source\Systems\CutscenePlayer\Elements;$(SolutionDir)Source\Systems;$(SolutionDir)3rd party\Pugixml</IncludePath>
+    <ReferencePath>$(ReferencePath)</ReferencePath>
+    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
+    <SourcePath>$(SourcePath)</SourcePath>
+    <OutDir>.\Game\$(Configuration)\</OutDir>
+    <IntDir>.\Temp\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>.\Game\$(Configuration)\</OutDir>
+    <IntDir>.\Temp\$(Configuration)\</IntDir>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\Source;$(SolutionDir)\Source\Common;$(SolutionDir)\Source\SceneManagement;$(SolutionDir)\Source\ResourceManagement\Caches;$(SolutionDir)\Source\ResourceManagement\Factories;$(SolutionDir)\Source\ResourceManagement\Loaders;$(SolutionDir)\Source\ResourceManagement\Parsers;$(SolutionDir)\Source\ResourceManagement\Resources;$(SolutionDir)\Source\ResourceManagement;$(SolutionDir)\Source\AppStates;$(SolutionDir)\Source\EventBus;$(SolutionDir)\Source\EventBus\Events;$(SolutionDir)\Source\EventBus\Factories;$(SolutionDir)\Source\EventBus\Listeners;$(SolutionDir)\Source\GUI;$(SolutionDir)\Source\GUI\GUI elements;$(SolutionDir)\Source\GUI\Behaviour;$(SolutionDir)\Source\GUI\Common;$(SolutionDir)\Source\GUI\Widgets;$(SolutionDir)\Source\GameLogic;$(SolutionDir)\Source\GameLogic\Actions;$(SolutionDir)\Source\GameLogic\Actors;$(SolutionDir)\Source\GameLogic\Conditions;$(SolutionDir)\Source\GameLogic\Abilities;$(SolutionDir)\Source\GameLogic\Components;$(SolutionDir)\Source\GameLogic\AI;$(SolutionDir)\Source\Subsystems;$(SolutionDir)\Source\Subsystems\Sound;$(SolutionDir)\Source\Subsystems\Input;$(SolutionDir)\Source\Subsystems\IO;$(SolutionDir)\Source\Subsystems\Time;$(SolutionDir)\Source\Subsystems\Rendering;$(SolutionDir)\Source\Subsystems\Rendering\Renderables;$(SolutionDir)\Source\Systems\ActorControllers;$(SolutionDir)\Source\Systems\Rendering;$(SolutionDir)\Source\Systems\Game;$(SolutionDir)\Source\Systems\Sound;$(SolutionDir)Source\Systems\Sheduler;$(SolutionDir)Source\Systems\CutscenePlayer;$(SolutionDir)Source\Systems\CutscenePlayer\Cutscenes;$(SolutionDir)Source\Systems\CutscenePlayer\Elements;$(SolutionDir)Source\Systems;$(SolutionDir)3rd party\Pugixml</IncludePath>
+    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
+    <ReferencePath>$(ReferencePath)</ReferencePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+    <SourcePath>$(SourcePath)</SourcePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)3rd party\Fmod\inc;$(SolutionDir)3rd party\JSON;$(SolutionDir)3rd party\Pugixml;$(SolutionDir)3rd party\SDL2_ttf\include;$(SolutionDir)3rd party\SDL2_image\include;$(SolutionDir)3rd party\SDL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BrowseInformation>true</BrowseInformation>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ObjectFileName>$(IntDir)/%(RelativeDir)/</ObjectFileName>
+      <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)3rd party\SDL\lib\x86;$(SolutionDir)3rd party\SDL2_image\lib\x86;$(SolutionDir)3rd party\SDL2_ttf\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <Bscmake>
+      <PreserveSbr>true</PreserveSbr>
+    </Bscmake>
+    <Manifest>
+      <EnableDpiAwareness>true</EnableDpiAwareness>
+    </Manifest>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)3rd party\Fmod\inc;$(SolutionDir)3rd party\JSON;$(SolutionDir)3rd party\Pugixml;$(SolutionDir)3rd party\SDL2_ttf\include;$(SolutionDir)3rd party\SDL2_image\include;$(SolutionDir)3rd party\SDL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)3rd party\SDL\lib\x86;$(SolutionDir)3rd party\SDL2_image\lib\x86;$(SolutionDir)3rd party\SDL2_ttf\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="3rd party\Pugixml\pugixml.cpp" />
+    <ClCompile Include="Source\EventBus\Events\event__shedule.cpp" />
+    <ClCompile Include="Source\GameLogic\Actions\action_args.cpp" />
+    <ClCompile Include="Source\GameLogic\Actions\action__attack.cpp" />
+    <ClCompile Include="Source\GameLogic\Actions\action__damage.cpp" />
+    <ClCompile Include="Source\GameLogic\Actions\action__heal.cpp" />
+    <ClCompile Include="Source\GameLogic\Actions\action__mighty_blow.cpp" />
+    <ClCompile Include="Source\GameLogic\Actions\action__move.cpp" />
+    <ClCompile Include="Source\GameLogic\Actions\action__push.cpp" />
+    <ClCompile Include="Source\GameLogic\Actions\action__swing.cpp" />
+    <ClCompile Include="Source\GameLogic\Actions\action__whirlwind.cpp" />
+    <ClCompile Include="Source\GameLogic\Actions\action_utils.cpp" />
+    <ClCompile Include="Source\GameLogic\Components\component__action_pts.cpp" />
+    <ClCompile Include="Source\GameLogic\Components\component__container_interface.cpp" />
+    <ClCompile Include="Source\GameLogic\Components\component__stateful_graphics.cpp" />
+    <ClCompile Include="Source\GameLogic\Components\component__transform.cpp" />
+    <ClCompile Include="Source\GameLogic\Components\component__weight.cpp" />
+    <ClCompile Include="Source\GameLogic\Conditions\condition.cpp" />
+    <ClCompile Include="Source\GUI\Common\color.cpp" />
+    <ClCompile Include="Source\ResourceManagement\Parsers\parser_dialogue.cpp" />
+    <ClCompile Include="Source\ResourceManagement\Parsers\parser_widget.cpp" />
+    <ClCompile Include="Source\Subsystems\IO\subsystem_io.cpp" />
+    <ClCompile Include="Source\GameLogic\Actors\actor__door.cpp" />
+    <ClCompile Include="Source\GameLogic\Components\component.cpp" />
+    <ClCompile Include="Source\GameLogic\Components\component__ai.cpp" />
+    <ClCompile Include="Source\GameLogic\Components\component__attr.cpp" />
+    <ClCompile Include="Source\GameLogic\Components\component__bag.cpp" />
+    <ClCompile Include="Source\GameLogic\Components\component__collision.cpp" />
+    <ClCompile Include="Source\GameLogic\Components\component__equipment.cpp" />
+    <ClCompile Include="Source\GameLogic\Components\component__experience.cpp" />
+    <ClCompile Include="Source\GameLogic\Components\component__experience_interface.cpp" />
+    <ClCompile Include="Source\GameLogic\Components\component__graphics.cpp" />
+    <ClCompile Include="Source\GameLogic\Components\component__graphics_interface.cpp" />
+    <ClCompile Include="Source\GameLogic\Components\component__health.cpp" />
+    <ClCompile Include="Source\GameLogic\Components\component__loot.cpp" />
+    <ClCompile Include="Source\GameLogic\Components\component__player.cpp" />
+    <ClCompile Include="Source\GameLogic\Components\component__position.cpp" />
+    <ClCompile Include="Source\GameLogic\Components\component__reactor__door.cpp" />
+    <ClCompile Include="Source\GameLogic\Components\component__reactor_interface.cpp" />
+    <ClCompile Include="Source\GameLogic\Components\component__stamina.cpp" />
+    <ClCompile Include="Source\GameLogic\Components\component__stat.cpp" />
+    <ClCompile Include="Source\GameLogic\Components\component__mdfr.cpp" />
+    <ClCompile Include="Source\GameLogic\Components\component__reactor.cpp" />
+    <ClCompile Include="Source\Subsystems\Rendering\Renderables\renderable.cpp" />
+    <ClCompile Include="Source\Subsystems\Rendering\renderer.cpp" />
+    <ClCompile Include="Source\Subsystems\Rendering\subsystem_render.cpp" />
+    <ClCompile Include="Source\Subsystems\Rendering\window.cpp" />
+    <ClCompile Include="Source\Systems\ActorControllers\ai_controller.cpp" />
+    <ClCompile Include="Source\Systems\ActorControllers\control_sheduler.cpp" />
+    <ClCompile Include="Source\ResourceManagement\id_manager.cpp" />
+    <ClCompile Include="Source\Systems\ActorControllers\player_controller.cpp" />
+    <ClCompile Include="Source\GameLogic\reaction.cpp" />
+    <ClCompile Include="Source\Systems\CutscenePlayer\Cutscenes\cutscene.cpp" />
+    <ClCompile Include="Source\Systems\CutscenePlayer\Cutscenes\cutscene__attack.cpp" />
+    <ClCompile Include="Source\Systems\CutscenePlayer\Elements\cutscene_element.cpp" />
+    <ClCompile Include="Source\Systems\CutscenePlayer\Elements\cutscene_element__attack.cpp" />
+    <ClCompile Include="Source\Systems\CutscenePlayer\Elements\cutscene_element__move.cpp" />
+    <ClCompile Include="Source\Systems\CutscenePlayer\cutscene_player.cpp" />
+    <ClCompile Include="Source\Systems\CutscenePlayer\Cutscenes\cutscene__move.cpp" />
+    <ClCompile Include="Source\Common\framed_transform.cpp" />
+    <ClCompile Include="Source\Subsystems\Time\global_time.cpp" />
+    <ClCompile Include="Source\Systems\Sheduler\game_sheduler.cpp" />
+    <ClCompile Include="Source\Systems\Rendering\camera.cpp" />
+    <ClCompile Include="Source\SceneManagement\scene_manager.cpp" />
+    <ClCompile Include="Source\Subsystems\Input\subsystem_input.cpp" />
+    <ClCompile Include="Source\Systems\Game\system__loot.cpp" />
+    <ClCompile Include="Source\Systems\system_manager.cpp" />
+    <ClCompile Include="Source\Systems\Game\system__stats.cpp" />
+    <ClCompile Include="Source\Systems\Rendering\system__view.cpp" />
+    <ClCompile Include="Source\ResourceManagement\Caches\renderable_cache.cpp" />
+    <ClCompile Include="Source\ResourceManagement\Factories\factory_actor.cpp" />
+    <ClCompile Include="Source\ResourceManagement\Factories\factory_component.cpp" />
+    <ClCompile Include="Source\ResourceManagement\Factories\renderable_factory.cpp" />
+    <ClCompile Include="Source\ResourceManagement\Factories\tileset_factory.cpp" />
+    <ClCompile Include="Source\ResourceManagement\Factories\widget_factory.cpp" />
+    <ClCompile Include="Source\ResourceManagement\Parsers\parser_item_proto.cpp" />
+    <ClCompile Include="Source\ResourceManagement\Loaders\loader_json.cpp" />
+    <ClCompile Include="Source\Common\pugi_aliases.cpp" />
+    <ClCompile Include="Source\EventBus\Events\event__creation.cpp" />
+    <ClCompile Include="Source\ResourceManagement\action_manager.cpp" />
+    <ClCompile Include="Source\GameLogic\AI\behaviour.cpp" />
+    <ClCompile Include="Source\GameLogic\AI\factions.cpp" />
+    <ClCompile Include="Source\GameLogic\AI\pathfinding.cpp" />
+    <ClCompile Include="Source\GameLogic\attributes.cpp" />
+    <ClCompile Include="Source\GameLogic\Conditions\condition_manager.cpp" />
+    <ClCompile Include="Source\ResourceManagement\dialmanager.cpp" />
+    <ClCompile Include="Source\ResourceManagement\Factories\action_factory.cpp" />
+    <ClCompile Include="Source\ResourceManagement\Factories\factory_dialogue.cpp" />
+    <ClCompile Include="Source\ResourceManagement\Factories\newareafactory.cpp" />
+    <ClCompile Include="Source\GameLogic\modifiers.cpp" />
+    <ClCompile Include="Source\ResourceManagement\Loaders\renderable_loader.cpp" />
+    <ClCompile Include="Source\ResourceManagement\Loaders\tileset_loader.cpp" />
+    <ClCompile Include="Source\ResourceManagement\resource_manager.cpp" />
+    <ClCompile Include="Source\ResourceManagement\text_renderer.cpp" />
+    <ClCompile Include="Source\Systems\Sound\system__sound.cpp" />
+    <ClCompile Include="Source\Common\utils.cpp" />
+    <ClCompile Include="Source\GUI\Behaviour\behaviour.cpp" />
+    <ClCompile Include="Source\EventBus\Events\event.cpp" />
+    <ClCompile Include="Source\EventBus\event_bus.cpp" />
+    <ClCompile Include="Source\GameLogic\Actors\actor.cpp" />
+    <ClCompile Include="Source\AppStates\app_state__menu.cpp" />
+    <ClCompile Include="Source\AppStates\app_state__game.cpp" />
+    <ClCompile Include="Source\Common\options.cpp" />
+    <ClCompile Include="Source\ResourceManagement\text_manager.cpp" />
+    <ClCompile Include="Source\Subsystems\Rendering\Renderables\animation.cpp" />
+    <ClCompile Include="Source\Subsystems\Rendering\Renderables\atexture.cpp" />
+    <ClCompile Include="Source\GUI\Common\font_data.cpp" />
+    <ClCompile Include="Source\GUI\GUI elements\helper_item.cpp" />
+    <ClCompile Include="Source\GUI\GUI elements\heropanel.cpp" />
+    <ClCompile Include="Source\GUI\GUI elements\slot__item.cpp" />
+    <ClCompile Include="Source\GUI\GUI elements\bagwidget.cpp" />
+    <ClCompile Include="Source\GUI\GUI elements\actpanel.cpp" />
+    <ClCompile Include="Source\GUI\Behaviour\on_motion.cpp" />
+    <ClCompile Include="Source\GUI\Behaviour\on_release.cpp" />
+    <ClCompile Include="Source\GUI\Widgets\widget__button.cpp" />
+    <ClCompile Include="Source\app.cpp" />
+    <ClCompile Include="Source\GameLogic\container.cpp" />
+    <ClCompile Include="Source\ResourceManagement\Factories\area_factory.cpp" />
+    <ClCompile Include="Source\GameLogic\equipment.cpp" />
+    <ClCompile Include="Source\GUI\GUI elements\equipmentwidget.cpp" />
+    <ClCompile Include="Source\GUI\game_gui.cpp" />
+    <ClCompile Include="Source\GameLogic\item.cpp" />
+    <ClCompile Include="Source\ResourceManagement\Factories\item_factory.cpp" />
+    <ClCompile Include="Source\GameLogic\item_prototype.cpp" />
+    <ClCompile Include="Source\GUI\Widgets\widget__table.cpp" />
+    <ClCompile Include="Source\GUI\Widgets\widget__dropdown_list.cpp" />
+    <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\SceneManagement\scene.cpp" />
+    <ClCompile Include="Source\GUI\menu_gui.cpp" />
+    <ClCompile Include="Source\GameLogic\Actors\actor__storage.cpp" />
+    <ClCompile Include="Source\GUI\Widgets\widget__number.cpp" />
+    <ClCompile Include="Source\GUI\Widgets\widget__progress_bar.cpp" />
+    <ClCompile Include="Source\GameLogic\rng.cpp" />
+    <ClCompile Include="Source\SceneManagement\room.cpp" />
+    <ClCompile Include="Source\GUI\GUI elements\slot__action.cpp" />
+    <ClCompile Include="Source\GUI\GUI elements\slot_helper.cpp" />
+    <ClCompile Include="Source\GUI\Widgets\widget__slot.cpp" />
+    <ClCompile Include="Source\Subsystems\Rendering\Renderables\spritesheet.cpp" />
+    <ClCompile Include="Source\GUI\Widgets\widget__tabs.cpp" />
+    <ClCompile Include="Source\GameLogic\journal.cpp" />
+    <ClCompile Include="Source\GameLogic\tile.cpp" />
+    <ClCompile Include="Source\Common\timer.cpp" />
+    <ClCompile Include="Source\GUI\Widgets\widget__text.cpp" />
+    <ClCompile Include="Source\GUI\Widgets\widget.cpp" />
+    <ClCompile Include="Source\GUI\Widgets\widget__text_holder.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Common\direction.h" />
+    <ClInclude Include="Source\Common\init_object.h" />
+    <ClInclude Include="Source\Common\time_aliases.h" />
+    <ClInclude Include="Source\EventBus\Events\event__shedule.h" />
+    <ClInclude Include="Source\EventBus\Events\event__actor.h" />
+    <ClInclude Include="Source\EventBus\Events\event_type__actor.h" />
+    <ClInclude Include="Source\GameLogic\Actions\actions.h" />
+    <ClInclude Include="Source\GameLogic\Actions\action_args.h" />
+    <ClInclude Include="Source\GameLogic\Actions\action_interface.h" />
+    <ClInclude Include="Source\GameLogic\Actions\action__attack.h" />
+    <ClInclude Include="Source\GameLogic\Actions\action__damage.h" />
+    <ClInclude Include="Source\GameLogic\Actions\action__heal.h" />
+    <ClInclude Include="Source\GameLogic\Actions\action__mighty_blow.h" />
+    <ClInclude Include="Source\GameLogic\Actions\action__move.h" />
+    <ClInclude Include="Source\GameLogic\Actions\action__push.h" />
+    <ClInclude Include="Source\GameLogic\Actions\action__swing.h" />
+    <ClInclude Include="Source\GameLogic\Actions\action__whirlwind.h" />
+    <ClInclude Include="Source\GameLogic\Actions\action_utils.h" />
+    <ClInclude Include="Source\GameLogic\Components\component__action_pts.h" />
+    <ClInclude Include="Source\GameLogic\Components\component__container_interface.h" />
+    <ClInclude Include="Source\GameLogic\Components\component__stateful_graphics.h" />
+    <ClInclude Include="Source\GameLogic\Components\component__transform.h" />
+    <ClInclude Include="Source\GameLogic\Components\component__weight.h" />
+    <ClInclude Include="Source\GUI\Common\color.h" />
+    <ClInclude Include="Source\ResourceManagement\Parsers\parser_dialogue.h" />
+    <ClInclude Include="Source\ResourceManagement\Parsers\parser_widget.h" />
+    <ClInclude Include="Source\Subsystems\IO\subsystem_io.h" />
+    <ClInclude Include="Source\EventBus\Listeners\listener__menu.h" />
+    <ClInclude Include="Source\GameLogic\Actors\actor__door.h" />
+    <ClInclude Include="Source\GameLogic\Components\component.h" />
+    <ClInclude Include="Source\GameLogic\Components\components.h" />
+    <ClInclude Include="Source\GameLogic\Components\component__ai.h" />
+    <ClInclude Include="Source\GameLogic\Components\component__attr.h" />
+    <ClInclude Include="Source\GameLogic\Components\component__bag.h" />
+    <ClInclude Include="Source\GameLogic\Components\component__collision.h" />
+    <ClInclude Include="Source\GameLogic\Components\component__equipment.h" />
+    <ClInclude Include="Source\GameLogic\Components\component__experience.h" />
+    <ClInclude Include="Source\GameLogic\Components\component__experience_interface.h" />
+    <ClInclude Include="Source\GameLogic\Components\component__graphics.h" />
+    <ClInclude Include="Source\GameLogic\Components\component__graphics_interface.h" />
+    <ClInclude Include="Source\GameLogic\Components\component__health.h" />
+    <ClInclude Include="Source\GameLogic\Components\component__loot.h" />
+    <ClInclude Include="Source\GameLogic\Components\component__player.h" />
+    <ClInclude Include="Source\GameLogic\Components\component__position.h" />
+    <ClInclude Include="Source\GameLogic\Components\component__reactor__door.h" />
+    <ClInclude Include="Source\GameLogic\Components\component__reactor_interface.h" />
+    <ClInclude Include="Source\GameLogic\Components\component__stamina.h" />
+    <ClInclude Include="Source\GameLogic\Components\component__stat.h" />
+    <ClInclude Include="Source\GameLogic\Components\component__mdfr.h" />
+    <ClInclude Include="Source\GameLogic\Components\component__reactor.h" />
+    <ClInclude Include="Source\Subsystems\Rendering\renderer.h" />
+    <ClInclude Include="Source\Subsystems\Rendering\window.h" />
+    <ClInclude Include="Source\Systems\CutscenePlayer\Cutscenes\cutscene.h" />
+    <ClInclude Include="Source\Systems\CutscenePlayer\Cutscenes\cutscene__attack.h" />
+    <ClInclude Include="Source\Systems\CutscenePlayer\Elements\cutscene_element.h" />
+    <ClInclude Include="Source\Systems\CutscenePlayer\Elements\cutscene_element__attack.h" />
+    <ClInclude Include="Source\Systems\CutscenePlayer\Elements\cutscene_element__move.h" />
+    <ClInclude Include="Source\Systems\CutscenePlayer\Cutscenes\cutscene__move.h" />
+    <ClInclude Include="Source\Systems\CutscenePlayer\cutscene_player.h" />
+    <ClInclude Include="Source\Common\framed_transform.h" />
+    <ClInclude Include="Source\Systems\Game\system__stats.h" />
+    <ClInclude Include="Source\Common\json_aliases.h" />
+    <ClInclude Include="Source\Common\rect.h" />
+    <ClInclude Include="Source\Subsystems\Rendering\subsystem_render.h" />
+    <ClInclude Include="Source\Systems\ActorControllers\ai_controller.h" />
+    <ClInclude Include="Source\Systems\ActorControllers\controller.h" />
+    <ClInclude Include="Source\Systems\ActorControllers\control_sheduler.h" />
+    <ClInclude Include="Source\ResourceManagement\id_manager.h" />
+    <ClInclude Include="Source\Systems\ActorControllers\player_controller.h" />
+    <ClInclude Include="Source\GameLogic\reaction.h" />
+    <ClInclude Include="Source\Subsystems\Time\global_time.h" />
+    <ClInclude Include="Source\Systems\Sheduler\game_sheduler.h" />
+    <ClInclude Include="Source\Systems\Rendering\camera.h" />
+    <ClInclude Include="Source\SceneManagement\scene_manager.h" />
+    <ClInclude Include="Source\Systems\system.h" />
+    <ClInclude Include="Source\Subsystems\Input\subsystem_input.h" />
+    <ClInclude Include="Source\Systems\Game\system__loot.h" />
+    <ClInclude Include="Source\Systems\system_manager.h" />
+    <ClInclude Include="Source\Systems\Rendering\system__view.h" />
+    <ClInclude Include="Source\ResourceManagement\Caches\renderable_cache.h" />
+    <ClInclude Include="Source\ResourceManagement\Factories\factory_actor.h" />
+    <ClInclude Include="Source\ResourceManagement\Factories\factory_component.h" />
+    <ClInclude Include="Source\ResourceManagement\Factories\renderable_factory.h" />
+    <ClInclude Include="Source\ResourceManagement\Factories\tileset_factory.h" />
+    <ClInclude Include="Source\ResourceManagement\Factories\widget_factory.h" />
+    <ClInclude Include="Source\ResourceManagement\Parsers\parser_item_proto.h" />
+    <ClInclude Include="Source\ResourceManagement\Loaders\loader_json.h" />
+    <ClInclude Include="Source\ResourceManagement\Parsers\parser_json.h" />
+    <ClInclude Include="Source\ResourceManagement\Caches\cache.h" />
+    <ClInclude Include="Source\ResourceManagement\Loaders\renderable_loader.h" />
+    <ClInclude Include="Source\ResourceManagement\Loaders\tileset_loader.h" />
+    <ClInclude Include="Source\ResourceManagement\Resources\resource.h" />
+    <ClInclude Include="Source\ResourceManagement\Resources\tileset.h" />
+    <ClInclude Include="Source\ResourceManagement\Resources\resource_id.h" />
+    <ClInclude Include="Source\ResourceManagement\Loaders\loader.h" />
+    <ClInclude Include="Source\AppStates\app_state.h" />
+    <ClInclude Include="Source\GUI\GUI elements\helper_item.h" />
+    <ClInclude Include="Source\GUI\Common\menu_state.h" />
+    <ClInclude Include="Source\EventBus\Events\event.h" />
+    <ClInclude Include="Source\EventBus\event_bus.h" />
+    <ClInclude Include="Source\EventBus\event_handler.h" />
+    <ClInclude Include="Source\EventBus\Events\event__creation.h" />
+    <ClInclude Include="Source\EventBus\Events\event__dialogue.h" />
+    <ClInclude Include="Source\EventBus\Events\event__gui.h" />
+    <ClInclude Include="Source\EventBus\Events\event__menu.h" />
+    <ClInclude Include="Source\EventBus\Events\event__text.h" />
+    <ClInclude Include="Source\EventBus\Events\event__ui_trait.h" />
+    <ClInclude Include="Source\EventBus\handler_registration.h" />
+    <ClInclude Include="Source\EventBus\Listeners\listener__creation.h" />
+    <ClInclude Include="Source\EventBus\Listeners\listener__dialogue.h" />
+    <ClInclude Include="Source\EventBus\Listeners\listener__gui.h" />
+    <ClInclude Include="Source\EventBus\Listeners\listener__text.h" />
+    <ClInclude Include="Source\EventBus\Listeners\listener__ui_trait.h" />
+    <ClInclude Include="Source\ResourceManagement\Factories\factories.h" />
+    <ClInclude Include="Source\ResourceManagement\action_manager.h" />
+    <ClInclude Include="Source\GameLogic\Actors\actor.h" />
+    <ClInclude Include="Source\GameLogic\AI\behaviour.h" />
+    <ClInclude Include="Source\GameLogic\AI\factions.h" />
+    <ClInclude Include="Source\GameLogic\AI\pathfinding.h" />
+    <ClInclude Include="Source\GameLogic\attributes.h" />
+    <ClInclude Include="Source\GameLogic\Conditions\condition.h" />
+    <ClInclude Include="Source\GameLogic\Conditions\condition_manager.h" />
+    <ClInclude Include="Source\ResourceManagement\dialmanager.h" />
+    <ClInclude Include="Source\GameLogic\dialogue.h" />
+    <ClInclude Include="Source\ResourceManagement\Factories\action_factory.h" />
+    <ClInclude Include="Source\ResourceManagement\Factories\factory_dialogue.h" />
+    <ClInclude Include="Source\ResourceManagement\Factories\factory.h" />
+    <ClInclude Include="Source\ResourceManagement\Factories\newareafactory.h" />
+    <ClInclude Include="Source\GameLogic\gamestats.h" />
+    <ClInclude Include="Source\GameLogic\modifiers.h" />
+    <ClInclude Include="Source\AppStates\app_state__menu.h" />
+    <ClInclude Include="Source\AppStates\app_state__game.h" />
+    <ClInclude Include="Source\Common\options.h" />
+    <ClInclude Include="Source\Common\object.h" />
+    <ClInclude Include="Source\AppStates\app_states.h" />
+    <ClInclude Include="Source\Common\pugi_aliases.h" />
+    <ClInclude Include="Source\ResourceManagement\resource_manager.h" />
+    <ClInclude Include="Source\ResourceManagement\text_renderer.h" />
+    <ClInclude Include="Source\Systems\Sound\system__sound.h" />
+    <ClInclude Include="Source\ResourceManagement\text_manager.h" />
+    <ClInclude Include="Source\Common\utils.h" />
+    <ClInclude Include="Source\Subsystems\Rendering\Renderables\animation.h" />
+    <ClInclude Include="Source\Subsystems\Rendering\Renderables\atexture.h" />
+    <ClInclude Include="Source\GUI\Behaviour\behaviour.h" />
+    <ClInclude Include="Source\Subsystems\Rendering\Renderables\renderable.h" />
+    <ClInclude Include="Source\GUI\GUI elements\heropanel.h" />
+    <ClInclude Include="Source\GUI\GUI elements\actpanel.h" />
+    <ClInclude Include="Source\GUI\Behaviour\on_release.h" />
+    <ClInclude Include="Source\GUI\GUI elements\slot__item.h" />
+    <ClInclude Include="Source\GUI\GUI elements\bagwidget.h" />
+    <ClInclude Include="Source\GameLogic\equipment.h" />
+    <ClInclude Include="Source\GUI\GUI elements\equipmentwidget.h" />
+    <ClInclude Include="Source\GUI\game_gui.h" />
+    <ClInclude Include="Source\ResourceManagement\Factories\item_factory.h" />
+    <ClInclude Include="Source\GameLogic\item_prototype.h" />
+    <ClInclude Include="Source\GUI\Widgets\widget__table.h" />
+    <ClInclude Include="Source\GUI\Widgets\widget__dropdown_list.h" />
+    <ClInclude Include="Source\GUI\menu_gui.h" />
+    <ClInclude Include="Source\GameLogic\Actors\actor__storage.h" />
+    <ClInclude Include="Source\GUI\Widgets\widget__button.h" />
+    <ClInclude Include="Source\GUI\Behaviour\on_motion.h" />
+    <ClInclude Include="Source\GUI\Widgets\widget__number.h" />
+    <ClInclude Include="Source\GUI\Widgets\widget__progress_bar.h" />
+    <ClInclude Include="Source\app.h" />
+    <ClInclude Include="Source\GameLogic\container.h" />
+    <ClInclude Include="Source\Common\vec2.h" />
+    <ClInclude Include="Source\ResourceManagement\Factories\area_factory.h" />
+    <ClInclude Include="Source\GameLogic\item.h" />
+    <ClInclude Include="Source\SceneManagement\scene.h" />
+    <ClInclude Include="Source\GameLogic\rng.h" />
+    <ClInclude Include="Source\SceneManagement\room.h" />
+    <ClInclude Include="Source\GUI\GUI elements\slot__action.h" />
+    <ClInclude Include="Source\GUI\GUI elements\slot_helper.h" />
+    <ClInclude Include="Source\GUI\Widgets\widget__slot.h" />
+    <ClInclude Include="Source\Subsystems\Rendering\Renderables\spritesheet.h" />
+    <ClInclude Include="Source\GUI\Widgets\widget__tabs.h" />
+    <ClInclude Include="Source\GameLogic\journal.h" />
+    <ClInclude Include="Source\GameLogic\tile.h" />
+    <ClInclude Include="Source\Common\timer.h" />
+    <ClInclude Include="Source\GUI\Widgets\widget__text.h" />
+    <ClInclude Include="Source\GUI\Behaviour\trigger.h" />
+    <ClInclude Include="Source\GUI\Common\font_data.h" />
+    <ClInclude Include="Source\GUI\Widgets\widget.h" />
+    <ClInclude Include="Source\GUI\Common\widget_state.h" />
+    <ClInclude Include="Source\GUI\Widgets\widget__text_holder.h" />
+    <ClInclude Include="Source\Common\transform.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

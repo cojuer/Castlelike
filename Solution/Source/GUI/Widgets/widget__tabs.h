@@ -1,0 +1,32 @@
+#pragma once
+
+#include <vector>
+
+#include "widget.h"
+
+class Renderable;
+
+namespace gui {
+
+class Button;
+class Widget;
+
+using Tab = std::pair<Button*, Widget*>;
+using TabVec = std::vector<Tab>;
+
+class TabWidget : public Widget
+{
+public:
+    TabWidget(const std::string& name, Widget* parent, int x, int y, int width, int height, bool visible, Renderable* rendered);
+
+    void             addTab(Button* button, Widget* panel);
+
+    bool             handle(SDL_Event& event, Vec2i coordStart = { 0, 0 }) override;
+    void             render(RenderSubsystem& rendSubsys, ResourceManager& resManager, Vec2i coordStart = { 0, 0 }) const override;
+
+private:
+    TabVec           m_tabs;
+    int              m_activeTabNum;
+};
+
+}

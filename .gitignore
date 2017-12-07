@@ -1,0 +1,13 @@
+*.sdf
+*.suo
+*.filters
+*.user
+*.opensdf
+*.db
+*.opendb
+*.TMP
+.vs/
+Solution/Assets/
+Solution/Game/
+Solution/Release/
+Solution/Temp/
