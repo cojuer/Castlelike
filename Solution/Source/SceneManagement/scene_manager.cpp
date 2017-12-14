@@ -1,5 +1,7 @@
 #include "scene_manager.h"
 
+#include <iostream>
+
 #include "resource_manager.h"
 
 #include "actions.h"

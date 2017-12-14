@@ -11,6 +11,9 @@
 #include "resource.h"
 #include "journal.h"
 
+#include "renderable.h"
+#include "widget.h"
+
 class RenderSubsystem;
 class NewSceneFactory;
 class ActFactory;

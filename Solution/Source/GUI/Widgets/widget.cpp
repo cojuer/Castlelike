@@ -1,5 +1,7 @@
 #include "widget.h"
 
+#include <iostream>
+
 #include "atexture.h"
 #include "GUI/Behaviour/behaviour.h"
 #include "renderable.h"

@@ -1,5 +1,7 @@
 #include "control_sheduler.h"
 
+#include <iostream>
+
 #include "ai_controller.h"
 #include "player_controller.h"
 #include "component__action_pts.h"

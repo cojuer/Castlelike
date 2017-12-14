@@ -1,5 +1,7 @@
 #include "component__mdfr.h"
 
+#include <iostream>
+
 #include "actor.h"
 
 #include "item.h"

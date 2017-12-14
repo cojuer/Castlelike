@@ -1,5 +1,7 @@
 #include "action__move.h"
 
+#include <iostream>
+
 #include "scene.h"
 #include "vec2.h"
 

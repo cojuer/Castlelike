@@ -1,5 +1,7 @@
 #include "factory_actor.h"
 
+#include <iostream>
+
 #include "components.h"
 #include "resource_manager.h"
 #include "id_manager.h"

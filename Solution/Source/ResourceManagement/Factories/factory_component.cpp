@@ -1,5 +1,7 @@
 #include "factory_component.h"
 
+#include <iostream>
+
 #include "components.h"
 
 ComponentFactory::ComponentFactory() :
