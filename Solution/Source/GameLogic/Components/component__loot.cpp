@@ -17,35 +17,46 @@ LootComponent::LootComponent(Container& container, Actor* parent) :
 
 void LootComponent::fromJSON(Json& node, ResourceManager& resManager)
 {
-    for (auto& itemNode : node)
+    m_container = Container(node.at("size").get<int>());
+    auto slots = node.at("slots");
+    for (auto it = slots.begin(); it != slots.end(); ++it)
     {
-        std::string name = itemNode["name"];
-        int minItems = itemNode["min"];
-        int maxItems = itemNode["max"];
-        int chance = itemNode["chance"];
-        // TODO: add multiple items in stacks if possible
-        for (auto i = 0; i < maxItems; ++i)
-        {
-            if (i < minItems || m_lootRng.getInRange(0, 100) <= chance)
-            {
-                auto item = resManager.get<Item>(name);
-                assert(item);
-                if (item)
-                {
-                    m_container.add(*item);
-                }
-            }
-        }
+        auto res = it.value().get<std::string>();
+        auto item = resManager.get<Item>(res);
+        assert(item);
+        m_container.m_busyslots[std::stoi(it.key())] = item;
     }
+    // TODO: move to some loot generator
+    //for (auto& itemNode : node)
+    //{
+    //    std::string name = itemNode["name"];
+    //    int minItems = itemNode["min"];
+    //    int maxItems = itemNode["max"];
+    //    int chance = itemNode["chance"];
+    //    // TODO: add multiple items in stacks if possible
+    //    for (auto i = 0; i < maxItems; ++i)
+    //    {
+    //        if (i < minItems || m_lootRng.getInRange(0, 100) <= chance)
+    //        {
+    //            auto item = resManager.get<Item>(name);
+    //            assert(item);
+    //            if (item)
+    //            {
+    //                m_container.add(*item);
+    //            }
+    //        }
+    //    }
+    //}
 }
 
 Json LootComponent::toJSON() const
 {
     Json node;
+    node["size"] = m_container.getSize();
     auto& slots = m_container.m_busyslots;
     for (auto& pair : slots)
     {
-        node[pair.first] = pair.second->getRes();
+        node["slots"][std::to_string(pair.first)] = pair.second->getRes();
     }
     return { { getStringID() , node } };
 }

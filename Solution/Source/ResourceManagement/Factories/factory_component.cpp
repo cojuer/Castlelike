@@ -38,19 +38,31 @@ Resource<ActorComponent>* ComponentFactory::get(ResourceId& id)
     if (node)
     {
         auto type = id.substr(id.find_last_of('/') + 1);
-        auto typeIt = m_map.find(type);
-        if (typeIt == m_map.end())
-        {
-            std::cout << "Component factory: component type "
-                << type << " is not supported" << std::endl;
-        }
-        else
-        {
-            auto component = m_map[type]();
-            component->fromJSON(*node, *m_resManager);
-            return component;
-        }
+        return createCompFromJSON(type, *node);
     }
-    // FIXME: use nullptr and pointers
-    return nullptr;
+    else
+    {
+        std::cout << "Component factory: component with id " 
+                  << id << " not found" << std::endl;
+        return nullptr;
+    }
+}
+
+Resource<ActorComponent>* ComponentFactory::createCompFromJSON(const std::string& type, Json& node)
+{
+    if (node.is_null()) return nullptr;
+
+    auto typeIt = m_map.find(type);
+    if (typeIt != m_map.end())
+    {
+        auto component = m_map[type]();
+        component->fromJSON(node, *m_resManager);
+        return component;
+    }
+    else
+    {
+        std::cout << "Component factory: component type "
+                  << type << " is not supported" << std::endl;
+        return nullptr;
+    }
 }

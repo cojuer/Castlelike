@@ -56,13 +56,25 @@ bool Actor::isCollisive() const
 
 Json Actor::toJSON() const
 {
-    std::vector<Json> components;
-    // FIXME: use auto&[] when proper support will be available
-    for (const auto& pair : m_componentMap)
+    Json components;
+    for (const auto& [id, component] : m_componentMap)
     {
-        components.push_back(pair.second->toJSON());
+        auto compJson = component->toJSON();
+        if (compJson.is_null() ||
+            !compJson.is_object()) continue;
+        for (auto it = compJson.begin(); 
+                  it != compJson.end(); ++it)
+        {
+            components[it.key()] = it.value();
+        }
     }
-    Json result = components;
+    Json result = 
+    {
+        { "id", m_id },
+        { "res", m_res },
+        { "type", m_type },
+        { "components", components }
+    };
     return result;
 }
 

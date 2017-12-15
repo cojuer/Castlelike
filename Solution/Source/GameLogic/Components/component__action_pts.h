@@ -12,6 +12,7 @@ public:
     ActionPtsComponent(int base, int current, int max, Actor* parent = nullptr);
 
     void fromJSON(Json& node, ResourceManager& resManager) override;
+    
     std::string getStringID() const override;
 
     ~ActionPtsComponent();

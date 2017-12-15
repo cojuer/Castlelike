@@ -17,6 +17,8 @@ public:
     const int& getCurr() const;
     const int& getMax() const;
 
+    Json toJSON() const override;
+
     virtual ~StatComponent();
 
 protected:

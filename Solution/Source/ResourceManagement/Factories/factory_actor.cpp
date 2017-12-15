@@ -5,6 +5,7 @@
 #include "components.h"
 #include "resource_manager.h"
 #include "id_manager.h"
+#include "factory_component.h"
 
 bool ActorFactory::init(ResourceManager& resManager)
 {
@@ -39,7 +40,6 @@ Resource<Actor>* ActorFactory::get(ResourceId& name)
     auto& node = *m_loader.get("/" + name);
     if (node.is_null()) return nullptr;
  
-    // FIXME: use id manager
     auto& actor = *new Actor(IDManager::instance().getActorID(), name);
     for (auto it = node.begin(); it != node.end(); ++it)
     {
@@ -51,7 +51,7 @@ Resource<Actor>* ActorFactory::get(ResourceId& name)
             if (compIt == addComp.end())
             {
                 std::cout << "Actor factory: component type "
-                    << it.key() << " is not supported" << std::endl;
+                          << it.key() << " is not supported" << std::endl;
             }
             else
             {
@@ -60,6 +60,38 @@ Resource<Actor>* ActorFactory::get(ResourceId& name)
         }
     }
     
+    return &actor;
+}
+
+Resource<Actor>* ActorFactory::createActorFromJSON(Json& node)
+{
+    if (node.is_null()) return nullptr;
+
+    auto id = node.at("id").get<long long>();
+    auto name = node.at("res").get<std::string>();
+
+    auto& actor = *new Actor{ id, name };
+
+    auto components = node["components"];
+    for (auto it = components.begin(); it != components.end(); ++it)
+    {
+        auto compName = it.key();
+        auto compNode = it.value();
+        auto component = m_resManager->m_componentFactory->createCompFromJSON(compName, compNode);
+        if (!component) continue;
+        
+        auto compIt = addComp.find(it.key());
+        if (compIt == addComp.end())
+        {
+            std::cout << "Actor factory: component type "
+                      << it.key() << " is not supported" << std::endl;
+        }
+        else
+        {
+            (actor.*addComp[it.key()])(*component);
+        }
+    }
+
     return &actor;
 }
 

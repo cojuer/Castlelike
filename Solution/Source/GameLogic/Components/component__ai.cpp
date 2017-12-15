@@ -22,6 +22,11 @@ void AIComponent::fromJSON(Json& node, ResourceManager& resManager)
     // non-loadable
 }
 
+Json AIComponent::toJSON() const
+{
+    return { { getStringID(), "" } };
+}
+
 std::string AIComponent::getStringID() const
 {
     return stringID;

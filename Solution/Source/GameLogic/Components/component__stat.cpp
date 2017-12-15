@@ -66,4 +66,9 @@ const int& StatComponent::getMax() const
     return m_max;
 }
 
+Json StatComponent::toJSON() const
+{
+    return { { getStringID(), { m_base, m_current, m_max } } };
+}
+
 StatComponent::~StatComponent() {}

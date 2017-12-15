@@ -19,6 +19,7 @@
 #include "components.h"
 
 //TEST
+#include "factory_actor.h"
 #include "dialmanager.h"
 #include "action__damage.h"
 #include "action__heal.h"

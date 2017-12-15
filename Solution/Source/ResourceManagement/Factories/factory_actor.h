@@ -13,6 +13,7 @@ public:
 
     bool load(const std::string& fname) override;
     Resource<Actor>* get(ResourceId& name) override;
+    Resource<Actor>* createActorFromJSON(Json& node);
 
     ~ActorFactory();
 

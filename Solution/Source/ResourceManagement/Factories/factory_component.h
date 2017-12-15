@@ -11,7 +11,9 @@ public:
 
     bool init(ResourceManager& resManager);
     bool load(const std::string& fname) override;
+
     Resource<ActorComponent>* get(ResourceId& id) override;
+    Resource<ActorComponent>* createCompFromJSON(const std::string& type, Json& node);
 
 private:
     ResourceManager* m_resManager;

@@ -14,6 +14,8 @@ public:
     explicit AIComponent(Behaviour& bhvr, Actor* parent = nullptr);
 
     void fromJSON(Json& node, ResourceManager& resManager) override;
+    Json toJSON() const override;
+    
     std::string getStringID() const override;
 
     Behaviour* get() const;
