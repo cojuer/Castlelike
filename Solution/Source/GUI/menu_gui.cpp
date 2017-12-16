@@ -8,7 +8,7 @@
 #include "on_release.h"
 #include "widget__dropdown_list.h"
 #include "options.h"
-#include "renderable_factory.h"
+#include "factory__renderable.h"
 #include "resource_manager.h"
 #include "subsystem_render.h"
 #include "widget__tabs.h"

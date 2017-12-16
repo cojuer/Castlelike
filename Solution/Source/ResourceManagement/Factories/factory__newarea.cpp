@@ -1,4 +1,4 @@
-#include "newareafactory.h"
+#include "factory__newarea.h"
 
 #include <iostream>
 #include <sstream>
@@ -8,7 +8,7 @@
 #include "resource_manager.h"
 #include "tile.h"
 #include "tileset.h"
-#include "tileset_factory.h"
+#include "factory__tileset.h"
 
 bool NewSceneFactory::init(ResourceManager& resManager)
 {

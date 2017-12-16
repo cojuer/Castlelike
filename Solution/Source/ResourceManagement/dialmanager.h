@@ -1,6 +1,6 @@
 #pragma once
 
-#include "factory_dialogue.h"
+#include "factory__dialogue.h"
 
 class Actor;
 

@@ -1,11 +1,11 @@
-#include "factory_actor.h"
+#include "factory__actor.h"
 
 #include <iostream>
 
 #include "components.h"
 #include "resource_manager.h"
 #include "id_manager.h"
-#include "factory_component.h"
+#include "factory__component.h"
 
 bool ActorFactory::init(ResourceManager& resManager)
 {

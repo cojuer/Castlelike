@@ -11,7 +11,7 @@
 #include "equipment.h"
 #include "actor__door.h"
 #include "utils.h"
-#include "newareafactory.h"
+#include "factory__newarea.h"
 #include "id_manager.h"
 
 #include "subsystem_io.h"
@@ -19,7 +19,7 @@
 #include "components.h"
 
 //TEST
-#include "factory_actor.h"
+#include "factory__actor.h"
 #include "dialmanager.h"
 #include "action__damage.h"
 #include "action__heal.h"

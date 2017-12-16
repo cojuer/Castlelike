@@ -1,4 +1,4 @@
-#include "widget_factory.h"
+#include "factory__widget.h"
 
 #include "resource_manager.h"
 #include "parser_widget.h"
