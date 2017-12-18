@@ -2,18 +2,17 @@
 
 #include <map>
 
-#include "item.h"
 #include "factory.h"
-#include "pugi_aliases.h"
 #include "resource.h"
 #include "tileset.h"
 
+class JsonLoader;
 class ResourceManager;
-class TilesetLoader;
+class TilesetParser;
 
 class TilesetFactory : public Factory<Tileset>
 {
-	using TilesetCache = std::map<std::string, Resource<Tileset>>;
+	using TilesetCache = std::map<std::string, Tileset>;
 
 public:
 	TilesetFactory();
@@ -26,7 +25,7 @@ public:
     ~TilesetFactory();
 
 private:
-	PugiDoc          m_parseResult;
-	TilesetLoader*   m_loader;
-	TilesetCache     m_cache;
+    JsonLoader*    m_loader;
+	TilesetParser* m_parser;
+	TilesetCache   m_cache;
 };

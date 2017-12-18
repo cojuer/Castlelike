@@ -17,7 +17,8 @@ class Scene
     using ActorVec   = std::vector<Actor*>;
 
 public:
-    Scene(SceneID id, Tiles& tiles, ActorVec actors);
+    Scene();
+    Scene(SceneID id, size_t width, size_t height, Tiles& tiles, ActorVec actors);
 
     void             addActor(Actor& actor);
     void             delActor(Actor& actor);
@@ -36,6 +37,7 @@ public:
 
     bool             isEmpty(Coord) const;
 
+    bool             fromJSON(Json& node, ResourceManager& resManager);
     Json             toJSON() const;
 
     ~Scene();
@@ -45,7 +47,7 @@ private:
     size_t           m_width;
     size_t           m_height;
 
-    Tiles&           m_tiles;
+    Tiles*           m_tiles;
     std::multimap<Coord, Actor*>   m_actorsByCoord;
     std::map<ActorID, Actor*> m_actorsById;
 };

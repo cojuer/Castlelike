@@ -134,6 +134,8 @@
     <ClCompile Include="Source\GUI\Common\color.cpp" />
     <ClCompile Include="Source\ResourceManagement\Parsers\parser_dialogue.cpp" />
     <ClCompile Include="Source\ResourceManagement\Parsers\parser_widget.cpp" />
+    <ClCompile Include="Source\ResourceManagement\Parsers\parser__tileset.cpp" />
+    <ClCompile Include="Source\ResourceManagement\Resources\tileset.cpp" />
     <ClCompile Include="Source\Subsystems\IO\subsystem_io.cpp" />
     <ClCompile Include="Source\GameLogic\Actors\actor__door.cpp" />
     <ClCompile Include="Source\GameLogic\Components\component.cpp" />
@@ -204,7 +206,6 @@
     <ClCompile Include="Source\ResourceManagement\Factories\factory__newarea.cpp" />
     <ClCompile Include="Source\GameLogic\modifiers.cpp" />
     <ClCompile Include="Source\ResourceManagement\Loaders\renderable_loader.cpp" />
-    <ClCompile Include="Source\ResourceManagement\Loaders\tileset_loader.cpp" />
     <ClCompile Include="Source\ResourceManagement\resource_manager.cpp" />
     <ClCompile Include="Source\ResourceManagement\text_renderer.cpp" />
     <ClCompile Include="Source\Systems\Sound\system__sound.cpp" />
@@ -230,7 +231,7 @@
     <ClCompile Include="Source\GUI\Widgets\widget__button.cpp" />
     <ClCompile Include="Source\app.cpp" />
     <ClCompile Include="Source\GameLogic\container.cpp" />
-    <ClCompile Include="Source\ResourceManagement\Factories\factory__area.cpp" />
+    <ClCompile Include="Source\ResourceManagement\Factories\factory__scene.cpp" />
     <ClCompile Include="Source\GameLogic\equipment.cpp" />
     <ClCompile Include="Source\GUI\GUI elements\equipmentwidget.cpp" />
     <ClCompile Include="Source\GUI\game_gui.cpp" />
@@ -286,6 +287,7 @@
     <ClInclude Include="Source\GUI\Common\color.h" />
     <ClInclude Include="Source\ResourceManagement\Parsers\parser_dialogue.h" />
     <ClInclude Include="Source\ResourceManagement\Parsers\parser_widget.h" />
+    <ClInclude Include="Source\ResourceManagement\Parsers\parser__tileset.h" />
     <ClInclude Include="Source\Subsystems\IO\subsystem_io.h" />
     <ClInclude Include="Source\EventBus\Listeners\listener__menu.h" />
     <ClInclude Include="Source\GameLogic\Actors\actor__door.h" />
@@ -350,7 +352,6 @@
     <ClInclude Include="Source\ResourceManagement\Parsers\parser_json.h" />
     <ClInclude Include="Source\ResourceManagement\Caches\cache.h" />
     <ClInclude Include="Source\ResourceManagement\Loaders\renderable_loader.h" />
-    <ClInclude Include="Source\ResourceManagement\Loaders\tileset_loader.h" />
     <ClInclude Include="Source\ResourceManagement\Resources\resource.h" />
     <ClInclude Include="Source\ResourceManagement\Resources\tileset.h" />
     <ClInclude Include="Source\ResourceManagement\Resources\resource_id.h" />
@@ -426,7 +427,7 @@
     <ClInclude Include="Source\app.h" />
     <ClInclude Include="Source\GameLogic\container.h" />
     <ClInclude Include="Source\Common\vec2.h" />
-    <ClInclude Include="Source\ResourceManagement\Factories\factory__area.h" />
+    <ClInclude Include="Source\ResourceManagement\Factories\factory__scene.h" />
     <ClInclude Include="Source\GameLogic\item.h" />
     <ClInclude Include="Source\SceneManagement\scene.h" />
     <ClInclude Include="Source\GameLogic\rng.h" />

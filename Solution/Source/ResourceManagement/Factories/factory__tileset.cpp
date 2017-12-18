@@ -1,16 +1,18 @@
 #include "factory__tileset.h"
 
 #include "text_manager.h"
-#include "tileset_loader.h"
+#include "loader_json.h"
+#include "parser__tileset.h"
 
 TilesetFactory::TilesetFactory() :
-	m_loader(new TilesetLoader())
+	m_loader(new JsonLoader()),
+    m_parser(new TilesetParser())
 {}
 
 bool TilesetFactory::init(ResourceManager& resManager)
 {
 	auto inited = true;
-	inited = inited && m_loader->init(resManager);
+    inited = inited && m_parser->init(resManager);
 	return inited;
 }
 
@@ -28,12 +30,11 @@ Resource<Tileset>* TilesetFactory::get(ResourceId& id)
 		return &m_cache.at(id);
 	}
 
-	auto tileset = m_loader->get(id);
-    if (tileset)
-    {
-        m_cache[id] = *tileset;
-    }
-	return tileset;
+	auto tsetNode = m_loader->get(id);
+    if (!tsetNode) return nullptr;
+    
+    auto tset = m_parser->parse(id, *tsetNode);
+	return tset;
 }
 
 TilesetFactory::~TilesetFactory()

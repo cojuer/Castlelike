@@ -19,6 +19,10 @@ ComponentFactory::ComponentFactory() :
     m_map[WeightComponent::stringID] =     &ActorComponent::create<WeightComponent>;
     m_map[TransformComponent::stringID] =  &ActorComponent::create<TransformComponent>;
     m_map[ActionPtsComponent::stringID] =  &ActorComponent::create<ActionPtsComponent>;
+    m_map[BagComponent::stringID] =        &ActorComponent::create<BagComponent>;
+    m_map[EquipmentComponent::stringID] =  &ActorComponent::create<EquipmentComponent>;
+    m_map[StaminaComponent::stringID] =    &ActorComponent::create<StaminaComponent>;
+    m_map[ExperienceComponent::stringID] = &ActorComponent::create<ExperienceComponent>;
 }
 
 bool ComponentFactory::init(ResourceManager& resManager)

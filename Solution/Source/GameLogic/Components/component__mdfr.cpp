@@ -31,6 +31,7 @@ void MdfrComponent::fromJSON(Json& node, ResourceManager& resManager)
             m_base[type] = modifier;
         }
 	}
+    refresh();
 }
 
 Json MdfrComponent::toJSON() const
@@ -66,6 +67,7 @@ void MdfrComponent::refresh()
     m_current = m_base;
     m_current["dmg_ph"] = m_base.weak_at("dmg_ph");
 
+    if (!m_parent) return;
     auto equipmentComponent = m_parent->getComponent<EquipmentComponent>();
     if (equipmentComponent)
     {

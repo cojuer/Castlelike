@@ -1,14 +1,24 @@
 #include "scene.h"
 
+#include <iostream>
+
 #include "container.h"
 #include "utils.h"
 #include "id_manager.h"
+#include "tileset.h"
 
-Scene::Scene(SceneID id, Tiles& tiles, ActorVec actors) :
+#include "resource_manager.h"
+#include "factory__actor.h"
+
+Scene::Scene() :
+    m_tiles(nullptr)
+{}
+
+Scene::Scene(SceneID id, size_t width, size_t height, Tiles& tiles, ActorVec actors) :
     m_id(id),
-    m_width(tiles.front().size()),
-    m_height(tiles.size()),
-    m_tiles(tiles)
+    m_width(width),
+    m_height(height),
+    m_tiles(&tiles)
 {
     for (auto actor : actors)
     {
@@ -61,18 +71,81 @@ bool Scene::isEmpty(Coord coord) const
     {
         empty = empty && !(iter->second->isCollisive());
     }
-    empty = empty && !m_tiles[coord.y][coord.x]->isCollisive();
+    empty = empty && !(*m_tiles)[coord.y][coord.x]->isCollisive();
     return empty;
+}
+
+bool Scene::fromJSON(Json& node, ResourceManager& resManager)
+{
+    assert(node.find("tileset") != node.end());
+    assert(!node.at("tileset").is_null() && "tilesets cannot be loaded");
+    auto tset = resManager.get<Tileset>(node.at("tileset").get<std::string>());
+
+    // FIXME: load
+    m_width = 100;
+    m_height = 100;
+    m_tiles = new std::vector<std::vector<Tile*>>(m_height, std::vector<Tile*>(m_width));
+
+    assert(!node.at("tiles").is_null() && "tiles cannot be loaded");
+    auto tilesNode = node.at("tiles");
+    auto x = 0;
+    auto y = 0;
+    for (auto it = tilesNode.begin(); it != tilesNode.end(); ++it)
+    {
+        if (it->get<int>() != -1)
+            (*m_tiles)[y][x] = tset->getTile(it->get<int>());
+        ++x;
+        if (x == m_width)
+        {
+            x = 0;
+            ++y;
+        }
+    }
+
+    assert(!node.at("actors").is_null() && "actors cannot be loaded");
+    auto actorsNode = node.at("actors");
+    for (auto it = actorsNode.begin(); it != actorsNode.end(); ++it)
+    {
+        auto actor = resManager.m_actorFactory->createActorFromJSON(*it);
+        m_actorsById[actor->getID()] = actor;
+        m_actorsByCoord.insert({ actor->getCoord(), actor });
+    }
+
+    return true;
 }
 
 Json Scene::toJSON() const
 {
     Json result;
+
+    // get tileset (should be reworked)
+    for (const auto& row : *m_tiles)
+    {
+        for (const auto& elem : row)
+        {
+            if (elem) result["tileset"] = elem->getTileset()->m_resID;
+        }
+    }
+
+    Json tilesNode;
+    for (const auto& row : *m_tiles)
+    {
+        for (const auto& elem : row)
+        {
+            if (elem) tilesNode.push_back(elem->getID());
+            else tilesNode.push_back(-1);
+        }
+    }
+    result["tiles"] = tilesNode;
+
     // FIXME: use auto&[] when proper support will be available
+    Json actorsNode;
     for (auto& pair : m_actorsById)
     {
-        result[pair.first] = pair.second->toJSON();
+        actorsNode.push_back(pair.second->toJSON());
     }
+    result["actors"] = actorsNode;
+    
     return result;
 }
 
@@ -100,7 +173,8 @@ Tile* Scene::getTile(Coord coord) const
     {
         return nullptr;
     }
-    return m_tiles[coord.y][coord.x];
+
+    return (*m_tiles)[coord.y][coord.x];
 }
 
 Actor* Scene::getActor(Coord coord, const std::string& type) const
@@ -143,6 +217,6 @@ SceneID Scene::getID() const
 
 Scene::~Scene()
 {
-    delete(&m_tiles);
+    delete(m_tiles);
 }
 

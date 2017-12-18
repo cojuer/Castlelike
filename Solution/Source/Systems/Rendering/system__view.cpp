@@ -60,12 +60,19 @@ void ViewSystem::update()
         for (auto x = center.x - 10; x <= center.x + 10; ++x)
         {
             auto dst = m_camera->transformToSDLRect({ x, y, 64, 64 });
-            if (scene.getTile({ x, y }) != nullptr)
+            auto tile = scene.getTile({ x, y });
+            if (tile)
             {
-                m_rendSubsystem->render(scene.getTile({ x, y })->getView(), dst);
+                m_rendSubsystem->render(tile->getView(), dst);
             }
         }
     }
+    /*auto tiles = scene.getTilesIn(center.x - 10, center.y - 8, center.x + 10, center.y + 8);
+    for (auto& pair : tiles)
+    {
+        auto dst = m_camera->transformToSDLRect({ pair.first.y, pair.first.x, 64, 64 });
+        m_rendSubsystem->render(pair.second->getView(), dst);
+    }*/
     std::map<unsigned, std::vector<Actor*>> layers;
     for (auto& pair : m_registered)
     {

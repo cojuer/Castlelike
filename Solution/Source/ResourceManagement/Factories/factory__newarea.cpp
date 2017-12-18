@@ -60,10 +60,10 @@ Resource<Scene>* NewSceneFactory::get(ResourceId& id)
 					auto offset = someID - tilesets[i].first;
 					auto tileset = tilesets[i].second;
 					SDL_Rect src{ 
-						tileset.m_margin + offset % tileset.m_columns * (tileset.m_spacing + tileset.m_tileWidth),
-						tileset.m_margin + offset / tileset.m_columns * (tileset.m_spacing + tileset.m_tileHeight),
-						tileset.m_tileWidth,
-						tileset.m_tileHeight
+						tileset.m_margin + offset % tileset.m_cols * (tileset.m_spacing + tileset.m_tileW),
+						tileset.m_margin + offset / tileset.m_cols * (tileset.m_spacing + tileset.m_tileH),
+						tileset.m_tileW,
+						tileset.m_tileH
 					};
 					auto texture = tileset.m_image->clone();
 					texture->getTexture()->setSrcRect(src);
@@ -73,7 +73,9 @@ Resource<Scene>* NewSceneFactory::get(ResourceId& id)
         }
         tiles->push_back(row);
     }
-    return new Scene("new_epoch", *tiles, std::vector<Actor*>());
+    //return new Scene("new_epoch", *tiles, std::vector<Actor*>());
+    // FIXME: rework
+    return nullptr;
 }
 
 std::vector<int> NewSceneFactory::split(const std::string &s, char delim) const

@@ -51,9 +51,8 @@ void SceneManager::loadTestScene1()
     std::vector<Actor*> actors;
 
     auto& idManager = IDManager::instance();
-    auto tiles = m_resManager->get<std::vector<std::vector<Tile*>>>("TEST");
-    m_scene = new Scene("test_1", *tiles, actors);
-
+    m_scene = m_resManager->get<Scene>("test");
+    
     auto attrs = new Attributes();
     (*attrs)[Attr("str")] = 5;
     (*attrs)[Attr("dex")] = 5;
@@ -188,11 +187,26 @@ Coord SceneManager::findEmpty() const
         }
         ++counter;
         // check cycles
-        assert(counter < 1000);
+        assert(counter < 10000);
     }
 }
 
 Scene* SceneManager::getScene() const
 {
     return m_scene;
+}
+
+bool SceneManager::loadState(Json& state, ResourceManager& resManager)
+{
+    auto sceneNode = state.at("scene");
+    m_scene = new Scene{};
+    m_scene->fromJSON(state, *m_resManager);
+
+    // FIXME: test whether scene was loaded
+    return true;
+}
+
+Json SceneManager::getState() const
+{
+    return m_scene->toJSON();
 }

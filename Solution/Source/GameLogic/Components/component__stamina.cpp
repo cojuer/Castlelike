@@ -15,7 +15,9 @@ StaminaComponent::StaminaComponent(int base, int current, int max, Actor* parent
 
 void StaminaComponent::fromJSON(Json& node, ResourceManager& resManager)
 {
-    m_base = node["stamina"];
+    m_base = node[0];
+    m_current = node[1];
+    m_max = node[2];
 }
 
 std::string StaminaComponent::getStringID() const

@@ -11,6 +11,9 @@
 #include "resource.h"
 #include "journal.h"
 
+// FIXME: these includes can be deleted 
+// if Renderable and Widget are defined
+// where get<...> is used.
 #include "renderable.h"
 #include "widget.h"
 

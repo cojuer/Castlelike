@@ -18,7 +18,7 @@ constexpr auto dialdbPath = "Assets\\Databases\\dialogueDB.json";
 constexpr auto factionsDB = "Assets\\Databases\\factionsDB.xml";
 constexpr auto widgdbPath = "Assets\\Databases\\widgetDB.json";
 constexpr auto renddbPath = "Assets\\Databases\\rendDB.xml";
-constexpr auto tsetdbPath = "Assets\\Databases\\tilesetDB.xml";
+constexpr auto tsetdbPath = "Assets\\Databases\\newtsetDB.json";
 constexpr auto actordbPath = "Assets\\Databases\\actorDB.json";
 
 ResourceManager::ResourceManager() = default;
@@ -69,10 +69,11 @@ bool ResourceManager::initGame()
     m_actorFactory->init(*this);
     m_componentFactory->init(*this);
 
-    regFactory<std::vector<std::vector<Tile*>>>(m_areaFactory.get());
+    regFactory<Scene>(m_areaFactory.get());
     regFactory<Item>(m_itemFactory.get());
     regFactory<Actor>(m_actorFactory.get());
     regFactory<ActorComponent>(m_componentFactory.get());
+    regFactory<Tileset>(m_tilesetFactory.get());
 
     actionManager->init();
     dialogueManager = new DialManager(*m_dialogueFactory);

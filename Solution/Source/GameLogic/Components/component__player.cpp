@@ -13,6 +13,11 @@ void PlayerComponent::fromJSON(Json& node, ResourceManager& resManager)
     // non-loadable
 }
 
+Json PlayerComponent::toJSON() const
+{
+    return { { getStringID(), "" } };
+}
+
 std::string PlayerComponent::getStringID() const
 {
     return stringID;

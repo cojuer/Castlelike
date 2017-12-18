@@ -8,7 +8,7 @@
 
 class ResourceManager;
 
-class SceneFactory : public Factory<std::vector<std::vector<Tile*>>>
+class SceneFactory : public Factory<Scene>
 {
 public:
     SceneFactory() = default;
@@ -16,7 +16,7 @@ public:
     bool init(ResourceManager& resManager);
 
     bool load(const std::string& fname) override;
-    Resource<std::vector<std::vector<Tile*>>>* get(ResourceId& id) override;
+    Resource<Scene>* get(ResourceId& id) override;
 
     static bool      isPlaceForRoom(Coord leftTop,
                                     int roomw,

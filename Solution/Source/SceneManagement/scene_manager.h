@@ -21,6 +21,9 @@ public:
 
     Scene* getScene() const;
 
+    bool loadState(Json& state, ResourceManager& resManager);
+    Json getState() const;
+
 private:
     // TEST
     void loadTestScene1();

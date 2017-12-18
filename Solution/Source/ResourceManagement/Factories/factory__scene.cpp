@@ -1,6 +1,9 @@
-#include "factory__area.h"
+#include "factory__scene.h"
 
 #include "resource_manager.h"
+
+#include "tile.h"
+#include "tileset.h"
 
 bool SceneFactory::init(ResourceManager& resManager)
 {
@@ -126,12 +129,18 @@ bool SceneFactory::load(const std::string& fname)
     return true;
 }
 
-Resource<std::vector<std::vector<Tile*>>>* SceneFactory::get(ResourceId& id)
+Resource<Scene>* SceneFactory::get(ResourceId& id)
 {
-    RNG rng;
+    auto tset = m_resManager->get<Tileset>("test_tileset");
+    auto floor = *tset->getTile(tset->m_terrains.at("floor").m_tiles.front());
+    auto wall = *tset->getTile(tset->m_terrains.at("wall").m_tiles.front());
+    auto walltop = *tset->getTile(tset->m_terrains.at("walltop").m_tiles.front());
 
-    auto width = 20;
-    auto height = 20;
+    uint32_t width = 100;
+    uint32_t height = 100;
+    auto& area = *new std::vector<std::vector<Tile*>>(height, std::vector<Tile*>(width));
+
+    RNG rng;
 
     std::vector<RoomModel> rooms;
 
@@ -155,7 +164,7 @@ Resource<std::vector<std::vector<Tile*>>>* SceneFactory::get(ResourceId& id)
     }
 
     int counter = 0;
-    while (rooms.size() < 10 && counter < 1000)
+    while (rooms.size() < 100 && counter < 1000)
     {
         int dir = rng.getInRange(0, 3);
         int roomToExpand = rng.getInRange(0, rooms.size() - 1);
@@ -170,23 +179,17 @@ Resource<std::vector<std::vector<Tile*>>>* SceneFactory::get(ResourceId& id)
         }
     }
 
-    auto& tiles = (*new std::vector<std::vector<Tile*>>(height, std::vector<Tile*>(width)));
     for (int i = 0; i < height; ++i)
     {
         for (int j = 0; j < width; ++j)
         {
             if (tileTypes[i][j] == "ground")
             {
-                
-                tiles[i][j] = new Tile(m_resManager->get<Renderable>("tile_proto_ground_0"), false);
+                area[i][j] = new Tile(floor);
             }
             else if (tileTypes[i][j] == "wall")
             {
-                tiles[i][j] = new Tile(m_resManager->get<Renderable>("tile_proto_wall_0"), true);
-            }
-            else 
-            {
-                tiles[i][j] = nullptr;
+                area[i][j] = new Tile(wall);
             }
         }
     }
@@ -194,18 +197,18 @@ Resource<std::vector<std::vector<Tile*>>>* SceneFactory::get(ResourceId& id)
     {
         for (int j = 0; j < width; ++j)
         {
-            if (tiles[i + 1][j] != nullptr && 
-                tiles[i][j] != nullptr && 
+            if (area[i + 1][j] != nullptr &&
+                area[i][j] != nullptr &&
 				tileTypes[i + 1][j] == "wall" &&
 				tileTypes[i][j] == "wall")
             {
-                tiles[i][j] = new Tile(m_resManager->get<Renderable>("tile_proto_walltop_0"), true);
+                area[i][j] = new Tile(walltop);
             }
-            if (tiles[i + 1][j] == nullptr && 
-                tiles[i][j] != nullptr && 
+            if (area[i + 1][j] == nullptr &&
+                area[i][j] != nullptr &&
 				tileTypes[i][j] == "wall")
             {
-                tiles[i][j] = new Tile(m_resManager->get<Renderable>("tile_proto_walltop_0"), true);
+                area[i][j] = new Tile(walltop);
             }
         }
     }
@@ -216,5 +219,7 @@ Resource<std::vector<std::vector<Tile*>>>* SceneFactory::get(ResourceId& id)
 	}
 	delete[](tileTypes);
 
-    return &tiles;
+    auto scene = new Scene{ "test", width, height, area, std::vector<Actor*>() };
+
+    return scene;
 }

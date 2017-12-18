@@ -16,6 +16,17 @@ GraphicsComponent::GraphicsComponent(Actor* parent) :
     m_state(0)
 {}
 
+Json GraphicsComponent::toJSON() const
+{
+    Json node;
+    node["layer"] = m_layer;
+    for (auto rendID : m_renderableIds)
+    {
+        node["sprites"].push_back(rendID);
+    }
+    return { { getStringID(), node } };
+}
+
 void GraphicsComponent::fromJSON(Json& node, ResourceManager& resManager)
 {
     m_state = 0;

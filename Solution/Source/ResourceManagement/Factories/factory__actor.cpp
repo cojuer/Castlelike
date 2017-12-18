@@ -11,16 +11,21 @@ bool ActorFactory::init(ResourceManager& resManager)
 {
     m_resManager = &resManager;
     regToAddCompMap<AIComponent>(AIComponent::stringID);
+    regToAddCompMap<PlayerComponent>(PlayerComponent::stringID);
     regToAddCompMap<AttrComponent>(AttrComponent::stringID);
     regToAddCompMap<MdfrComponent>(MdfrComponent::stringID);
     regToAddCompMap<PositionComponent>(PositionComponent::stringID);
     regToAddCompMap<GraphicsInterfaceComponent>(GraphicsComponent::stringID);
     regToAddCompMap<HealthComponent>(HealthComponent::stringID);
+    regToAddCompMap<StaminaComponent>(StaminaComponent::stringID);
+    regToAddCompMap<ExperienceInterfaceComponent>(ExperienceComponent::stringID);
     regToAddCompMap<WeightComponent>(WeightComponent::stringID);
+    regToAddCompMap<BagComponent>(BagComponent::stringID);
     regToAddCompMap<LootComponent>(LootComponent::stringID);
     regToAddCompMap<CollisionComponent>(CollisionComponent::stringID);
     regToAddCompMap<TransformComponent>(TransformComponent::stringID);
     regToAddCompMap<ActionPtsComponent>(ActionPtsComponent::stringID);
+    regToAddCompMap<EquipmentComponent>(EquipmentComponent::stringID);
     return true;
 }
 

@@ -3,6 +3,9 @@
 #include "equipment.h"
 #include "actor.h"
 
+#include "item.h"
+#include "resource_manager.h"
+
 const std::string EquipmentComponent::stringID = "equipment";
 
 EquipmentComponent::EquipmentComponent(Actor* parent) :
@@ -18,7 +21,22 @@ EquipmentComponent::EquipmentComponent(Equipment& equipment, Actor* parent) :
 
 void EquipmentComponent::fromJSON(Json& node, ResourceManager& resManager)
 {
-	// non-loadable
+	for (auto it = node.at("slots").begin(); it != node.at("slots").end(); ++it)
+	{
+        auto item = resManager.get<Item>(it.value().get<std::string>());
+        m_equipment.equip(it.key(), *item);
+	}
+}
+
+Json EquipmentComponent::toJSON() const
+{
+    Json node;
+    for (auto& type : Equipment::types)
+    {
+        if (!m_equipment.isEquipped(type)) continue;
+        node["slots"][type] = m_equipment.getItem(type)->getRes();
+    }
+    return { { getStringID() , node } };
 }
 
 std::string EquipmentComponent::getStringID() const

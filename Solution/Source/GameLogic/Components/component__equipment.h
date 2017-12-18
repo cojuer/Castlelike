@@ -14,6 +14,7 @@ public:
 	explicit EquipmentComponent(Equipment& equipment, Actor* parent = nullptr);
 
 	void fromJSON(Json& node, ResourceManager& resManager) override;
+    Json toJSON() const override;
     std::string getStringID() const override;
 
 	Equipment& get();

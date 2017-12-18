@@ -388,7 +388,8 @@ void GameGUI::updateCurSlot()
 bool GameGUI::tryMoveBagToBag(Container& bag, SDL_Event& event) const
 {
     if (m_activeSlotType == ActSlotType::BAG && 
-        m_currentSlotType == ActSlotType::BAG)
+        m_currentSlotType == ActSlotType::BAG && 
+        m_currentSlotIndex != m_activeSlotIndex)
     {
         bag.swapSlots(m_activeSlotIndex, m_currentSlotIndex);
         return true;
