@@ -10,8 +10,8 @@ public:
 	explicit ExperienceInterfaceComponent(Actor* parent = nullptr);
 	ExperienceInterfaceComponent(int level, int xp, Actor* parent = nullptr);
 
-    Json toJSON() const override;
-	void fromJSON(Json& node, ResourceManager& resManager) override;
+    Json save() const override;
+	void load(Json& node, ResourceManager& resManager) override;
 
 	void addXP(int xp);
     void setXpToLvlUp(int xpToLvlUp);

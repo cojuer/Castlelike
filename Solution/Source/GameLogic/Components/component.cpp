@@ -6,10 +6,8 @@ ActorComponent::ActorComponent(Actor* parent) :
     m_parent(parent)
 {}
 
-Json ActorComponent::toJSON() const
-{
-    return Json();
-}
+void ActorComponent::postLoad(ResourceManager& resManager)
+{}
 
 void ActorComponent::setParent(Actor& parent)
 {

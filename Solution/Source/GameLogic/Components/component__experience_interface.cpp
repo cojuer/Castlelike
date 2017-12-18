@@ -16,7 +16,7 @@ ExperienceInterfaceComponent::ExperienceInterfaceComponent(int level, int xp, Ac
     m_xpToLvlUp(0)
 {}
 
-Json ExperienceInterfaceComponent::toJSON() const
+Json ExperienceInterfaceComponent::save() const
 {
     Json node;
     node["level"] = m_level;
@@ -24,7 +24,7 @@ Json ExperienceInterfaceComponent::toJSON() const
     return { { getStringID(), node } };
 }
 
-void ExperienceInterfaceComponent::fromJSON(Json& node, ResourceManager& resManager)
+void ExperienceInterfaceComponent::load(Json& node, ResourceManager& resManager)
 {
     m_level = node["level"];
     m_xp = node["xp"];

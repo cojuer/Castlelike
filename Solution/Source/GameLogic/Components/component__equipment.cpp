@@ -19,7 +19,7 @@ EquipmentComponent::EquipmentComponent(Equipment& equipment, Actor* parent) :
     m_dropped(false)
 {}
 
-void EquipmentComponent::fromJSON(Json& node, ResourceManager& resManager)
+void EquipmentComponent::load(Json& node, ResourceManager& resManager)
 {
 	for (auto it = node.at("slots").begin(); it != node.at("slots").end(); ++it)
 	{
@@ -28,7 +28,7 @@ void EquipmentComponent::fromJSON(Json& node, ResourceManager& resManager)
 	}
 }
 
-Json EquipmentComponent::toJSON() const
+Json EquipmentComponent::save() const
 {
     Json node;
     for (auto& type : Equipment::types)

@@ -11,7 +11,6 @@ public:
 	explicit HealthComponent(Actor* parent = nullptr);
 	HealthComponent(int base, int current, int max, Actor* parent = nullptr);
 
-	void fromJSON(Json& node, ResourceManager& resManager) override;
     std::string getStringID() const override;
 
 	void refresh() override;

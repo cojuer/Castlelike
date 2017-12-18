@@ -21,7 +21,7 @@ MdfrComponent::MdfrComponent(const Modifiers& base, Actor* parent) :
 	m_current(base)
 {}
 
-void MdfrComponent::fromJSON(Json& node, ResourceManager& resManager)
+void MdfrComponent::load(Json& node, ResourceManager& resManager)
 {
 	for (auto& type : Modifiers::types)
 	{
@@ -30,11 +30,19 @@ void MdfrComponent::fromJSON(Json& node, ResourceManager& resManager)
         {
             m_base[type] = modifier;
         }
+        else
+        {
+            m_base[type] = 0;
+        }
 	}
+}
+
+void MdfrComponent::postLoad(ResourceManager& resManager)
+{
     refresh();
 }
 
-Json MdfrComponent::toJSON() const
+Json MdfrComponent::save() const
 {
     Json node;
     for (auto pair : m_base.data())
@@ -67,7 +75,6 @@ void MdfrComponent::refresh()
     m_current = m_base;
     m_current["dmg_ph"] = m_base.weak_at("dmg_ph");
 
-    if (!m_parent) return;
     auto equipmentComponent = m_parent->getComponent<EquipmentComponent>();
     if (equipmentComponent)
     {

@@ -14,8 +14,8 @@ public:
     explicit GraphicsComponent(Actor* parent = nullptr);
 	GraphicsComponent(unsigned layer, std::vector<std::string> renderableIds, Actor* parent = nullptr);
 
-    Json toJSON() const override;
-	void fromJSON(Json& node, ResourceManager& resManager) override;
+    Json save() const override;
+	void load(Json& node, ResourceManager& resManager) override;
     std::string getStringID() const override;
 
 	void setState(int state);

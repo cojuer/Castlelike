@@ -8,12 +8,12 @@ CollisionComponent::CollisionComponent(Actor* parent) :
     m_collisive(false)
 {}
 
-void CollisionComponent::fromJSON(Json& node, ResourceManager& resManager)
+void CollisionComponent::load(Json& node, ResourceManager& resManager)
 {
 	m_collisive = node;
 }
 
-Json CollisionComponent::toJSON() const
+Json CollisionComponent::save() const
 {
     return { { getStringID(), m_collisive } };
 }

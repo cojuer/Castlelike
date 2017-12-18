@@ -14,7 +14,7 @@ AttrComponent::AttrComponent(const Attributes& attrs, Actor* parent) :
 	m_points(0)
 {}
 
-void AttrComponent::fromJSON(Json& node, ResourceManager& resManager)
+void AttrComponent::load(Json& node, ResourceManager& resManager)
 {
 	for (auto& type : Attributes::types)
 	{
@@ -26,7 +26,7 @@ void AttrComponent::fromJSON(Json& node, ResourceManager& resManager)
 	}
 }
 
-Json AttrComponent::toJSON() const
+Json AttrComponent::save() const
 {
     Json node;
     for (auto pair : m_attrs.data())

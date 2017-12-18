@@ -44,7 +44,8 @@ Resource<Actor>* ActorFactory::get(ResourceId& name)
 {
     auto& node = *m_loader.get("/" + name);
     if (node.is_null()) return nullptr;
- 
+
+
     auto& actor = *new Actor(IDManager::instance().getActorID(), name);
     for (auto it = node.begin(); it != node.end(); ++it)
     {
@@ -63,6 +64,10 @@ Resource<Actor>* ActorFactory::get(ResourceId& name)
                 (actor.*addComp[it.key()])(*component);
             }
         }
+    }
+    for (auto component : actor.getComponents())
+    {
+        component->postLoad(*m_resManager);
     }
     
     return &actor;
@@ -95,6 +100,10 @@ Resource<Actor>* ActorFactory::createActorFromJSON(Json& node)
         {
             (actor.*addComp[it.key()])(*component);
         }
+    }
+    for (auto component : actor.getComponents())
+    {
+        component->postLoad(*m_resManager);
     }
 
     return &actor;

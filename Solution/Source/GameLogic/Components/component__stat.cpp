@@ -66,9 +66,20 @@ const int& StatComponent::getMax() const
     return m_max;
 }
 
-Json StatComponent::toJSON() const
+void StatComponent::load(Json& node, ResourceManager& resManager)
 {
-    return { { getStringID(), { m_base, m_current, m_max } } };
+    m_base = node[0];
+    m_current = node[1];
+    m_max = node[2];
+}
+
+Json StatComponent::save() const
+{
+    Json node;
+    node.push_back(m_base);
+    node.push_back(m_current);
+    node.push_back(m_max);
+    return { { getStringID(), node } };
 }
 
 StatComponent::~StatComponent() {}

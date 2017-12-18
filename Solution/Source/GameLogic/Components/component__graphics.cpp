@@ -16,7 +16,7 @@ GraphicsComponent::GraphicsComponent(Actor* parent) :
     m_state(0)
 {}
 
-Json GraphicsComponent::toJSON() const
+Json GraphicsComponent::save() const
 {
     Json node;
     node["layer"] = m_layer;
@@ -27,7 +27,7 @@ Json GraphicsComponent::toJSON() const
     return { { getStringID(), node } };
 }
 
-void GraphicsComponent::fromJSON(Json& node, ResourceManager& resManager)
+void GraphicsComponent::load(Json& node, ResourceManager& resManager)
 {
     m_state = 0;
     m_layer = node["layer"];

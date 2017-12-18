@@ -12,9 +12,16 @@ DoorReactorComponent::DoorReactorComponent(Actor* parent) :
 	m_state(State::CLOSED)
 {}
 
-void DoorReactorComponent::fromJSON(Json& node, ResourceManager& resManager)
+void DoorReactorComponent::load(Json& node, ResourceManager& resManager)
 {
-	// Non-loadable
+    m_state = static_cast<State>(node.at("state").get<int>());
+}
+
+Json DoorReactorComponent::save() const
+{
+    Json node;
+    node["state"] = std::to_string(static_cast<int>(m_state));
+    return { { getStringID(), node } };
 }
 
 std::string DoorReactorComponent::getStringID() const

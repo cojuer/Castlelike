@@ -48,6 +48,16 @@ const std::string& Actor::getType() const
     return m_type;
 }
 
+std::vector<ActorComponent*> Actor::getComponents() const
+{
+    std::vector<ActorComponent*> result;
+    for (const auto&[id, component] : m_componentMap)
+    {
+        result.push_back(component);
+    }
+    return result;
+}
+
 bool Actor::isCollisive() const
 {
     auto collision = getComponent<CollisionComponent>();
@@ -59,9 +69,10 @@ Json Actor::toJSON() const
     Json components;
     for (const auto& [id, component] : m_componentMap)
     {
-        auto compJson = component->toJSON();
-        if (compJson.is_null() ||
-            !compJson.is_object()) continue;
+        auto compJson = component->save();
+        assert(!compJson.is_null() && "component saves to null");
+        assert(compJson.is_object() && "invalid Json for component");
+        // TODO: delete cycle
         for (auto it = compJson.begin(); 
                   it != compJson.end(); ++it)
         {

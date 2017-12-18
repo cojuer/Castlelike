@@ -17,12 +17,12 @@ AIComponent::AIComponent(Behaviour& bhvr, Actor* parent) :
     m_possessed(false)
 {}
 
-void AIComponent::fromJSON(Json& node, ResourceManager& resManager)
+void AIComponent::load(Json& node, ResourceManager& resManager)
 {
     // non-loadable
 }
 
-Json AIComponent::toJSON() const
+Json AIComponent::save() const
 {
     return { { getStringID(), "" } };
 }

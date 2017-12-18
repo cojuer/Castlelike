@@ -8,12 +8,12 @@ PlayerComponent::PlayerComponent(Actor* parent) :
     m_possessed(false)
 {}
 
-void PlayerComponent::fromJSON(Json& node, ResourceManager& resManager)
+void PlayerComponent::load(Json& node, ResourceManager& resManager)
 {
     // non-loadable
 }
 
-Json PlayerComponent::toJSON() const
+Json PlayerComponent::save() const
 {
     return { { getStringID(), "" } };
 }

@@ -7,7 +7,7 @@ PositionComponent::PositionComponent(Actor* parent) :
 	ActorComponent(parent)
 {}
 
-Json PositionComponent::toJSON() const
+Json PositionComponent::save() const
 {
     Json node;
     node["x"] = m_position.x;
@@ -15,7 +15,7 @@ Json PositionComponent::toJSON() const
     return { { getStringID(), node } };
 }
 
-void PositionComponent::fromJSON(Json& node, ResourceManager& resManager)
+void PositionComponent::load(Json& node, ResourceManager& resManager)
 {
 	m_position.x = node["x"];
 	m_position.y = node["y"];

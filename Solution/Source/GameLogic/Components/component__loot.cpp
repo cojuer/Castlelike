@@ -15,7 +15,7 @@ LootComponent::LootComponent(Container& container, Actor* parent) :
 	ContainerInterfaceComponent(container, parent)
 {}
 
-void LootComponent::fromJSON(Json& node, ResourceManager& resManager)
+void LootComponent::load(Json& node, ResourceManager& resManager)
 {
     m_container = Container(node.at("size").get<int>());
     auto slots = node.at("slots");
@@ -49,7 +49,7 @@ void LootComponent::fromJSON(Json& node, ResourceManager& resManager)
     //}
 }
 
-Json LootComponent::toJSON() const
+Json LootComponent::save() const
 {
     Json node;
     node["size"] = m_container.getSize();

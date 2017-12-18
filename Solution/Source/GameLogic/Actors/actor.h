@@ -43,6 +43,8 @@ public:
 		else return nullptr;
 	}
 
+    std::vector<ActorComponent*> getComponents() const;
+
     virtual bool               isCollisive() const;
 
     Json toJSON() const;

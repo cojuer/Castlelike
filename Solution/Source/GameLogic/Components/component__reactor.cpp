@@ -7,9 +7,15 @@ ReactorComponent::ReactorComponent(Actor* parent) :
     ReactorComponentInterface(parent)   
 {}
 
-void ReactorComponent::fromJSON(Json& node, ResourceManager& resManager)
+Json ReactorComponent::save() const
 {
-	// Non-loadable
+    // TODO: save actions
+    return { { getStringID(), "" } };
+}
+
+void ReactorComponent::load(Json& node, ResourceManager& resManager)
+{
+    // TODO: load reactions
 }
 
 std::string ReactorComponent::getStringID() const

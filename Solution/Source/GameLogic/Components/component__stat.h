@@ -17,7 +17,8 @@ public:
     const int& getCurr() const;
     const int& getMax() const;
 
-    Json toJSON() const override;
+    void load(Json& node, ResourceManager& resManager) override;
+    Json save() const override;
 
     virtual ~StatComponent();
 

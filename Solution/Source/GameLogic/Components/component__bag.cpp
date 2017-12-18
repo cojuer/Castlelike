@@ -17,7 +17,7 @@ BagComponent::BagComponent(Container& container, Actor* parent) :
     m_dropped(false)
 {}
 
-void BagComponent::fromJSON(Json& node, ResourceManager& resManager)
+void BagComponent::load(Json& node, ResourceManager& resManager)
 {
     assert(!node.at("size").is_null());
     m_container = Container{ node.at("size").get<int>() };
@@ -29,7 +29,7 @@ void BagComponent::fromJSON(Json& node, ResourceManager& resManager)
     }
 }
 
-Json BagComponent::toJSON() const
+Json BagComponent::save() const
 {
     Json node;
     node["size"] = m_container.getSize();

@@ -11,8 +11,12 @@ class ActorComponent
 public:
     explicit ActorComponent(Actor* parent = nullptr);
 
-	virtual void fromJSON(Json& node, ResourceManager& resManager) = 0;
-    virtual Json toJSON() const;
+	virtual void load(Json& node, ResourceManager& resManager) = 0;
+    /**
+     * postLoad() can use parent actor, while in load() it can be nullptr
+     */
+    virtual void postLoad(ResourceManager& resManager);
+    virtual Json save() const = 0;
     virtual std::string getStringID() const = 0;
 
     virtual void setParent(Actor& parent);

@@ -11,8 +11,8 @@ public:
 
     explicit PlayerComponent(Actor* parent = nullptr);
 
-    void fromJSON(Json& node, ResourceManager& resManager) override;
-    Json toJSON() const override;
+    void load(Json& node, ResourceManager& resManager) override;
+    Json save() const override;
     std::string getStringID() const override;
 
     bool       possess();

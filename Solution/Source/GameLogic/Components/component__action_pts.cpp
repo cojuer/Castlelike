@@ -13,13 +13,6 @@ ActionPtsComponent::ActionPtsComponent(int base, int current, int max, Actor* pa
     StatComponent(base, current, max, parent)
 {}
 
-void ActionPtsComponent::fromJSON(Json& node, ResourceManager& resManager)
-{
-    m_base = node[0];
-    m_current = node[1];
-    m_max = node[2];
-}
-
 std::string ActionPtsComponent::getStringID() const
 {
     return stringID;

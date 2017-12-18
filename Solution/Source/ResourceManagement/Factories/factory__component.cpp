@@ -60,7 +60,7 @@ Resource<ActorComponent>* ComponentFactory::createCompFromJSON(const std::string
     if (typeIt != m_map.end())
     {
         auto component = m_map[type]();
-        component->fromJSON(node, *m_resManager);
+        component->load(node, *m_resManager);
         return component;
     }
     else
