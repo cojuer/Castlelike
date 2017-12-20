@@ -1,4 +1,4 @@
-#include "renderable_cache.h"
+#include "cache__renderable.h"
 
 void RenderableCache::add(ResourceId& id, Resource<Renderable>& resource)
 {

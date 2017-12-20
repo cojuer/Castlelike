@@ -1,4 +1,4 @@
-#include "parser_widget.h"
+#include "parser__widget.h"
 
 #include <iostream>
 

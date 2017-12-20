@@ -6,7 +6,7 @@
 #include "factory.h"
 #include "pugi_aliases.h"
 #include "resource.h"
-#include "loader_json.h"
+#include "loader__json.h"
 
 class IProtoParser;
 

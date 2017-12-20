@@ -1,7 +1,7 @@
 #include "factory__dialogue.h"
 
-#include "loader_json.h"
-#include "parser_dialogue.h"
+#include "loader__json.h"
+#include "parser__dialogue.h"
 
 #include <iostream>
 

@@ -1,4 +1,4 @@
-#include "parser_dialogue.h"
+#include "parser__dialogue.h"
 
 Dialogue* DialogueParser::parse(const std::string& nodeName, Json& node)
 {

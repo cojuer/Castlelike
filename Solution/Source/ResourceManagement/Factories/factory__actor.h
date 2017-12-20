@@ -2,7 +2,7 @@
 
 #include "actor.h"
 #include "factory.h"
-#include "loader_json.h"
+#include "loader__json.h"
 
 class ActorFactory : public Factory<Actor>
 {

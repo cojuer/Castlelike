@@ -1,7 +1,7 @@
 #include "factory__tileset.h"
 
 #include "text_manager.h"
-#include "loader_json.h"
+#include "loader__json.h"
 #include "parser__tileset.h"
 
 TilesetFactory::TilesetFactory() :

@@ -1,7 +1,7 @@
 #include "factory__renderable.h"
 
-#include "renderable_cache.h"
-#include "renderable_loader.h"
+#include "cache__renderable.h"
+#include "loader__renderable.h"
 #include "resource_manager.h"
 
 RenderableFactory::RenderableFactory() :

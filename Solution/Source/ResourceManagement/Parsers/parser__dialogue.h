@@ -1,7 +1,7 @@
 #pragma once
 
 #include "dialogue.h"
-#include "parser_json.h"
+#include "parser__json.h"
 
 class ResourceManager;
 
