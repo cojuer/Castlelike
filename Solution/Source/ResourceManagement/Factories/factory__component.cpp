@@ -42,7 +42,7 @@ Resource<ActorComponent>* ComponentFactory::get(ResourceId& id)
     if (node)
     {
         auto type = id.substr(id.find_last_of('/') + 1);
-        return createCompFromJSON(type, *node);
+        return loadCompFromJSON(type, *node);
     }
     else
     {
@@ -52,7 +52,26 @@ Resource<ActorComponent>* ComponentFactory::get(ResourceId& id)
     }
 }
 
-Resource<ActorComponent>* ComponentFactory::createCompFromJSON(const std::string& type, Json& node)
+Resource<ActorComponent>* ComponentFactory::generateCompFromJSON(const std::string& type, Json& node)
+{
+    if (node.is_null()) return nullptr;
+
+    auto typeIt = m_map.find(type);
+    if (typeIt != m_map.end())
+    {
+        auto component = m_map[type]();
+        component->generate(node, *m_resManager);
+        return component;
+    }
+    else
+    {
+        std::cout << "Component factory: component type "
+                  << type << " is not supported" << std::endl;
+        return nullptr;
+    }
+}
+
+Resource<ActorComponent>* ComponentFactory::loadCompFromJSON(const std::string& type, Json& node)
 {
     if (node.is_null()) return nullptr;
 

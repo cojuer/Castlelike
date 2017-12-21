@@ -4,9 +4,12 @@
 
 #include "animation.h"
 #include "atexture.h"
+
+#include "widget.h"
 #include "widget__button.h"
-#include "on_release.h"
 #include "widget__dropdown_list.h"
+
+#include "on_release.h"
 #include "options.h"
 #include "factory__renderable.h"
 #include "resource_manager.h"

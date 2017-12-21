@@ -21,6 +21,9 @@ private:
     template<typename T>
     void regToAddCompMap(std::string strCompId);
 
+    void loadComp(const Json& node, Actor& actor);
+    void postLoadComp(Actor& actor);
+
 private:
     ResourceManager* m_resManager;
     JsonLoader       m_loader;

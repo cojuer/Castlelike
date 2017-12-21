@@ -28,6 +28,7 @@ public:
     int                  getMaxCount() const;
 
     bool                 combine(Item& item);
+    void                 setAmount(uint32_t amount);
 
     bool                 isWeapon() const;
     bool                 isArmour() const;

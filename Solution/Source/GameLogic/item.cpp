@@ -24,6 +24,12 @@ bool Item::combine(Item& item)
     return false;
 }
 
+void Item::setAmount(uint32_t amount)
+{
+    assert(amount < getMaxCount() && "Item: amount not limited");
+    m_amount = amount;
+}
+
 const std::string& Item::getClass() const
 {
     return m_prototype->m_class;

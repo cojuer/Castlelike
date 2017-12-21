@@ -6,6 +6,16 @@ ActorComponent::ActorComponent(Actor* parent) :
     m_parent(parent)
 {}
 
+void ActorComponent::generate(Json& node, ResourceManager& resManager)
+{
+    load(node, resManager);
+}
+
+void ActorComponent::postGenerate(ResourceManager& resManager)
+{
+    postLoad(resManager);
+}
+
 void ActorComponent::postLoad(ResourceManager& resManager)
 {}
 

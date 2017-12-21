@@ -2,9 +2,11 @@
 
 #include <iostream>
 
-#include "atexture.h"
-#include "GUI/Behaviour/behaviour.h"
 #include "renderable.h"
+#include "atexture.h"
+
+#include "GUI/Behaviour/behaviour.h"
+
 #include "subsystem_render.h"
 #include "resource_manager.h"
 #include "utils.h"

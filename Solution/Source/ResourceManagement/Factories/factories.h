@@ -4,7 +4,6 @@
 #include "factory__scene.h"
 #include "factory__dialogue.h"
 #include "factory__item.h"
-#include "factory__newarea.h"
 #include "factory__renderable.h"
 #include "factory__widget.h"
 #include "factory__tileset.h"

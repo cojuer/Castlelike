@@ -7,6 +7,7 @@
 #include "scene_manager.h"
 #include "system_manager.h"
 #include "component__graphics_interface.h"
+#include "renderable.h"
 #include "atexture.h"
 #include "subsystem_render.h"
 #include "resource_manager.h"

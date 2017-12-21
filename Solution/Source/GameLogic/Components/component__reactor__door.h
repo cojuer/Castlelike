@@ -22,6 +22,7 @@ public:
 
 	void load(Json& node, ResourceManager& resManager) override;
     Json save() const override;
+
     std::string getStringID() const override;
 
 	void react(const std::string& condition, ActionArgs input) override;

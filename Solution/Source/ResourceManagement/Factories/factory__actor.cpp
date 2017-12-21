@@ -42,33 +42,14 @@ bool ActorFactory::load(const std::string& fname)
 
 Resource<Actor>* ActorFactory::get(ResourceId& name)
 {
+    // FIXME: loader can return nullptr
     auto& node = *m_loader.get("/" + name);
     if (node.is_null()) return nullptr;
 
-
     auto& actor = *new Actor(IDManager::instance().getActorID(), name);
-    for (auto it = node.begin(); it != node.end(); ++it)
-    {
-        auto jsonPtr = name + std::string("/") + it.key();
-        auto component = m_resManager->get<ActorComponent>(jsonPtr);
-        if (component)
-        {
-            auto compIt = addComp.find(it.key());
-            if (compIt == addComp.end())
-            {
-                std::cout << "Actor factory: component type "
-                          << it.key() << " is not supported" << std::endl;
-            }
-            else
-            {
-                (actor.*addComp[it.key()])(*component);
-            }
-        }
-    }
-    for (auto component : actor.getComponents())
-    {
-        component->postLoad(*m_resManager);
-    }
+
+    loadComp(node, actor);
+    postLoadComp(actor);
     
     return &actor;
 }
@@ -82,14 +63,25 @@ Resource<Actor>* ActorFactory::createActorFromJSON(Json& node)
 
     auto& actor = *new Actor{ id, name };
 
-    auto components = node["components"];
+    loadComp(node, actor);
+    postLoadComp(actor);
+
+    return &actor;
+}
+
+ActorFactory::~ActorFactory() {}
+
+void ActorFactory::loadComp(const Json& node, Actor& actor)
+{
+    auto components = node.at("components");
+    auto compFactory = m_resManager->m_componentFactory.get();
     for (auto it = components.begin(); it != components.end(); ++it)
     {
         auto compName = it.key();
         auto compNode = it.value();
-        auto component = m_resManager->m_componentFactory->createCompFromJSON(compName, compNode);
+        auto component = compFactory->generateCompFromJSON(compName, compNode);
         if (!component) continue;
-        
+
         auto compIt = addComp.find(it.key());
         if (compIt == addComp.end())
         {
@@ -101,12 +93,13 @@ Resource<Actor>* ActorFactory::createActorFromJSON(Json& node)
             (actor.*addComp[it.key()])(*component);
         }
     }
-    for (auto component : actor.getComponents())
-    {
-        component->postLoad(*m_resManager);
-    }
-
-    return &actor;
 }
 
-ActorFactory::~ActorFactory() {}
+void ActorFactory::postLoadComp(Actor& actor)
+{
+    for (auto component : actor.getComponents())
+    {
+        component->postGenerate(*m_resManager);
+    }
+}
+

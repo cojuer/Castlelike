@@ -2,6 +2,8 @@
 
 #include <SDL.h>
 
+#include "renderable.h"
+#include "widget.h"
 #include "action_manager.h"
 #include "scene.h"
 #include "bagwidget.h"
@@ -12,7 +14,7 @@
 #include "equipmentwidget.h"
 #include "heropanel.h"
 #include "slot__item.h"
-#include "GameLogic/journal.h"
+#include "journal.h"
 #include "on_release.h"
 #include "widget__progress_bar.h"
 #include "actpanel.h"

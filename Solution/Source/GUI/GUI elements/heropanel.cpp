@@ -1,5 +1,6 @@
 #include "heropanel.h"
 
+#include "renderable.h"
 #include "atexture.h"
 #include "control_sheduler.h"
 #include "widget__number.h"

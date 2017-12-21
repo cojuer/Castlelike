@@ -16,6 +16,7 @@ public:
 
     Json save() const override;
 	void load(Json& node, ResourceManager& resManager) override;
+
     std::string getStringID() const override;
 
 	void setState(int state);

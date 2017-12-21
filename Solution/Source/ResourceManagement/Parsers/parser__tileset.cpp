@@ -2,6 +2,8 @@
 
 #include "resource_manager.h"
 
+#include "renderable.h"
+
 TilesetParser::TilesetParser() = default;
 
 bool TilesetParser::init(ResourceManager& resManager)

@@ -12,13 +12,12 @@
 // FIXME: load in opts
 constexpr auto areadbPath = "Assets\\Databases\\areaDB.xml";
 constexpr auto itemdbPath = "Assets\\Databases\\itemDB.json";
-constexpr auto dropdbPath = "Assets\\Databases\\lootDB.json";
-constexpr auto tiledbPath = "Assets\\Databases\\tileDB.xml";
+constexpr auto lootdbPath = "Assets\\Databases\\lootDB.json";
 constexpr auto dialdbPath = "Assets\\Databases\\dialogueDB.json";
 constexpr auto factionsDB = "Assets\\Databases\\factionsDB.xml";
 constexpr auto widgdbPath = "Assets\\Databases\\widgetDB.json";
 constexpr auto renddbPath = "Assets\\Databases\\rendDB.xml";
-constexpr auto tsetdbPath = "Assets\\Databases\\newtsetDB.json";
+constexpr auto tsetdbPath = "Assets\\Databases\\tilesetDB.json";
 constexpr auto actordbPath = "Assets\\Databases\\actorDB.json";
 
 ResourceManager::ResourceManager() = default;
@@ -33,7 +32,6 @@ bool ResourceManager::init(RenderSubsystem& rendSubsystem, Options& opts)
     factionsManager = new FactionsMgr();
     actionManager = new ActMgr();
 
-    m_newSceneFactory.reset(new NewSceneFactory());
     m_areaFactory.reset(new SceneFactory());
     m_dialogueFactory.reset(new DialFactory());
     m_itemFactory.reset(new ItemFactory());
@@ -64,7 +62,6 @@ bool ResourceManager::init(RenderSubsystem& rendSubsystem, Options& opts)
 bool ResourceManager::initGame()
 {
     m_areaFactory->init(*this);
-    m_newSceneFactory->init(*this);
 	m_tilesetFactory->init(*this);
     m_actorFactory->init(*this);
     m_componentFactory->init(*this);

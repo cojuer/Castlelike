@@ -15,6 +15,7 @@ public:
 
 	void load(Json& node, ResourceManager& resManager) override;
     Json save() const override;
+
     std::string getStringID() const override;
 
 	Equipment& get();

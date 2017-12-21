@@ -3,8 +3,8 @@
 #include "container.h"
 #include "actor.h"
 #include "resource_manager.h"
+#include "rng.h"
 
-RNG LootComponent::m_lootRng;
 const std::string LootComponent::stringID = "loot";
 
 LootComponent::LootComponent(Actor* parent) :
@@ -14,6 +14,35 @@ LootComponent::LootComponent(Actor* parent) :
 LootComponent::LootComponent(Container& container, Actor* parent) :
 	ContainerInterfaceComponent(container, parent)
 {}
+
+void LootComponent::generate(Json& node, ResourceManager& resManager)
+{
+    // FIXME: use specific rng
+    RNG rng;
+    // FIXME: how to define size?
+    m_container = Container(36);
+    for (auto& itemNode : node)
+    {
+        std::string name = itemNode["name"];
+        int minItems = itemNode["min"];
+        int maxItems = itemNode["max"];
+        int chance = itemNode["chance"];
+        int amount = minItems;
+        for (auto i = minItems; i < maxItems; ++i)
+        {
+            if (rng.getInRange(0, 100) <= chance)
+            {
+                ++amount;
+            }
+        }
+        auto item = resManager.get<Item>(name);
+        if (item)
+        {
+            item->setAmount(amount);
+            m_container.add(*item);
+        }
+    }
+}
 
 void LootComponent::load(Json& node, ResourceManager& resManager)
 {
@@ -26,27 +55,6 @@ void LootComponent::load(Json& node, ResourceManager& resManager)
         assert(item);
         m_container.m_busyslots[std::stoi(it.key())] = item;
     }
-    // TODO: move to some loot generator
-    //for (auto& itemNode : node)
-    //{
-    //    std::string name = itemNode["name"];
-    //    int minItems = itemNode["min"];
-    //    int maxItems = itemNode["max"];
-    //    int chance = itemNode["chance"];
-    //    // TODO: add multiple items in stacks if possible
-    //    for (auto i = 0; i < maxItems; ++i)
-    //    {
-    //        if (i < minItems || m_lootRng.getInRange(0, 100) <= chance)
-    //        {
-    //            auto item = resManager.get<Item>(name);
-    //            assert(item);
-    //            if (item)
-    //            {
-    //                m_container.add(*item);
-    //            }
-    //        }
-    //    }
-    //}
 }
 
 Json LootComponent::save() const

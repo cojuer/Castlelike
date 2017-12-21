@@ -4,11 +4,12 @@
 #include <variant>
 
 #include "cutscene.h"
+#include "cutscene_player.h"
+
 #include "component__graphics_interface.h"
-#include "component__stateful_graphics.h"
+
 #include "event__shedule.h"
 #include "event_handler.h"
-#include "cutscene_player.h"
 
 using ShedulerEvent = std::variant<ActionInterface*, Cutscene*>;
 

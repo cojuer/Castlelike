@@ -16,8 +16,9 @@ public:
 
     explicit ReactorComponent(Actor* parent = nullptr);
 
-    Json save() const override;
 	void load(Json& node, ResourceManager& resManager) override;
+    Json save() const override;
+
     std::string getStringID() const override;
 
     void addReaction(std::string condition, Reaction&& reaction);

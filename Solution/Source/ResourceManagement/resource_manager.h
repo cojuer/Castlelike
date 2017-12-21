@@ -14,25 +14,23 @@
 // FIXME: these includes can be deleted 
 // if Renderable and Widget are defined
 // where get<...> is used.
-#include "renderable.h"
 #include "widget.h"
 
 class RenderSubsystem;
-class NewSceneFactory;
-class ActFactory;
-class ItemFactory;
-class SceneFactory;
-class DialFactory;
-class WidgetFactory;
-class RenderableFactory;
 class TextRenderer;
-class TilesetFactory;
 class ActMgr;
 class DialManager;
 class FactionsMgr;
 
+class ActFactory;
 class ActorFactory;
 class ComponentFactory;
+class DialFactory;
+class ItemFactory;
+class RenderableFactory;
+class SceneFactory;
+class TilesetFactory;
+class WidgetFactory;
 
 class ResourceManager
 {
@@ -59,7 +57,6 @@ public:
     // TODO: move somewhere else
     Journal*         m_journal;
 
-    std::unique_ptr<NewSceneFactory>   m_newSceneFactory;
     std::unique_ptr<ActFactory>        m_actionFactory;
     std::unique_ptr<ItemFactory>       m_itemFactory;
     std::unique_ptr<SceneFactory>      m_areaFactory;

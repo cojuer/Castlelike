@@ -11,7 +11,6 @@
 #include "equipment.h"
 #include "actor__door.h"
 #include "utils.h"
-#include "factory__newarea.h"
 #include "id_manager.h"
 
 #include "subsystem_io.h"

@@ -7,6 +7,9 @@ class StatComponent : public ActorComponent
 public:
     StatComponent(int base, int current, int max, Actor* parent = nullptr);
 
+    void load(Json& node, ResourceManager& resManager) override;
+    Json save() const override;
+
     virtual void changeCurrent(int diff);
     void setCurr(int current);
     void setMax(int max);
@@ -16,9 +19,6 @@ public:
     const int& getBase() const;
     const int& getCurr() const;
     const int& getMax() const;
-
-    void load(Json& node, ResourceManager& resManager) override;
-    Json save() const override;
 
     virtual ~StatComponent();
 

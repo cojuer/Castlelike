@@ -19,7 +19,7 @@ AIComponent::AIComponent(Behaviour& bhvr, Actor* parent) :
 
 void AIComponent::load(Json& node, ResourceManager& resManager)
 {
-    // non-loadable
+    // nothing to load
 }
 
 Json AIComponent::save() const

@@ -13,7 +13,8 @@ public:
     bool load(const std::string& fname) override;
 
     Resource<ActorComponent>* get(ResourceId& id) override;
-    Resource<ActorComponent>* createCompFromJSON(const std::string& type, Json& node);
+    Resource<ActorComponent>* loadCompFromJSON(const std::string& type, Json& node);
+    Resource<ActorComponent>* generateCompFromJSON(const std::string& type, Json& node);
 
 private:
     ResourceManager* m_resManager;
