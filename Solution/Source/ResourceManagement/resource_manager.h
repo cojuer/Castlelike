@@ -21,6 +21,8 @@ class TextRenderer;
 class ActMgr;
 class DialManager;
 class FactionsMgr;
+class RNG;
+class RNGHolder;
 
 class ActFactory;
 class ActorFactory;
@@ -37,8 +39,10 @@ class ResourceManager
 public:
     ResourceManager();
 
-    bool init(RenderSubsystem& rendSubsystem, Options& opts);
+    bool init(RenderSubsystem& rendSubsystem, RNGHolder& rngHolder, Options& opts);
     bool initGame();
+
+    RNGHolder* getRNGHolder() const;
 
     template<typename T>
     Resource<T>* get(const std::string& res);
@@ -67,7 +71,9 @@ public:
     std::unique_ptr<ActorFactory>      m_actorFactory;
     std::unique_ptr<ComponentFactory>  m_componentFactory;
 
+private:
     std::map<std::type_index, std::any> factories;
+    RNGHolder* m_rngHolder;
 };
 
 template<typename T>

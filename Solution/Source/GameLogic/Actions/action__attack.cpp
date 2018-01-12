@@ -20,7 +20,7 @@ void AttackAction::act()
 {
     auto& attacker = *get<Actor*>(m_args, ActArgType::user);
     
-    RNG rng;
+    RNG rng{ 0, 0, 100 };
     for (auto victim : getVictims())
     {
         auto hitType = chooseHitType(attacker, *victim, rng);

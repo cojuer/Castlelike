@@ -44,7 +44,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <LibraryPath>$(LibraryPath)</LibraryPath>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\Source;$(SolutionDir)\Source\Common;$(SolutionDir)\Source\SceneManagement;$(SolutionDir)\Source\ResourceManagement\Caches;$(SolutionDir)\Source\ResourceManagement\Factories;$(SolutionDir)\Source\ResourceManagement\Loaders;$(SolutionDir)\Source\ResourceManagement\Parsers;$(SolutionDir)\Source\ResourceManagement\Resources;$(SolutionDir)\Source\ResourceManagement;$(SolutionDir)\Source\AppStates;$(SolutionDir)\Source\EventBus;$(SolutionDir)\Source\EventBus\Events;$(SolutionDir)\Source\EventBus\Factories;$(SolutionDir)\Source\EventBus\Listeners;$(SolutionDir)\Source\GUI;$(SolutionDir)\Source\GUI\GUI elements;$(SolutionDir)\Source\GUI\Behaviour;$(SolutionDir)\Source\GUI\Common;$(SolutionDir)\Source\GUI\Widgets;$(SolutionDir)\Source\GameLogic;$(SolutionDir)\Source\GameLogic\Actions;$(SolutionDir)\Source\GameLogic\Actors;$(SolutionDir)\Source\GameLogic\Conditions;$(SolutionDir)\Source\GameLogic\Abilities;$(SolutionDir)\Source\GameLogic\Components;$(SolutionDir)\Source\GameLogic\AI;$(SolutionDir)\Source\Subsystems;$(SolutionDir)\Source\Subsystems\Sound;$(SolutionDir)\Source\Subsystems\Input;$(SolutionDir)\Source\Subsystems\IO;$(SolutionDir)\Source\Subsystems\Time;$(SolutionDir)\Source\Subsystems\Rendering;$(SolutionDir)\Source\Subsystems\Rendering\Renderables;$(SolutionDir)\Source\Systems\ActorControllers;$(SolutionDir)\Source\Systems\Rendering;$(SolutionDir)\Source\Systems\Game;$(SolutionDir)\Source\Systems\Sound;$(SolutionDir)Source\Systems\Sheduler;$(SolutionDir)Source\Systems\CutscenePlayer;$(SolutionDir)Source\Systems\CutscenePlayer\Cutscenes;$(SolutionDir)Source\Systems\CutscenePlayer\Elements;$(SolutionDir)Source\Systems;$(SolutionDir)3rd party\Pugixml</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\Source;$(SolutionDir)\Source\Common;$(SolutionDir)\Source\SceneManagement;$(SolutionDir)\Source\ResourceManagement\Caches;$(SolutionDir)\Source\ResourceManagement\Factories;$(SolutionDir)\Source\ResourceManagement\Loaders;$(SolutionDir)\Source\ResourceManagement\Parsers;$(SolutionDir)\Source\ResourceManagement\Resources;$(SolutionDir)\Source\ResourceManagement;$(SolutionDir)\Source\AppStates;$(SolutionDir)\Source\EventBus;$(SolutionDir)\Source\EventBus\Events;$(SolutionDir)\Source\EventBus\Factories;$(SolutionDir)\Source\EventBus\Listeners;$(SolutionDir)\Source\GUI;$(SolutionDir)\Source\GUI\GUI elements;$(SolutionDir)\Source\GUI\Behaviour;$(SolutionDir)\Source\GUI\Common;$(SolutionDir)\Source\GUI\Widgets;$(SolutionDir)\Source\GameLogic;$(SolutionDir)\Source\GameLogic\Actions;$(SolutionDir)\Source\GameLogic\Actors;$(SolutionDir)\Source\GameLogic\Conditions;$(SolutionDir)\Source\GameLogic\Abilities;$(SolutionDir)\Source\GameLogic\Components;$(SolutionDir)\Source\GameLogic\AI;$(SolutionDir)\Source\Subsystems;$(SolutionDir)\Source\Subsystems\Sound;$(SolutionDir)\Source\Subsystems\Input;$(SolutionDir)\Source\Subsystems\IO;$(SolutionDir)\Source\Subsystems\Time;$(SolutionDir)\Source\Subsystems\Rendering;$(SolutionDir)\Source\Subsystems\RNG;$(SolutionDir)\Source\Subsystems\Rendering\Renderables;$(SolutionDir)\Source\Systems\ActorControllers;$(SolutionDir)\Source\Systems\Rendering;$(SolutionDir)\Source\Systems\Game;$(SolutionDir)\Source\Systems\Sound;$(SolutionDir)Source\Systems\Sheduler;$(SolutionDir)Source\Systems\CutscenePlayer;$(SolutionDir)Source\Systems\CutscenePlayer\Cutscenes;$(SolutionDir)Source\Systems\CutscenePlayer\Elements;$(SolutionDir)Source\Systems;$(SolutionDir)3rd party\Pugixml</IncludePath>
     <ReferencePath>$(ReferencePath)</ReferencePath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
     <SourcePath>$(SourcePath)</SourcePath>
@@ -55,7 +55,7 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>.\Game\$(Configuration)\</OutDir>
     <IntDir>.\Temp\$(Configuration)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\Source;$(SolutionDir)\Source\Common;$(SolutionDir)\Source\SceneManagement;$(SolutionDir)\Source\ResourceManagement\Caches;$(SolutionDir)\Source\ResourceManagement\Factories;$(SolutionDir)\Source\ResourceManagement\Loaders;$(SolutionDir)\Source\ResourceManagement\Parsers;$(SolutionDir)\Source\ResourceManagement\Resources;$(SolutionDir)\Source\ResourceManagement;$(SolutionDir)\Source\AppStates;$(SolutionDir)\Source\EventBus;$(SolutionDir)\Source\EventBus\Events;$(SolutionDir)\Source\EventBus\Factories;$(SolutionDir)\Source\EventBus\Listeners;$(SolutionDir)\Source\GUI;$(SolutionDir)\Source\GUI\GUI elements;$(SolutionDir)\Source\GUI\Behaviour;$(SolutionDir)\Source\GUI\Common;$(SolutionDir)\Source\GUI\Widgets;$(SolutionDir)\Source\GameLogic;$(SolutionDir)\Source\GameLogic\Actions;$(SolutionDir)\Source\GameLogic\Actors;$(SolutionDir)\Source\GameLogic\Conditions;$(SolutionDir)\Source\GameLogic\Abilities;$(SolutionDir)\Source\GameLogic\Components;$(SolutionDir)\Source\GameLogic\AI;$(SolutionDir)\Source\Subsystems;$(SolutionDir)\Source\Subsystems\Sound;$(SolutionDir)\Source\Subsystems\Input;$(SolutionDir)\Source\Subsystems\IO;$(SolutionDir)\Source\Subsystems\Time;$(SolutionDir)\Source\Subsystems\Rendering;$(SolutionDir)\Source\Subsystems\Rendering\Renderables;$(SolutionDir)\Source\Systems\ActorControllers;$(SolutionDir)\Source\Systems\Rendering;$(SolutionDir)\Source\Systems\Game;$(SolutionDir)\Source\Systems\Sound;$(SolutionDir)Source\Systems\Sheduler;$(SolutionDir)Source\Systems\CutscenePlayer;$(SolutionDir)Source\Systems\CutscenePlayer\Cutscenes;$(SolutionDir)Source\Systems\CutscenePlayer\Elements;$(SolutionDir)Source\Systems;$(SolutionDir)3rd party\Pugixml</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\Source;$(SolutionDir)\Source\Common;$(SolutionDir)\Source\SceneManagement;$(SolutionDir)\Source\ResourceManagement\Caches;$(SolutionDir)\Source\ResourceManagement\Factories;$(SolutionDir)\Source\ResourceManagement\Loaders;$(SolutionDir)\Source\ResourceManagement\Parsers;$(SolutionDir)\Source\ResourceManagement\Resources;$(SolutionDir)\Source\ResourceManagement;$(SolutionDir)\Source\AppStates;$(SolutionDir)\Source\EventBus;$(SolutionDir)\Source\EventBus\Events;$(SolutionDir)\Source\EventBus\Factories;$(SolutionDir)\Source\EventBus\Listeners;$(SolutionDir)\Source\GUI;$(SolutionDir)\Source\GUI\GUI elements;$(SolutionDir)\Source\GUI\Behaviour;$(SolutionDir)\Source\GUI\Common;$(SolutionDir)\Source\GUI\Widgets;$(SolutionDir)\Source\GameLogic;$(SolutionDir)\Source\GameLogic\Actions;$(SolutionDir)\Source\GameLogic\Actors;$(SolutionDir)\Source\GameLogic\Conditions;$(SolutionDir)\Source\GameLogic\Abilities;$(SolutionDir)\Source\GameLogic\Components;$(SolutionDir)\Source\GameLogic\AI;$(SolutionDir)\Source\Subsystems;$(SolutionDir)\Source\Subsystems\Sound;$(SolutionDir)\Source\Subsystems\Input;$(SolutionDir)\Source\Subsystems\IO;$(SolutionDir)\Source\Subsystems\Time;$(SolutionDir)\Source\Subsystems\Rendering;$(SolutionDir)\Source\Subsystems\RNG;$(SolutionDir)\Source\Subsystems\Rendering\Renderables;$(SolutionDir)\Source\Systems\ActorControllers;$(SolutionDir)\Source\Systems\Rendering;$(SolutionDir)\Source\Systems\Game;$(SolutionDir)\Source\Systems\Sound;$(SolutionDir)Source\Systems\Sheduler;$(SolutionDir)Source\Systems\CutscenePlayer;$(SolutionDir)Source\Systems\CutscenePlayer\Cutscenes;$(SolutionDir)Source\Systems\CutscenePlayer\Elements;$(SolutionDir)Source\Systems;$(SolutionDir)3rd party\Pugixml</IncludePath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
     <ReferencePath>$(ReferencePath)</ReferencePath>
     <LibraryPath>$(LibraryPath)</LibraryPath>
@@ -161,6 +161,7 @@
     <ClCompile Include="Source\Subsystems\Rendering\renderer.cpp" />
     <ClCompile Include="Source\Subsystems\Rendering\subsystem_render.cpp" />
     <ClCompile Include="Source\Subsystems\Rendering\window.cpp" />
+    <ClCompile Include="Source\Subsystems\RNG\rng_holder.cpp" />
     <ClCompile Include="Source\Systems\ActorControllers\ai_controller.cpp" />
     <ClCompile Include="Source\Systems\ActorControllers\control_sheduler.cpp" />
     <ClCompile Include="Source\ResourceManagement\id_manager.cpp" />
@@ -244,7 +245,7 @@
     <ClCompile Include="Source\GameLogic\Actors\actor__storage.cpp" />
     <ClCompile Include="Source\GUI\Widgets\widget__number.cpp" />
     <ClCompile Include="Source\GUI\Widgets\widget__progress_bar.cpp" />
-    <ClCompile Include="Source\GameLogic\rng.cpp" />
+    <ClCompile Include="Source\Subsystems\RNG\rng.cpp" />
     <ClCompile Include="Source\SceneManagement\room.cpp" />
     <ClCompile Include="Source\GUI\GUI elements\slot__action.cpp" />
     <ClCompile Include="Source\GUI\GUI elements\slot_helper.cpp" />
@@ -311,6 +312,7 @@
     <ClInclude Include="Source\GameLogic\Components\component__reactor.h" />
     <ClInclude Include="Source\Subsystems\Rendering\renderer.h" />
     <ClInclude Include="Source\Subsystems\Rendering\window.h" />
+    <ClInclude Include="Source\Subsystems\RNG\rng_holder.h" />
     <ClInclude Include="Source\Systems\CutscenePlayer\Cutscenes\cutscene.h" />
     <ClInclude Include="Source\Systems\CutscenePlayer\Cutscenes\cutscene__attack.h" />
     <ClInclude Include="Source\Systems\CutscenePlayer\Elements\cutscene_element.h" />
@@ -426,7 +428,7 @@
     <ClInclude Include="Source\ResourceManagement\Factories\factory__scene.h" />
     <ClInclude Include="Source\GameLogic\item.h" />
     <ClInclude Include="Source\SceneManagement\scene.h" />
-    <ClInclude Include="Source\GameLogic\rng.h" />
+    <ClInclude Include="Source\Subsystems\RNG\rng.h" />
     <ClInclude Include="Source\SceneManagement\room.h" />
     <ClInclude Include="Source\GUI\GUI elements\slot__action.h" />
     <ClInclude Include="Source\GUI\GUI elements\slot_helper.h" />

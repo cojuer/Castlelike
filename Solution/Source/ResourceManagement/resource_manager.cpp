@@ -9,6 +9,9 @@
 #include "event_bus.h"
 #include "listener__dialogue.h"
 
+#include "rng.h"
+#include "rng_holder.h"
+
 // FIXME: load in opts
 constexpr auto areadbPath = "Assets\\Databases\\areaDB.xml";
 constexpr auto itemdbPath = "Assets\\Databases\\itemDB.json";
@@ -22,12 +25,14 @@ constexpr auto actordbPath = "Assets\\Databases\\actorDB.json";
 
 ResourceManager::ResourceManager() = default;
 
-bool ResourceManager::init(RenderSubsystem& rendSubsystem, Options& opts)
+bool ResourceManager::init(RenderSubsystem& rendSubsystem, RNGHolder& rngHolder, Options& opts)
 {
     if (TTF_Init() == -1)
     {
         return false;
     }
+
+    m_rngHolder = &rngHolder;
 
     factionsManager = new FactionsMgr();
     actionManager = new ActMgr();
@@ -87,6 +92,11 @@ bool ResourceManager::initGame()
     factionsManager->load(factionsDB);
 
     return initFlag;
+}
+
+RNGHolder* ResourceManager::getRNGHolder() const
+{
+    return m_rngHolder;
 }
 
 ResourceManager::~ResourceManager() = default;

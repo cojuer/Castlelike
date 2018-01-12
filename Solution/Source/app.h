@@ -16,6 +16,7 @@ class SoundEngine;
 
 class InputSubsystem;
 class RenderSubsystem;
+class RNGHolder;
 
 namespace gui
 {
@@ -55,6 +56,7 @@ private:
 
     std::unique_ptr<RenderSubsystem> m_rendSubsystem;
     std::unique_ptr<InputSubsystem>  m_inputSubsystem;
+    std::unique_ptr<RNGHolder>       m_rngHolder;
 
     std::unique_ptr<ResourceManager> m_resManager;
     std::unique_ptr<SceneManager>    m_sceneManager;

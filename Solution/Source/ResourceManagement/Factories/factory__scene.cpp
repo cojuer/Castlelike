@@ -47,10 +47,10 @@ bool SceneFactory::createRoom(Coord entrance,
                              std::vector<RoomModel>& rooms,
                              bool hasEntrance)
 {
-    auto width = rng.getInRange(5, 8);
-    auto height = rng.getInRange(5, 8);
+    int width = rng.getFrom(5, 8);
+    int height = rng.getFrom(5, 8);
     Coord leftTop;
-    int shift = rng.getInRange(1, width < height ? width - 2 : height - 2);
+    int shift = rng.getFrom(1, width < height ? width - 2 : height - 2);
     switch (dir)
     {
     case Direction::UPWARD:
@@ -140,7 +140,7 @@ Resource<Scene>* SceneFactory::get(ResourceId& id)
     uint32_t height = 100;
     auto& area = *new std::vector<std::vector<Tile*>>(height, std::vector<Tile*>(width));
 
-    RNG rng;
+    RNG rng{ 0 };
 
     std::vector<RoomModel> rooms;
 
@@ -159,15 +159,15 @@ Resource<Scene>* SceneFactory::get(ResourceId& id)
 
     while (rooms.size() < 1)
     {
-        Coord center(rng.getInRange(7, width - 7), rng.getInRange(7, height - 7));
+        Coord center(rng.getFrom(7, width - 7), rng.getFrom(7, height - 7));
         createRoom(center, Direction::DOWNWARD, rng, width, height, tileTypes, rooms, false);
     }
 
     int counter = 0;
     while (rooms.size() < 100 && counter < 1000)
     {
-        int dir = rng.getInRange(0, 3);
-        int roomToExpand = rng.getInRange(0, rooms.size() - 1);
+        int dir = rng.getFrom(0, 3);
+        int roomToExpand = rng.getFrom(0, rooms.size() - 1);
         Coord entrance = rooms[roomToExpand].getRandomWallTile(static_cast<Direction>(dir + 1));
         if (createRoom(entrance, static_cast<Direction>(dir + 1), rng, width, height, tileTypes, rooms, true))
         {

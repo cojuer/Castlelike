@@ -49,7 +49,7 @@ HitType getHitType(RNG& rng, int offRating, int defRating)
         chanceToHitCrit = 33.3 + (offRating - defRating - 100) * 0.1;
     }
 
-    auto hitRandom = rng.getInRange(0, 100);
+    auto hitRandom = rng.get();
     auto hitType = HitType::FAIL;
     Vec2f failRange{ 0.0, chanceToFail };
     Vec2f weakRange{ failRange.y, failRange.y + chanceToHitWeak };

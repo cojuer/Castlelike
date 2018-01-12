@@ -14,6 +14,7 @@
 #include "id_manager.h"
 
 #include "subsystem_io.h"
+#include "rng.h"
 
 #include "components.h"
 
@@ -165,11 +166,12 @@ void SceneManager::loadTestScene1()
 
 Coord SceneManager::findEmpty() const
 {
+    RNG rng{ 0 };
     auto counter = 0;
     while (true)
     {
-        int x = rand() % m_scene->getWidth();
-        int y = rand() % m_scene->getHeight();
+        int x = rng.get() % m_scene->getWidth();
+        int y = rng.get() % m_scene->getHeight();
         if (m_scene->getTile({ x, y }) != nullptr &&
             !m_scene->getTile({ x, y })->isCollisive())
         {

@@ -29,25 +29,25 @@ unsigned int RoomModel::getSquare() const
 
 Coord RoomModel::getRandomWallTile(Direction dir) const
 {
-    RNG rng;
+    RNG rng{ 0 };
     Coord result;
     switch (dir)
     {
     case Direction::UPWARD:
         result.y = m_leftTop.y;
-        result.x = m_leftTop.x + rng.getInRange(1, m_width - 2);
+        result.x = m_leftTop.x + rng.getFrom(1, m_width - 2);
         break;
     case Direction::LEFTWARD:
         result.x = m_leftTop.x;
-        result.y = m_leftTop.y + rng.getInRange(1, m_height - 2);
+        result.y = m_leftTop.y + rng.getFrom(1, m_height - 2);
         break;
     case Direction::DOWNWARD:
         result.y = m_leftTop.y + m_height - 1;
-        result.x = m_leftTop.x + rng.getInRange(1, m_width - 2);
+        result.x = m_leftTop.x + rng.getFrom(1, m_width - 2);
         break;
     case Direction::RIGHTWARD:
         result.x = m_leftTop.x + m_width - 1;
-        result.y = m_leftTop.y + rng.getInRange(1, m_height - 2);
+        result.y = m_leftTop.y + rng.getFrom(1, m_height - 2);
         break;
     default:
         result = { 0, 0 };

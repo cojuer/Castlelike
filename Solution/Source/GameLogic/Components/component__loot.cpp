@@ -4,6 +4,7 @@
 #include "actor.h"
 #include "resource_manager.h"
 #include "rng.h"
+#include "rng_holder.h"
 
 const std::string LootComponent::stringID = "loot";
 
@@ -17,8 +18,13 @@ LootComponent::LootComponent(Container& container, Actor* parent) :
 
 void LootComponent::generate(Json& node, ResourceManager& resManager)
 {
-    // FIXME: use specific rng
-    RNG rng;
+    auto& rngHolder = *resManager.getRNGHolder();
+    auto rng = rngHolder.getRNG(RNGType::LOOT);
+    if (!rng)
+    {
+        rng = rngHolder.regRNG(RNGType::LOOT, RNG{ 0, 0, 100 });
+        assert(rng && "RNG registration failure");
+    }
     // FIXME: how to define size?
     m_container = Container(36);
     for (auto& itemNode : node)
@@ -30,7 +36,7 @@ void LootComponent::generate(Json& node, ResourceManager& resManager)
         int amount = minItems;
         for (auto i = minItems; i < maxItems; ++i)
         {
-            if (rng.getInRange(0, 100) <= chance)
+            if (rng->get() <= chance)
             {
                 ++amount;
             }
