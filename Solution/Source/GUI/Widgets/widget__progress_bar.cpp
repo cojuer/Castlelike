@@ -2,7 +2,7 @@
 
 #include "atexture.h"
 #include "renderable.h"
-#include "resource_manager.h"
+#include "system__resource.h"
 #include "subsystem_render.h"
 
 namespace gui {
@@ -20,7 +20,7 @@ void ProgressBar::setData(const int& progress, const int& max)
 }
 
 void ProgressBar::render(RenderSubsystem& rendSubsystem, 
-                         ResourceManager& resManager,
+                         ResourceSystem& resSystem,
                          Vec2i coordStart) const
 {
     if (!m_visible) return;

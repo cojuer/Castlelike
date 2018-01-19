@@ -20,12 +20,12 @@ class ActPanel : public Widget
 public:
     explicit ActPanel(Widget* parent = nullptr);
 
-    void init(Json& node, ResourceManager& resManager) override;
+    void init(Json& node, ResourceSystem& resSystem) override;
 
     SlotVec& getSlots();
 
     bool handle(SDL_Event& event, Vec2i coordStart = { 0, 0 }) override;
-    void render(RenderSubsystem& rendSubsystem, ResourceManager& resManager, Vec2i coordStart = { 0, 0 }) const override;
+    void render(RenderSubsystem& rendSubsystem, ResourceSystem& resSystem, Vec2i coordStart = { 0, 0 }) const override;
 
 private:
     SlotVec     m_slots;

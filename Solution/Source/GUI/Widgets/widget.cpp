@@ -8,7 +8,7 @@
 #include "GUI/Behaviour/behaviour.h"
 
 #include "subsystem_render.h"
-#include "resource_manager.h"
+#include "system__resource.h"
 #include "utils.h"
 
 namespace gui {
@@ -156,9 +156,7 @@ bool Widget::handle(SDL_Event& event, Vec2i coordStart)
 }
 
 Widget::~Widget()
-{
-    std::cout << "delete widget " << this->m_name << std::endl;
-}
+{}
 
 void Widget::loadOptions(Json& node)
 {
@@ -194,12 +192,12 @@ void Widget::loadGeometry(Json& node)
     setGeometry({ x, y, w, h });
 }
 
-void Widget::loadGraphics(Json& node, ResourceManager& resManager)
+void Widget::loadGraphics(Json& node, ResourceSystem& resSystem)
 {
     auto graphics = node["graphics"];
     if (graphics.is_null()) return;
 
-    setGraphics(resManager.get<Renderable>(graphics["res"]));
+    setGraphics(resSystem.get<Renderable>(graphics["res"]));
 }
 
 void Widget::handleSelf(SDL_Event & event, Vec2i coordStart)
@@ -267,13 +265,13 @@ bool Widget::isPointOn(Vec2i point, Vec2i coordStart) const
     return false;
 }
 
-void Widget::render(RenderSubsystem& rendSubsystem, ResourceManager& resManager,
+void Widget::render(RenderSubsystem& rendSubsystem, ResourceSystem& resSystem,
                     Vec2i coordStart) const
 {
     if (!m_visible) return;
 
-    renderSelf(rendSubsystem, resManager, coordStart);
-    renderChildren(rendSubsystem, resManager, coordStart);
+    renderSelf(rendSubsystem, resSystem, coordStart);
+    renderChildren(rendSubsystem, resSystem, coordStart);
 }
 
 void Widget::setState(WState state)
@@ -310,14 +308,14 @@ const Renderable* Widget::getGraphics() const
     return m_rendered;
 }
 
-void Widget::init(Json& node, ResourceManager& resManager)
+void Widget::init(Json& node, ResourceSystem& resSystem)
 {
     loadGeometry(node);
     loadOptions(node);
-    loadGraphics(node, resManager);
+    loadGraphics(node, resSystem);
 }
 
-void Widget::renderSelf(RenderSubsystem& rendSubsystem, ResourceManager& resManager, Vec2i coordStart) const
+void Widget::renderSelf(RenderSubsystem& rendSubsystem, ResourceSystem& resSystem, Vec2i coordStart) const
 {
     auto dstRect = m_geometry;
     dstRect.x += coordStart.x;
@@ -325,12 +323,12 @@ void Widget::renderSelf(RenderSubsystem& rendSubsystem, ResourceManager& resMana
     rendSubsystem.render(m_rendered, m_transform, dstRect);
 }
 
-void Widget::renderChildren(RenderSubsystem& rendSubsystem, ResourceManager& resManager, Vec2i coordStart) const
+void Widget::renderChildren(RenderSubsystem& rendSubsystem, ResourceSystem& resSystem, Vec2i coordStart) const
 {
     coordStart += getPos();
     for (auto& pair : m_children)
     {
-        pair.second->render(rendSubsystem, resManager, coordStart);
+        pair.second->render(rendSubsystem, resSystem, coordStart);
     }
 }
 

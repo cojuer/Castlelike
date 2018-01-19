@@ -4,7 +4,7 @@
 #include "widget__slot.h"
 #include "action_manager.h"
 
-class ResourceManager;
+class ResourceSystem;
 
 namespace gui {
 
@@ -14,12 +14,12 @@ public:
     ActSlot(const std::string& name, Widget* parent, SDL_Rect geometry, const std::string& action);
 
     std::string getAction() const;
-    void setAction(std::string actName, ResourceManager& resManager);
+    void setAction(std::string actName, ResourceSystem& resSystem);
    
     bool isEmpty() const override;
 
     bool handle(SDL_Event& event, Vec2i coordStart = { 0, 0 }) override;
-    void render(RenderSubsystem& rendSubsys, ResourceManager& resManager, Vec2i coordStart = { 0, 0 }) const override;
+    void render(RenderSubsystem& rendSubsys, ResourceSystem& resSystem, Vec2i coordStart = { 0, 0 }) const override;
 
 private:
     std::string  m_action;

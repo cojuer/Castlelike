@@ -38,7 +38,7 @@ bool TabWidget::handle(SDL_Event& event, Vec2i coordStart)
     return true;
 }
 
-void TabWidget::render(RenderSubsystem& rendSubsys, ResourceManager& resManager, Vec2i coordStart) const
+void TabWidget::render(RenderSubsystem& rendSubsys, ResourceSystem& resSystem, Vec2i coordStart) const
 {
     if (!m_visible) return;
 
@@ -46,9 +46,9 @@ void TabWidget::render(RenderSubsystem& rendSubsys, ResourceManager& resManager,
 
     for (auto& element : m_tabs)
     {
-        element.first->render(rendSubsys, resManager, coordStart);
+        element.first->render(rendSubsys, resSystem, coordStart);
     }
-    m_tabs[m_activeTabNum].second->render(rendSubsys, resManager, coordStart);
+    m_tabs[m_activeTabNum].second->render(rendSubsys, resSystem, coordStart);
 }
 
 } /* gui namespace. */

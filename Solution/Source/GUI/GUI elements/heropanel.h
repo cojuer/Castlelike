@@ -2,8 +2,8 @@
 
 #include "widget.h"
 
-class ResourceManager;
-class SystemManager;
+class ResourceSystem;
+class GameSystemManager;
 
 namespace gui {
 
@@ -19,7 +19,7 @@ public:
               bool visible,
               Renderable* backImage = nullptr);
 
-    void             init(ResourceManager& resManager, SystemManager& sysManager);
+    void             init(ResourceSystem& resSystem, GameSystemManager& sysManager);
 };
 
 } /* gui namespace. */

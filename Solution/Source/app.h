@@ -5,12 +5,13 @@
 
 #include "object.h"
 #include "options.h"
-#include "timer.h" 
+#include "timer.h"
 
 class AppState;
-class ResourceManager;
-class SceneManager;
-class SystemManager;
+class ResourceSystem;
+class SceneSystem;
+class GameSystemManager;
+class SaveSystem;
 
 class SoundEngine;
 
@@ -58,15 +59,21 @@ private:
     std::unique_ptr<InputSubsystem>  m_inputSubsystem;
     std::unique_ptr<RNGHolder>       m_rngHolder;
 
-    std::unique_ptr<ResourceManager> m_resManager;
-    std::unique_ptr<SceneManager>    m_sceneManager;
-    std::unique_ptr<SystemManager>   m_sysManager;
+    std::unique_ptr<ResourceSystem> m_resSystem;
+    std::unique_ptr<SceneSystem>    m_sceneSystem;
+    std::unique_ptr<SaveSystem>     m_saveSystem;
+    std::unique_ptr<GameSystemManager> m_gameSysManager;
     
     std::unique_ptr<gui::GameGUI>    m_gameGUI;
     std::unique_ptr<gui::MenuGUI>    m_menuGUI;
     
     std::unique_ptr<SoundEngine>     m_sEngine;
 
+    bool m_use_save;
+    std::string profile;
+    std::string save;
+
     friend class GameAppState;
     friend class MenuAppState;
+    friend class LoadingAppState;
 };

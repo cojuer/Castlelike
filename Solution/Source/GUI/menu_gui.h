@@ -8,7 +8,7 @@
 
 class Options;
 class RenderSubsystem;
-class ResourceManager;
+class ResourceSystem;
 union SDL_Event;
 
 namespace gui {
@@ -21,7 +21,7 @@ class MenuGUI : public InitObject
 public:
     MenuGUI();
 
-    bool             init(const Options& opts, RenderSubsystem& rendSubsys, ResourceManager& resManager);
+    bool             init(const Options& opts, RenderSubsystem& rendSubsys, ResourceSystem& resSystem);
 
     bool             initMMPanel();
     bool             initOptions();
@@ -39,7 +39,7 @@ private:
     const Options*   m_opts;
 
     RenderSubsystem* m_rendSubsys;
-    ResourceManager* m_resManager;
+    ResourceSystem* m_resSystem;
 
     MenuState        m_state;
     std::map<MenuState, std::unique_ptr<Widget>> m_pages;

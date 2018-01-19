@@ -2,7 +2,7 @@
 
 #include "container.h"
 #include "subsystem_render.h"
-#include "resource_manager.h"
+#include "system__resource.h"
 
 namespace gui {
 
@@ -12,10 +12,10 @@ BagWidget::BagWidget(Widget* parent) :
     m_activeSlot(nullptr)
 {}
 
-void BagWidget::init(Json& node, ResourceManager& resManager)
+void BagWidget::init(Json& node, ResourceSystem& resSystem)
 {
     loadGeometry(node);
-    loadGraphics(node, resManager);
+    loadGraphics(node, resSystem);
     loadOptions(node);
     if (!m_opts.count("lmargin")) m_opts["lmargin"] = lMargin;
     if (!m_opts.count("tmargin")) m_opts["tmargin"] = tMargin;
@@ -68,7 +68,7 @@ Container* BagWidget::getContainer() const
     return m_container;
 }
 
-void BagWidget::render(RenderSubsystem& rendSubsystem, ResourceManager& resManager, Vec2i coordStart) const
+void BagWidget::render(RenderSubsystem& rendSubsystem, ResourceSystem& resSystem, Vec2i coordStart) const
 {
     if (!m_visible) return;
 
@@ -79,7 +79,7 @@ void BagWidget::render(RenderSubsystem& rendSubsystem, ResourceManager& resManag
     {
         if (&m_slots[i] != m_activeSlot)
         {
-            m_slots[i].render(rendSubsystem, resManager, coordStart);
+            m_slots[i].render(rendSubsystem, resSystem, coordStart);
         }
     }
 }

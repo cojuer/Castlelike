@@ -1,6 +1,6 @@
 #include "on_motion.h"
 
-#include "event_bus.h"
+#include "subsystem__event.h"
 
 namespace gui {
 
@@ -13,7 +13,7 @@ void OnMotion::handle(Widget& widget, SDL_Event& ev, WState before, WState after
     if (before == WState::MOUSE_OUT &&
         after == WState::MOUSE_OVER)
     {
-        EventBus::FireEvent(*m_event);
+        EventSubsystem::FireEvent(*m_event);
     }
 }
 

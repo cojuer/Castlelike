@@ -18,7 +18,7 @@ public:
                const std::string* textS);
 
     void render(RenderSubsystem& rendSubsys,
-                ResourceManager& resManager,
+                ResourceSystem& resSystem,
                 Vec2i coordStart = { 0, 0 }) const override;
 
 private:

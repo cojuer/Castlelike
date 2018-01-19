@@ -1,7 +1,5 @@
 #include "widget__dropdown_list.h"
 
-#include <iostream> // TEST
-
 #include "spritesheet.h"
 
 namespace gui {
@@ -67,17 +65,18 @@ bool DropDownList::handle(SDL_Event& event, Vec2i coordStart)
     return true;
 }
 
-void DropDownList::render(RenderSubsystem& rendSubsys, ResourceManager& resManager, Vec2i coordStart) const
+void DropDownList::render(RenderSubsystem& rendSubsys, ResourceSystem& resSystem, Vec2i coordStart) const
 {
     if (!m_visible) return;
+
     coordStart += getPos();
-    m_button->render(rendSubsys, resManager, coordStart);
-    if (m_opened)
+    m_button->render(rendSubsys, resSystem, coordStart);
+    
+    if (!m_opened) return;
+    
+    for (auto& pair : m_children)
     {
-        for (auto& pair : m_children)
-        {
-            pair.second->render(rendSubsys, resManager, coordStart);
-        }
+        pair.second->render(rendSubsys, resSystem, coordStart);
     }
 }
 

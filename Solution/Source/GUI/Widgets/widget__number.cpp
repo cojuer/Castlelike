@@ -3,7 +3,7 @@
 #include <string>
 
 #include "atexture.h"
-#include "resource_manager.h"
+#include "system__resource.h"
 #include "subsystem_render.h"
 #include "text_renderer.h"
 #include "font_data.h"
@@ -16,13 +16,13 @@ NumberWidget::NumberWidget(const std::string& name, Widget* parent, SDL_Rect geo
     m_number(number)
 {}
 
-void NumberWidget::render(RenderSubsystem& rendSubsys, ResourceManager& resManager, Vec2i coordStart) const
+void NumberWidget::render(RenderSubsystem& rendSubsys, ResourceSystem& resSystem, Vec2i coordStart) const
 {
     if (!m_visible) return;
     if (!m_number) return;
     //bad, but rather fast
     std::string strNumber = std::to_string(abs(*m_number));
-    auto texture = resManager.textRenderer->renderTexture(strNumber, Font::latoRegular, 15, Color::white);
+    auto texture = resSystem.textRenderer->renderTexture(strNumber, Font::latoRegular, 15, Color::white);
     SDL_Rect dstRect = { m_geometry.x + coordStart.x, m_geometry.y + coordStart.y, texture->getWidth(), texture->getHeight() };
     rendSubsys.render(texture, dstRect);
 }

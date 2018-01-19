@@ -3,7 +3,7 @@
 #include "atexture.h"
 #include "equipment.h"
 
-#include "resource_manager.h"
+#include "system__resource.h"
 
 namespace gui {
 
@@ -40,11 +40,11 @@ EquipmentWidget::EquipmentWidget(Widget* parent) :
     m_equipment(nullptr)
 {}
 
-void EquipmentWidget::init(Json& node, ResourceManager& resManager)
+void EquipmentWidget::init(Json& node, ResourceSystem& resSystem)
 {
     loadGeometry(node);
     loadOptions(node);
-    loadGraphics(node, resManager);
+    loadGraphics(node, resSystem);
     m_slots.reserve(slotPos.size());
     for (size_t i = 0; i < slotPos.size(); ++i)
     {
@@ -99,7 +99,7 @@ std::vector<ItemSlot>& EquipmentWidget::getSlots()
     return m_slots;
 }
 
-void EquipmentWidget::render(RenderSubsystem& rendSubsystem, ResourceManager& resManager, Vec2i coordStart) const
+void EquipmentWidget::render(RenderSubsystem& rendSubsystem, ResourceSystem& resSystem, Vec2i coordStart) const
 {
     if (!m_visible) return;
 
@@ -107,7 +107,7 @@ void EquipmentWidget::render(RenderSubsystem& rendSubsystem, ResourceManager& re
 
     for (auto& slot : m_slots)
     {
-        slot.render(rendSubsystem, resManager, coordStart);
+        slot.render(rendSubsystem, resSystem, coordStart);
     }
 }
 

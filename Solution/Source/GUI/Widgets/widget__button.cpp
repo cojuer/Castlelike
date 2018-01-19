@@ -48,18 +48,18 @@ bool Button::handle(SDL_Event& event, Vec2i coordStart)
     return true;
 }
 
-void Button::render(RenderSubsystem& rendSubsystem, ResourceManager& resManager, Vec2i coordStart) const
+void Button::render(RenderSubsystem& rendSubsystem, ResourceSystem& resSystem, Vec2i coordStart) const
 {
     if (!m_visible) return;
 
     dynamic_cast<SprSheet*>(m_rendered)->setFrame(static_cast<int>(m_state));
 
-    renderSelf(rendSubsystem, resManager, coordStart);
+    renderSelf(rendSubsystem, resSystem, coordStart);
 }
 
-void Button::loadGraphics(Json& node, ResourceManager& resManager)
+void Button::loadGraphics(Json& node, ResourceSystem& resSystem)
 {
-    Widget::loadGraphics(node, resManager);
+    Widget::loadGraphics(node, resSystem);
     assert(!m_rendered || dynamic_cast<SprSheet*>(m_rendered));
     //setGraphics(dynamic_cast<SprSheet*>(m_rendered));
 }

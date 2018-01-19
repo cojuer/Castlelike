@@ -1,6 +1,6 @@
 #include "actpanel.h"
 
-#include "resource_manager.h"
+#include "system__resource.h"
 #include "subsystem_render.h"
 
 namespace gui {
@@ -9,10 +9,10 @@ ActPanel::ActPanel(Widget* parent) :
     Widget(nullptr)
 {}
 
-void ActPanel::init(Json& node, ResourceManager& resManager)
+void ActPanel::init(Json& node, ResourceSystem& resSystem)
 {
     loadGeometry(node);
-    loadGraphics(node, resManager);
+    loadGraphics(node, resSystem);
     loadOptions(node);
     if (!m_opts.count("size")) m_opts["size"] = size;
     m_slots.reserve(m_opts.at("size"));
@@ -35,7 +35,7 @@ bool ActPanel::handle(SDL_Event& event, Vec2i coordStart)
     return true;
 }
 
-void ActPanel::render(RenderSubsystem& rendSubsystem, ResourceManager& resManager, Vec2i coordStart) const
+void ActPanel::render(RenderSubsystem& rendSubsystem, ResourceSystem& resSystem, Vec2i coordStart) const
 {
     if (!m_visible) return;
 
@@ -47,7 +47,7 @@ void ActPanel::render(RenderSubsystem& rendSubsystem, ResourceManager& resManage
     coordStart += getPos();
     for (auto& slot: m_slots)
     {
-        slot.render(rendSubsystem, resManager, coordStart);
+        slot.render(rendSubsystem, resSystem, coordStart);
     }
 }
 

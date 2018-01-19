@@ -1,9 +1,10 @@
 #include "app.h"
 
 #include "app_state.h"
-#include "resource_manager.h"
-#include "scene_manager.h"
-#include "system_manager.h"
+#include "system__resource.h"
+#include "system__scene.h"
+#include "system__save.h"
+#include "game_system_manager.h"
 
 #include "system__sound.h"
 
@@ -22,9 +23,10 @@ App::App() :
     m_rendSubsystem(new RenderSubsystem()),
     m_inputSubsystem(new InputSubsystem()),
     m_rngHolder(new RNGHolder()),
-    m_resManager(new ResourceManager()),
-    m_sceneManager(new SceneManager()),
-    m_sysManager(new SystemManager()),
+    m_resSystem(new ResourceSystem()),
+    m_saveSystem(new SaveSystem()),
+    m_sceneSystem(new SceneSystem()),
+    m_gameSysManager(new GameSystemManager()),
     m_gameGUI(nullptr),
     m_menuGUI(nullptr),
     m_sEngine(new SoundEngine())
@@ -36,10 +38,14 @@ bool App::init()
 {
     GlobalTime::instance().start();
     m_opts.loadFile("Castlelike.ini");
-    return m_rendSubsystem->init(m_opts) &&
-           m_resManager->init(*m_rendSubsystem, *m_rngHolder, m_opts);
-    // Sound system is not properly implemented
-    // m_sEngine->init();
+    
+    // TEST
+    m_saveSystem->init();
+
+    bool inited = true;
+    inited = inited && m_rendSubsystem->init(m_opts);
+    inited = inited && m_resSystem->init(*m_rendSubsystem, *m_rngHolder, m_opts);
+    return inited;
 }
 
 void App::run()

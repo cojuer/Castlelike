@@ -1,7 +1,7 @@
 #include "widget__text.h"
 
 #include "atexture.h"
-#include "resource_manager.h"
+#include "system__resource.h"
 #include "subsystem_render.h"
 #include "text_renderer.h"
 
@@ -16,9 +16,9 @@ TextWidget::TextWidget(const std::string& name, Widget* parent, SDL_Rect geometr
 {}
 
 /* wow, the worst render function ever */
-void TextWidget::render(RenderSubsystem& rendSubsys, ResourceManager& resManager, Vec2i coordStart) const
+void TextWidget::render(RenderSubsystem& rendSubsys, ResourceSystem& resSystem, Vec2i coordStart) const
 {
-    auto texture = resManager.textRenderer->renderTexture(*text, fName, fSize, color, m_geometry.w);
+    auto texture = resSystem.textRenderer->renderTexture(*text, fName, fSize, color, m_geometry.w);
     SDL_Rect dstRect = { m_geometry.x + coordStart.x, 
                          m_geometry.y + coordStart.y, 
                          texture->getWidth(), 

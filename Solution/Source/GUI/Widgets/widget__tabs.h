@@ -22,7 +22,7 @@ public:
     void             addTab(Button* button, Widget* panel);
 
     bool             handle(SDL_Event& event, Vec2i coordStart = { 0, 0 }) override;
-    void             render(RenderSubsystem& rendSubsys, ResourceManager& resManager, Vec2i coordStart = { 0, 0 }) const override;
+    void             render(RenderSubsystem& rendSubsys, ResourceSystem& resSystem, Vec2i coordStart = { 0, 0 }) const override;
 
 private:
     TabVec           m_tabs;

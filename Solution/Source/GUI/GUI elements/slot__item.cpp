@@ -2,7 +2,7 @@
 
 #include "atexture.h"
 #include "item.h"
-#include "resource_manager.h"
+#include "system__resource.h"
 #include "subsystem_render.h"
 #include "widget__number.h"
 
@@ -73,15 +73,15 @@ bool ItemSlot::isEmpty() const
     return (m_item == nullptr);
 }
 
-void ItemSlot::render(RenderSubsystem& rendSubsystem, ResourceManager& resManager, Vec2i coordStart) const
+void ItemSlot::render(RenderSubsystem& rendSubsystem, ResourceSystem& resSystem, Vec2i coordStart) const
 {
     if (m_rendered)
     {
-        renderSelf(rendSubsystem, resManager, coordStart);
+        renderSelf(rendSubsystem, resSystem, coordStart);
     }
     if (m_item)
     {
-        auto texture = resManager.get<Renderable>(m_item->getRes());
+        auto texture = resSystem.get<Renderable>(m_item->getRes());
         SDL_Rect dstRect = {
             m_geometry.x + (m_geometry.w - texture->getWidth()) / 2,
             m_geometry.y + (m_geometry.h - texture->getHeight()) / 2,
@@ -97,7 +97,7 @@ void ItemSlot::render(RenderSubsystem& rendSubsystem, ResourceManager& resManage
             dstRect.y -= texture->getHeight() / 2;
         }
         rendSubsystem.render(texture, dstRect);
-        renderChildren(rendSubsystem, resManager, coordStart);
+        renderChildren(rendSubsystem, resSystem, coordStart);
     }
 }
 

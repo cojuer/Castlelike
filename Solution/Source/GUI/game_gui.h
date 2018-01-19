@@ -14,9 +14,9 @@ class Actor;
 class Journal;
 class GUIListener;
 class Options;
-class ResourceManager;
-class SceneManager;
-class SystemManager;
+class ResourceSystem;
+class SceneSystem;
+class GameSystemManager;
 union SDL_Event;
 
 namespace gui {
@@ -69,9 +69,9 @@ public:
 
     bool             init(Options& opts,
                           RenderSubsystem&  rendSubsystem, 
-                          SystemManager&    sysManager, 
-                          SceneManager&     sceneManager, 
-                          ResourceManager&  resManager);
+                          GameSystemManager&    sysManager, 
+                          SceneSystem&     sceneSystem, 
+                          ResourceSystem&  resSystem);
 
     void             initHeroBars();
     void             initHeroPanel();
@@ -126,9 +126,9 @@ private:
 
 private:
     // imported
-    ResourceManager* m_resManager;
-    SystemManager*   m_sysManager;
-    SceneManager*    m_sceneManager;
+    ResourceSystem* m_resSystem;
+    GameSystemManager*   m_sysManager;
+    SceneSystem*    m_sceneSystem;
     RenderSubsystem* m_rendSubsystem;
 
     Options*         m_opts;

@@ -1,6 +1,6 @@
 #include "on_release.h"
 
-#include "event_bus.h"
+#include "subsystem__event.h"
 
 namespace gui {
 
@@ -15,7 +15,7 @@ void OnRelease::handle(Widget& widget, SDL_Event& ev, WState before, WState afte
     if (before == WState::PRESSED &&
         after == WState::MOUSE_OVER)
     {
-        EventBus::FireEvent(*m_event);
+        EventSubsystem::FireEvent(*m_event);
     }
 }
 

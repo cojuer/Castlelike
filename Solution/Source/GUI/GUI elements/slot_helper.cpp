@@ -7,7 +7,7 @@
 #include "item.h"
 #include "slot__item.h"
 #include "modifiers.h"
-#include "resource_manager.h"
+#include "system__resource.h"
 #include "subsystem_render.h"
 #include "text_renderer.h"
 #include "font_data.h"
@@ -34,7 +34,7 @@ void SlotHelper::setSlot(Slot* slot)
     }
 }
 
-void SlotHelper::render(RenderSubsystem& rendSubsys, ResourceManager& resManager) const
+void SlotHelper::render(RenderSubsystem& rendSubsys, ResourceSystem& resSystem) const
 {
     int x, y;
     SDL_GetMouseState(&x, &y);
@@ -46,7 +46,7 @@ void SlotHelper::render(RenderSubsystem& rendSubsys, ResourceManager& resManager
     {
         if (curSlot->getSlotType() == SlotType::ITEM)
         {
-            m_itemHelper.render(rendSubsys, resManager);
+            m_itemHelper.render(rendSubsys, resSystem);
         }
     }
 }

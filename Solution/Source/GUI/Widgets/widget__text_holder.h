@@ -25,7 +25,7 @@ public:
     void setText(const std::string& text);
 
     void render(RenderSubsystem& rendSubsys,
-                ResourceManager& resManager,
+                ResourceSystem& resSystem,
                 Vec2i coordStart = { 0, 0 }) const override;
 
 private:

@@ -20,7 +20,7 @@ public:
     bool             isEmpty() const override;
 
     bool             handle(SDL_Event& event, Vec2i coordStart) override;
-    void             render(RenderSubsystem& rendSubsystem, ResourceManager& resManager, Vec2i coordStart) const override;
+    void             render(RenderSubsystem& rendSubsystem, ResourceSystem& resSystem, Vec2i coordStart) const override;
 
 protected:
     Item*            m_item;

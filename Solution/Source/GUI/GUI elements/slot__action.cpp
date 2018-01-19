@@ -1,6 +1,6 @@
 #include "slot__action.h"
 
-#include "resource_manager.h"
+#include "system__resource.h"
 #include "subsystem_render.h"
 
 namespace gui {
@@ -16,10 +16,10 @@ std::string ActSlot::getAction() const
     return m_action;
 }
 
-void ActSlot::setAction(std::string actName, ResourceManager& resManager)
+void ActSlot::setAction(std::string actName, ResourceSystem& resSystem)
 {
     m_action = actName;
-    m_img = resManager.get<Renderable>(actName);
+    m_img = resSystem.get<Renderable>(actName);
 }
 
 bool ActSlot::isEmpty() const
@@ -42,7 +42,7 @@ bool ActSlot::handle(SDL_Event& event, Vec2i coordStart)
     return false;
 }
 
-void ActSlot::render(RenderSubsystem& rendSubsys, ResourceManager& resManager, Vec2i coordStart) const
+void ActSlot::render(RenderSubsystem& rendSubsys, ResourceSystem& resSystem, Vec2i coordStart) const
 {
     if (!m_visible) return;
 

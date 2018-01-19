@@ -2,9 +2,9 @@
 
 #include "subsystem_render.h"
 
-#include "app_state__game.h"
+#include "app_state__loading.h"
 
-#include "event_bus.h"
+#include "subsystem__event.h"
 #include "listener__menu.h"
 
 #include "menu_gui.h"
@@ -17,12 +17,12 @@ MenuAppState::MenuAppState() :
 
 void MenuAppState::init(App& app)
 {
-    EventBus::AddHandler<MenuEvent>(*this);
+    EventSubsystem::AddHandler<MenuEvent>(*this);
 
     m_app = &app;
 
     m_app->m_menuGUI.reset(new gui::MenuGUI());
-    m_app->m_menuGUI->init(m_app->m_opts, *m_app->m_rendSubsystem, *m_app->m_resManager);
+    m_app->m_menuGUI->init(m_app->m_opts, *m_app->m_rendSubsystem, *m_app->m_resSystem);
 }
 
 void MenuAppState::clean() {}
@@ -66,7 +66,7 @@ void MenuAppState::onEvent(MenuEvent& event)
     {
     case MenuState::ON_NEW_GAME:
     case MenuState::ON_LOAD:
-        m_app->changeState(*GameAppState::instance());
+        m_app->changeState(*LoadingAppState::instance());
         break;
     case MenuState::ON_QUIT:
         m_app->quit();

@@ -20,7 +20,7 @@ class BagWidget : public Widget
 public:
     explicit BagWidget(Widget* parent = nullptr);
 
-    void init(Json& node, ResourceManager& resManager) override;
+    void init(Json& node, ResourceSystem& resSystem) override;
 
     void                    setContainer(Container* container);
 
@@ -30,7 +30,7 @@ public:
     void                    refresh();
     void                    resetSlots();
 
-    void                    render(RenderSubsystem& rendSubsystem, ResourceManager& resManager, Vec2i coordStart = { 0, 0 }) const override;
+    void                    render(RenderSubsystem& rendSubsystem, ResourceSystem& resSystem, Vec2i coordStart = { 0, 0 }) const override;
 
 private:
     Container*              m_container;

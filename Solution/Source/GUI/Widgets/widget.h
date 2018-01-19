@@ -14,7 +14,7 @@
 
 class Renderable;
 class RenderSubsystem;
-class ResourceManager;
+class ResourceSystem;
 
 namespace gui {
 
@@ -81,23 +81,23 @@ public:
     bool             isVisible() const;
     bool             isPointOn(Vec2i point, Vec2i coordStart = { 0, 0 }) const;
 
-    void virtual     render(RenderSubsystem& rendSubsystem, ResourceManager& resManager, Vec2i coordStart = { 0, 0 }) const;
+    void virtual     render(RenderSubsystem& rendSubsystem, ResourceSystem& resSystem, Vec2i coordStart = { 0, 0 }) const;
     virtual bool     handle(SDL_Event& event, Vec2i coordStart = { 0, 0 });
 
-    virtual void     init(Json& node, ResourceManager& resManager);
+    virtual void     init(Json& node, ResourceSystem& resSystem);
 
     virtual ~Widget();
 
 protected:
     virtual void     loadOptions(Json& node);
     virtual void     loadGeometry(Json& node);
-    virtual void     loadGraphics(Json& node, ResourceManager& resManager);
+    virtual void     loadGraphics(Json& node, ResourceSystem& resSystem);
 
     virtual void     handleSelf(SDL_Event& event, Vec2i coordStart = { 0, 0 });
     virtual void     handleChildren(SDL_Event& event, Vec2i coordStart = { 0, 0 });
 
-    virtual void     renderSelf(RenderSubsystem& rendSubsystem, ResourceManager& resManager, Vec2i coordStart = { 0, 0 }) const;
-    virtual void     renderChildren(RenderSubsystem& rendSubsystem, ResourceManager& resManager, Vec2i coordStart = { 0, 0 }) const;
+    virtual void     renderSelf(RenderSubsystem& rendSubsystem, ResourceSystem& resSystem, Vec2i coordStart = { 0, 0 }) const;
+    virtual void     renderChildren(RenderSubsystem& rendSubsystem, ResourceSystem& resSystem, Vec2i coordStart = { 0, 0 }) const;
 
 protected:
     Widget*          m_parent;

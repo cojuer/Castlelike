@@ -6,7 +6,7 @@
 #include "item.h"
 #include "slot__item.h"
 #include "modifiers.h"
-#include "resource_manager.h"
+#include "system__resource.h"
 #include "subsystem_render.h"
 #include "text_renderer.h"
 #include "font_data.h"
@@ -45,7 +45,7 @@ void ItemHelper::setItem(const Item& item)
     initPrimaryStatsSection(item);
 }
 
-void ItemHelper::render(RenderSubsystem& rendSubsys, ResourceManager& resManager) const
+void ItemHelper::render(RenderSubsystem& rendSubsys, ResourceSystem& resSystem) const
 {
     int x, y;
     SDL_GetMouseState(&x, &y);
@@ -63,26 +63,26 @@ void ItemHelper::render(RenderSubsystem& rendSubsys, ResourceManager& resManager
     height += itemHasDescription ? m_descrSection->getHeight() + spacing : 0;
     height += bMargin;
 
-    auto texture = resManager.get<Renderable>("helper_back");
+    auto texture = resSystem.get<Renderable>("helper_back");
     SDL_Rect dst = { pos.x, pos.y, width, height };
     rendSubsys.render(texture, dst);
 
     int curHeight = tMargin;
 
     m_titleSection->setPosition({ lMargin, curHeight });
-    m_titleSection->render(rendSubsys, resManager, pos);
+    m_titleSection->render(rendSubsys, resSystem, pos);
     curHeight += m_titleSection->getHeight() + spacing;
 
     m_infoSection->setPosition({ lMargin, curHeight });
-    m_infoSection->render(rendSubsys, resManager, pos);
+    m_infoSection->render(rendSubsys, resSystem, pos);
     curHeight += m_infoSection->getHeight() + spacing;
 
     m_primStatsSection->setPosition({ lMargin, curHeight });
-    m_primStatsSection->render(rendSubsys, resManager, pos);
+    m_primStatsSection->render(rendSubsys, resSystem, pos);
     curHeight += m_primStatsSection->getHeight() + spacing;
 
     m_descrSection->setPosition({ lMargin, curHeight });
-    m_descrSection->render(rendSubsys, resManager, pos);
+    m_descrSection->render(rendSubsys, resSystem, pos);
 }
 
 ItemHelper::~ItemHelper() = default;

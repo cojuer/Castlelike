@@ -5,7 +5,7 @@
 #include "helper_item.h"
 
 class RenderSubsystem;
-class ResourceManager;
+class ResourceSystem;
 
 namespace gui {
 
@@ -23,7 +23,7 @@ public:
 
     void             setSlot(Slot* slot);
 
-    void             render(RenderSubsystem& rendSubsys, ResourceManager& resManager) const;
+    void             render(RenderSubsystem& rendSubsys, ResourceSystem& resSystem) const;
 };
 
 } /* gui namespace. */

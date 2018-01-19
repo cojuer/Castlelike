@@ -21,11 +21,14 @@ public:
     static GameAppState* instance();
 
 private:
+    void             save();
+
+private:
     App*             m_app;
     Options*         m_opts;
 
-    SceneManager*    m_sceneManager;
-    SystemManager*   m_sysManager;
+    SceneSystem*    m_sceneSystem;
+    GameSystemManager*   m_sysManager;
 
     static GameAppState playState;
 };

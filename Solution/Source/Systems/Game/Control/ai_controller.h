@@ -1,0 +1,25 @@
+#pragma once
+
+#include <map>
+
+#include "id_manager.h"
+#include "controller.h"
+
+class SceneSystem;
+class GameSystemManager;
+
+class AIController : public Controller
+{
+public:
+    AIController() = default;
+
+    bool init(SceneSystem& sceneSystem, GameSystemManager& sysManager);
+
+    bool possess(Actor& actor) override;
+    bool control(Actor& actor) override;
+
+private:
+    SceneSystem*             m_sceneSystem;
+    GameSystemManager*            m_sysManager;
+    std::map<ActorID, Actor*> m_registered;
+};

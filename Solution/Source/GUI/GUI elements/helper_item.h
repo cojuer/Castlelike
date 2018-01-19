@@ -6,7 +6,7 @@
 #include "widget.h"
 
 class RenderSubsystem;
-class ResourceManager;
+class ResourceSystem;
 
 class Item;
 
@@ -24,7 +24,7 @@ public:
 
     void setItem(const Item& item);
 
-    void render(RenderSubsystem& rendSubsys, ResourceManager& resManager) const;
+    void render(RenderSubsystem& rendSubsys, ResourceSystem& resSystem) const;
 
     ~ItemHelper();
 

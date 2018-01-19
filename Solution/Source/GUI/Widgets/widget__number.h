@@ -12,7 +12,7 @@ public:
     void setData(const int& number);
     void eraseData();
 
-    void render(RenderSubsystem& rendSubsys, ResourceManager& resManager, Vec2i coordStart = { 0, 0 }) const override;
+    void render(RenderSubsystem& rendSubsys, ResourceSystem& resSystem, Vec2i coordStart = { 0, 0 }) const override;
 
 private:
     const int* m_number;
