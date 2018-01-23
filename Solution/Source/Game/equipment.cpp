@@ -22,6 +22,15 @@ Equipment::Equipment()
     }
 }
 
+Equipment::~Equipment()
+{
+    // TODO: use C++17 auto& when possible
+    for (auto pair : m_slots)
+    {
+        delete(pair.second);
+    }
+}
+
 // FIXME: use for weapons
 bool Equipment::equip(Item& item)
 {

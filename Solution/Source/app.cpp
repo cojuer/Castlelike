@@ -71,7 +71,11 @@ void App::changeState(AppState& state)
         m_states.pop_back();
     }
     m_states.push_back(&state);
-    m_states.back()->init(*this);
+    if (!m_states.back()->isInited())
+    {
+        m_states.back()->init(*this);
+    }
+    m_states.back()->start();
 }
 
 void App::pushState(AppState& state)
@@ -81,9 +85,12 @@ void App::pushState(AppState& state)
     {
         m_states.back()->pause();
     }
-
     m_states.push_back(&state);
-    m_states.back()->init(*this);
+    if (!m_states.back()->isInited())
+    {
+        m_states.back()->init(*this);
+    }
+    m_states.back()->start();
 }
 
 void App::popState()

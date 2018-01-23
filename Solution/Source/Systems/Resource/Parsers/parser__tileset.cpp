@@ -36,7 +36,7 @@ Tileset* TilesetParser::parse(const std::string& nodeName, Json& node)
         auto tiles = terrDict.at("tiles").get<std::vector<uint32_t>>();
 
         Tileset::Terrain terr{ terrName, collisive, tiles };
-        tset->m_terrains[terr.m_name] = terr;
+        tset->m_terrains[terr.m_name] = std::move(terr);
     }
 
     std::vector<std::string> tileTerrs(tset->m_cols * tset->m_rows);

@@ -17,7 +17,7 @@ public:
     bool init(ResourceSystem& resSystem);
 
     void load(SceneID id);
-    void unload(SceneID id);
+    void clean();
     void load(const Json& node, ResourceSystem& resSystem) override;
     Json save() const override;
 

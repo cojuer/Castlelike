@@ -11,6 +11,7 @@ class Equipment
 
 public:
     Equipment();
+    ~Equipment();
 
     bool  equip(Item& item);
     bool  equip(const std::string& slotType, Item& item);

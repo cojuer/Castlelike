@@ -143,6 +143,11 @@ bool Container::takeGold(Container& cont)
 // FIXME: should container delete items?
 Container::~Container()
 {
+    // TODO: use C++17 auto&[] when possible
+    for (auto pair : m_busyslots)
+    {
+        delete(pair.second);
+    }
     m_busyslots.erase(m_busyslots.begin(), m_busyslots.end());
 }
 

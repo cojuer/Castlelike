@@ -27,6 +27,8 @@ void MenuAppState::init(App& app)
 
 void MenuAppState::clean() {}
 
+void MenuAppState::start() {}
+
 void MenuAppState::pause() {}
 
 void MenuAppState::resume() {}

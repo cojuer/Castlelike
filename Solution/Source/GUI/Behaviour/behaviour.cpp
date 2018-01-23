@@ -10,6 +10,19 @@ Bhvr::Bhvr(Widget& parent, TrigVec&& trigs) :
     m_trigs(trigs)
 {}
 
+Bhvr::~Bhvr()
+{
+    for (auto trig : m_trigs)
+    {
+        delete(trig);
+    }
+    // TODO: use C++17 auto& [] when possible
+    for (auto pair : m_keyTrigs)
+    {
+        delete(pair.second);
+    }
+}
+
 WState Bhvr::behave(SDL_Event& ev, Vec2i coordStart)
 {
     WState before = m_parent.getState();

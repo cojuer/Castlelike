@@ -21,6 +21,7 @@ LoadingAppState::LoadingAppState() :
 
 void LoadingAppState::init(App& app)
 {
+    m_initialized = true;
     m_app = &app;
     
     m_app->m_resSystem->initGame();
@@ -30,15 +31,23 @@ void LoadingAppState::init(App& app)
     m_app->m_saveSystem->regSerializable(*m_app->m_rngHolder);
     m_app->m_saveSystem->regSerializable(IDManager::instance());
     m_app->m_saveSystem->regSerializable(*m_app->m_sceneSystem);
-    
-    m_app->m_saveSystem->useProfile("test");
-    m_app->m_sceneSystem->load("");
-    //m_app->m_saveSystem->loadLast(*m_app->m_resSystem);
 
     m_app->m_gameSysManager->init(*m_app->m_inputSubsystem, 
                                   *m_app->m_rendSubsystem, 
                                   *m_app->m_resSystem, 
                                   *m_app->m_sceneSystem);
+}
+
+void LoadingAppState::clean()
+{
+}
+
+void LoadingAppState::start()
+{
+    m_app->m_saveSystem->useProfile("cojuer");
+    //m_app->m_sceneSystem->load("");
+    m_app->m_saveSystem->loadLast(*m_app->m_resSystem);
+
     // TODO: update when C++17 support will be better
     for (auto pair : m_app->m_sceneSystem->getScene()->getIDToActorMap())
     {
@@ -49,15 +58,13 @@ void LoadingAppState::init(App& app)
     m_app->m_gameGUI.reset(new gui::GameGUI());
     m_app->m_gameGUI->init(m_app->m_opts,
                            *m_app->m_rendSubsystem,
-                           *m_app->m_gameSysManager, 
-                           *m_app->m_sceneSystem, 
+                           *m_app->m_gameSysManager,
+                           *m_app->m_sceneSystem,
                            *m_app->m_resSystem);
 
-    m_app->changeState(*GameAppState::instance());
-}
+    //auto m_hero = m_app->m_gameSysManager->m_controlSheduler->m_plController->getPossessed().begin()->second;
 
-void LoadingAppState::clean()
-{
+    m_app->changeState(*GameAppState::instance());
 }
 
 void LoadingAppState::pause()

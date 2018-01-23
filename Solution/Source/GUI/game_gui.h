@@ -8,6 +8,7 @@
 #include "container.h"
 #include "equipment.h"
 #include "action_interface.h"
+#include "handler_registration.h"
 
 class RenderSubsystem;
 class Actor;
@@ -26,7 +27,6 @@ class BagWidget;
 class EquipmentWidget;
 class ItemSlot;
 class Widget;
-class ProgressBar;
 class ActPanel;
 class SlotHelper;
 class ViewData;
@@ -145,11 +145,12 @@ private:
     std::unique_ptr<Widget> m_textBufferBack;
     std::unique_ptr<Widget> m_heroWdg;
     std::unique_ptr<ActPanel>  m_actionsWdg;
-    std::unique_ptr<BagWidget> m_bagWdg;
     std::unique_ptr<BagWidget> m_lootWdg;
-    std::unique_ptr<EquipmentWidget> m_equipWdg;
-    std::unique_ptr<Widget> m_journalWdg;
     std::unique_ptr<Widget> m_dialWdg;
+    std::unique_ptr<Widget> m_journalWdg;
+
+    BagWidget*       m_bagWdg;
+    EquipmentWidget* m_equipWdg;
 
     std::unique_ptr<SlotHelper> m_slotHelper;
 
@@ -167,6 +168,9 @@ private:
     int              m_currentSlotIndex;
 
     ActionInterface* m_action;
+
+    std::unique_ptr<HandlerRegistration> m_reg;
+    std::unique_ptr<GUIListener> m_listener;
 };
 
 } /* gui namespace. */

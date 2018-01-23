@@ -16,6 +16,8 @@ public:
     bool init(SceneSystem& sceneSystem, GameSystemManager& sysManager);
 
     bool possess(Actor& actor) override;
+    void release(ActorID actorID) override;
+
     bool control(Actor& actor) override;
 
 private:

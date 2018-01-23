@@ -41,6 +41,11 @@ bool PlayerController::possess(Actor& actor)
     return false;
 }
 
+void PlayerController::release(ActorID actorID)
+{
+    m_registered.erase(actorID);
+}
+
 bool PlayerController::control(Actor& actor)
 {
     // If no AP, turn is over

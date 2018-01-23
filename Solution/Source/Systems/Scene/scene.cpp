@@ -217,6 +217,19 @@ SceneID Scene::getID() const
 
 Scene::~Scene()
 {
+    for (auto& row : *m_tiles)
+    {
+        for (auto tile : row)
+        {
+            delete(tile);
+        }
+    }
     delete(m_tiles);
+    // FIXME: use auto&[] when proper support will be available
+    for (auto& pair : m_actorsById)
+    {
+        auto actor = pair.second;
+        delete(actor);
+    }
 }
 

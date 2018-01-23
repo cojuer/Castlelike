@@ -11,6 +11,16 @@ TabWidget::TabWidget(const std::string& name, Widget* parent, int x, int y, int 
     m_rendered = rendered;
 }
 
+TabWidget::~TabWidget()
+{
+    // TODO: use C++17 auto&[] when possible
+    for (auto pair : m_tabs)
+    {
+        delete(pair.first);
+        delete(pair.second);
+    }
+}
+
 void TabWidget::addTab(Button* button, Widget* panel)
 {
     m_tabs.push_back({ button, panel });

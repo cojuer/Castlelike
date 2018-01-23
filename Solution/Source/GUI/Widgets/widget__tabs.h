@@ -18,6 +18,7 @@ class TabWidget : public Widget
 {
 public:
     TabWidget(const std::string& name, Widget* parent, int x, int y, int width, int height, bool visible, Renderable* rendered);
+    ~TabWidget();
 
     void             addTab(Button* button, Widget* panel);
 

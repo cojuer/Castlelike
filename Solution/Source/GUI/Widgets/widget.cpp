@@ -79,6 +79,7 @@ void Widget::setGraphics(Renderable* rendered)
 
 void Widget::setBhvr(std::vector<Trigger*>&& trigs)
 {
+    if (m_bhvr) delete(m_bhvr);
     m_bhvr = new Bhvr(*this, std::move(trigs));
 }
 
@@ -156,7 +157,9 @@ bool Widget::handle(SDL_Event& event, Vec2i coordStart)
 }
 
 Widget::~Widget()
-{}
+{
+    delete(m_bhvr);
+}
 
 void Widget::loadOptions(Json& node)
 {

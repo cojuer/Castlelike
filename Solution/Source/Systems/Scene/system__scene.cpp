@@ -37,9 +37,9 @@ void SceneSystem::load(SceneID id)
     loadTestScene1();
 }
 
-void SceneSystem::unload(SceneID id)
+void SceneSystem::clean()
 {
-    
+    delete(m_scene);
 }
 
 void SceneSystem::load(const Json& node, ResourceSystem& resSystem)

@@ -12,7 +12,7 @@ class TilesetParser;
 
 class TilesetFactory : public Factory<Tileset>
 {
-	using TilesetCache = std::map<std::string, Tileset>;
+	using TilesetCache = std::map<std::string, Tileset*>;
 
 public:
 	TilesetFactory();

@@ -39,6 +39,11 @@ bool AIController::possess(Actor& actor)
     return false;
 }
 
+void AIController::release(ActorID actorID)
+{
+    m_registered.erase(actorID);
+}
+
 bool AIController::control(Actor& possessed)
 {
     // FIXME: ???

@@ -15,6 +15,7 @@ public:
     void             init(App& app) override;
     void             clean() override;
 
+    void             start() override;
     void             pause() override;
     void             resume() override;
 

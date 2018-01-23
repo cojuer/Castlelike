@@ -48,8 +48,12 @@ void ControlGSystem::unreg(ActorID id)
         if (iter->second->getID() == id)
         {
             m_possessed.erase(iter);
-            return;
+            break;
         }
+    }
+    for (auto& controller : m_controllers)
+    {
+        controller->release(id);
     }
 }
 

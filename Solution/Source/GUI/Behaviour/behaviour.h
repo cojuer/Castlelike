@@ -20,6 +20,7 @@ class Bhvr
 
 public:
     Bhvr(Widget& parent, TrigVec&& triggers);
+    ~Bhvr();
 
     WState          behave(SDL_Event& ev, Vec2i coordStart = { 0, 0 });
 

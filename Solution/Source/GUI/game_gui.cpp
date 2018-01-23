@@ -2,6 +2,7 @@
 
 #include <SDL.h>
 
+#include "widget__progress_bar.h"
 #include "renderable.h"
 #include "widget.h"
 #include "action_manager.h"
@@ -16,7 +17,6 @@
 #include "slot__item.h"
 #include "journal.h"
 #include "on_release.h"
-#include "widget__progress_bar.h"
 #include "actpanel.h"
 #include "slot__action.h"
 #include "options.h"
@@ -67,8 +67,8 @@ bool GameGUI::init(Options& opts,
     m_sysManager = &sysManager;
     m_sceneSystem = &sceneSystem;
 
-    auto listener = new GUIListener(*this);
-    EventSubsystem::AddHandler(*listener);
+    m_listener.reset(new GUIListener(*this));
+    m_reg.reset(EventSubsystem::AddHandler(*m_listener));
 
     // TODO: make_unique?
     Widget* tempWdgPtr = new Widget("journal_back", nullptr, { 0, 0, 300, 150 }, true, m_resSystem->get<Renderable>("text_buffer_back"));
@@ -77,7 +77,7 @@ bool GameGUI::init(Options& opts,
     m_slotHelper = std::make_unique<SlotHelper>();
 
     tempWdgPtr = new Widget("dial_wdg", nullptr, { 0, 500, m_opts->getInt("Width"), 160 }, false, m_resSystem->get<Renderable>("hero_panel_back_texture"));
-    m_dialWdg = std::make_unique<Widget>(tempWdgPtr);
+    m_dialWdg = std::unique_ptr<Widget>(tempWdgPtr);
 
     //! init status check
     initHeroBars();
@@ -135,7 +135,10 @@ void GameGUI::handle(SDL_Event& event)
     }
 }
 
-GameGUI::~GameGUI() = default;
+GameGUI::~GameGUI()
+{
+    m_reg->removeHandler();
+}
 
 void GameGUI::handleInventory(SDL_Event& event)
 {
@@ -605,11 +608,11 @@ void GameGUI::initInventory()
 {
     auto& hero = *m_sysManager->m_controlSheduler->m_plController->getPossessed().begin()->second;
     auto& equipment = hero.getComponent<EquipmentComponent>()->get();
-    m_equipWdg = std::unique_ptr<EquipmentWidget>(dcast<EquipmentWidget*>(m_resSystem->get<Widget>("equipment")));
+    m_equipWdg = dcast<EquipmentWidget*>(m_resSystem->get<Widget>("equipment"));
     m_equipWdg->setEquipment(equipment);
 
     auto& bag = hero.getComponent<BagComponent>()->get();
-    m_bagWdg = std::unique_ptr<BagWidget>(dcast<BagWidget*>(m_resSystem->get<Widget>("bag")));
+    m_bagWdg = dcast<BagWidget*>(m_resSystem->get<Widget>("bag"));
     m_bagWdg->setContainer(&bag);
 
     m_inventoryWdg = std::unique_ptr<Widget>(m_resSystem->get<Widget>("inventory"));

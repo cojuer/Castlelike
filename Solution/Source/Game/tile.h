@@ -16,6 +16,8 @@ public:
     Renderable*    getView() const;
     bool           isCollisive() const;
 
+    ~Tile();
+
 private:
     Tileset*        m_tileset;
     uint32_t        m_id;
