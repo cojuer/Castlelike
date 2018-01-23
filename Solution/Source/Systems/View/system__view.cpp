@@ -9,9 +9,9 @@
 #include "component__graphics_interface.h"
 #include "renderable.h"
 #include "atexture.h"
-#include "subsystem_render.h"
+#include "subsystem__render.h"
 #include "system__resource.h"
-#include "control_sheduler.h"
+#include "game_system__control.h"
 #include "player_controller.h"
 #include "component__transform.h"
 

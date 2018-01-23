@@ -21,10 +21,6 @@ public:
 
 private:
     App*               m_app;
-    Options*           m_opts;
-
-    SceneSystem*       m_sceneSystem;
-    GameSystemManager* m_sysManager;
 
     static LoadingAppState playState;
 };

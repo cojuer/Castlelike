@@ -2,7 +2,7 @@
 
 #include "renderable.h"
 #include "atexture.h"
-#include "control_sheduler.h"
+#include "game_system__control.h"
 #include "widget__number.h"
 #include "player_controller.h"
 #include "system__resource.h"

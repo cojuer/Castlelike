@@ -13,7 +13,7 @@
 #include "options.h"
 #include "factory__renderable.h"
 #include "system__resource.h"
-#include "subsystem_render.h"
+#include "subsystem__render.h"
 #include "widget__tabs.h"
 #include "text_renderer.h"
 #include "font_data.h"

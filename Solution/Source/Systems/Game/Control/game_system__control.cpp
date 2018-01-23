@@ -1,4 +1,4 @@
-#include "control_sheduler.h"
+#include "game_system__control.h"
 
 #include <iostream>
 

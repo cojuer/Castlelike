@@ -33,7 +33,6 @@ void MoveAction::act()
     if (actPtsComp)
     {
         actPtsComp->setCurr(actPtsComp->getCurr() - 1);
-        std::cout << "set AP: " << actPtsComp->getCurr() << std::endl;
     }
 }
 

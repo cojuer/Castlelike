@@ -4,11 +4,10 @@
 #include <map>
 #include <vector>
 
-struct Character
-{
-    std::string name;
-    // date
-};
+class ResourceSystem;
+class JSONSerializable;
+
+using Profile = std::string;
 
 struct Save
 {
@@ -22,13 +21,25 @@ class SaveSystem
     static const std::string extension;
     static const std::string format;
 
+    static const std::string profDirPath;
+    static const std::string infoFileName;
+
 public:
     bool init();
 
-    std::vector<Character> getCharacters() const;
-    std::vector<Save> getSaves(const Character& character) const;
+    void useProfile(std::string profName);
+    void regSerializable(JSONSerializable& ser);
+
+    void saveLast();
+    void loadLast(ResourceSystem& resSystem);
+    void save(const std::string profile, const std::string saveName);
+
+    std::vector<Profile> getProfiles() const;
+    std::vector<Save> getSaves(const Profile& character) const;
 
 private:
-    Character m_currCharacter;
-    std::map<Character, std::vector<Save>> m_saves;
+    Profile m_currProfile;
+    std::map<Profile, std::vector<Save>> m_saves;
+
+    std::vector<JSONSerializable*> m_serializables;
 };

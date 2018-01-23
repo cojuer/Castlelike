@@ -4,7 +4,7 @@
 #include "actor.h"
 #include "system__resource.h"
 #include "rng.h"
-#include "rng_holder.h"
+#include "subsystem__rng.h"
 
 const std::string LootComponent::stringID = "loot";
 

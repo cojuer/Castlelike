@@ -10,7 +10,7 @@
 #include "listener__dialogue.h"
 
 #include "rng.h"
-#include "rng_holder.h"
+#include "subsystem__rng.h"
 
 // FIXME: load in opts
 constexpr auto areadbPath = "Assets\\Databases\\areaDB.xml";

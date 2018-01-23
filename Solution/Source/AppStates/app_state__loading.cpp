@@ -1,68 +1,54 @@
 #include "app_state__loading.h"
 
-#include "game_gui.h"
-#include "scene.h"
-#include "control_sheduler.h"
-#include "subsystem__event.h"
+#include "subsystem__input.h"
+#include "subsystem__render.h"
+#include "subsystem__rng.h"
 #include "system__resource.h"
+#include "system__save.h"
 #include "system__scene.h"
 #include "game_system_manager.h"
-#include "system__shedule.h"
-
-#include "subsystem_input.h"
-#include "subsystem_render.h"
-
-#include "listener__gui.h"
-// TEST
-#include "dialmanager.h"
-#include "global_time.h"
-#include "rng_holder.h"
-#include <fstream>
-#include "id_manager.h"
 
 #include "app_state__game.h"
+#include "id_manager.h"
+#include "game_gui.h"
+
 
 LoadingAppState LoadingAppState::playState;
 
 LoadingAppState::LoadingAppState() :
-    m_app(nullptr),
-    m_opts(nullptr),
-    m_sceneSystem(nullptr),
-    m_sysManager(nullptr)
+    m_app(nullptr)
 {}
 
 void LoadingAppState::init(App& app)
 {
     m_app = &app;
-    m_opts = &app.m_opts;
     
-    app.m_resSystem->initGame();
+    m_app->m_resSystem->initGame();
 
-    // TODO: rework
-    m_sceneSystem = app.m_sceneSystem.get();
-    m_sysManager = app.m_gameSysManager.get();
-    m_sceneSystem->init(*m_sysManager, *app.m_resSystem);
+    m_app->m_sceneSystem->init(*m_app->m_resSystem);
     
-    m_sceneSystem->load("");
-    /*Json saveNode;
-    std::ifstream saveFile("save.json");
-    saveFile >> saveNode;
-    saveFile.close();
+    m_app->m_saveSystem->regSerializable(*m_app->m_rngHolder);
+    m_app->m_saveSystem->regSerializable(IDManager::instance());
+    m_app->m_saveSystem->regSerializable(*m_app->m_sceneSystem);
+    
+    m_app->m_saveSystem->useProfile("test");
+    m_app->m_sceneSystem->load("");
+    //m_app->m_saveSystem->loadLast(*m_app->m_resSystem);
 
-    m_sceneSystem->load(saveNode.at("scene_mgr"), *m_app->m_resSystem);
-    IDManager::instance().load(saveNode.at("id_manager"));*/
-
-    m_sysManager->init(*app.m_inputSubsystem, *app.m_rendSubsystem, *app.m_resSystem, *m_sceneSystem);
+    m_app->m_gameSysManager->init(*m_app->m_inputSubsystem, 
+                                  *m_app->m_rendSubsystem, 
+                                  *m_app->m_resSystem, 
+                                  *m_app->m_sceneSystem);
     // TODO: update when C++17 support will be better
-    for (auto pair : m_sceneSystem->getScene()->getIDToActorMap())
+    for (auto pair : m_app->m_sceneSystem->getScene()->getIDToActorMap())
     {
         auto actor = pair.second;
-        m_sysManager->reg(*actor);
+        m_app->m_gameSysManager->reg(*actor);
     }
 
     m_app->m_gameGUI.reset(new gui::GameGUI());
-    m_app->m_gameGUI->init(*m_opts, 
-                           *app.m_rendSubsystem, 
+    m_app->m_gameGUI->init(m_app->m_opts,
+                           *m_app->m_rendSubsystem,
                            *m_app->m_gameSysManager, 
                            *m_app->m_sceneSystem, 
                            *m_app->m_resSystem);

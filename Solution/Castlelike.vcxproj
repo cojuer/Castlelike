@@ -160,11 +160,11 @@
     <ClCompile Include="Source\Game\Components\component__reactor.cpp" />
     <ClCompile Include="Source\Subsystems\Rendering\Renderables\renderable.cpp" />
     <ClCompile Include="Source\Subsystems\Rendering\renderer.cpp" />
-    <ClCompile Include="Source\Subsystems\Rendering\subsystem_render.cpp" />
+    <ClCompile Include="Source\Subsystems\Rendering\subsystem__render.cpp" />
     <ClCompile Include="Source\Subsystems\Rendering\window.cpp" />
-    <ClCompile Include="Source\Subsystems\RNG\rng_holder.cpp" />
+    <ClCompile Include="Source\Subsystems\RNG\subsystem__rng.cpp" />
     <ClCompile Include="Source\Systems\Game\Control\ai_controller.cpp" />
-    <ClCompile Include="Source\Systems\Game\Control\control_sheduler.cpp" />
+    <ClCompile Include="Source\Systems\Game\Control\game_system__control.cpp" />
     <ClCompile Include="Source\Systems\Resource\id_manager.cpp" />
     <ClCompile Include="Source\Systems\Game\Control\player_controller.cpp" />
     <ClCompile Include="Source\Game\reaction.cpp" />
@@ -181,7 +181,7 @@
     <ClCompile Include="Source\Systems\Sheduler\system__shedule.cpp" />
     <ClCompile Include="Source\Systems\View\camera.cpp" />
     <ClCompile Include="Source\Systems\Scene\system__scene.cpp" />
-    <ClCompile Include="Source\Subsystems\Input\subsystem_input.cpp" />
+    <ClCompile Include="Source\Subsystems\Input\subsystem__input.cpp" />
     <ClCompile Include="Source\Systems\Game\Loot\game_system__loot.cpp" />
     <ClCompile Include="Source\Systems\Game\game_system_manager.cpp" />
     <ClCompile Include="Source\Systems\Game\Stats\game_system__stats.cpp" />
@@ -264,6 +264,7 @@
     <ClInclude Include="Source\AppStates\app_state__loading.h" />
     <ClInclude Include="Source\Common\direction.h" />
     <ClInclude Include="Source\Common\init_object.h" />
+    <ClInclude Include="Source\Common\json_serializable.h" />
     <ClInclude Include="Source\Common\time_aliases.h" />
     <ClInclude Include="Source\Subsystems\Event\Events\event__shedule.h" />
     <ClInclude Include="Source\Subsystems\Event\Events\event__actor.h" />
@@ -314,7 +315,7 @@
     <ClInclude Include="Source\Game\Components\component__reactor.h" />
     <ClInclude Include="Source\Subsystems\Rendering\renderer.h" />
     <ClInclude Include="Source\Subsystems\Rendering\window.h" />
-    <ClInclude Include="Source\Subsystems\RNG\rng_holder.h" />
+    <ClInclude Include="Source\Subsystems\RNG\subsystem__rng.h" />
     <ClInclude Include="Source\Systems\Cutscene\Cutscenes\cutscene.h" />
     <ClInclude Include="Source\Systems\Cutscene\Cutscenes\cutscene__attack.h" />
     <ClInclude Include="Source\Systems\Cutscene\Elements\cutscene_element.h" />
@@ -326,10 +327,10 @@
     <ClInclude Include="Source\Systems\Game\Stats\game_system__stats.h" />
     <ClInclude Include="Source\Common\json_aliases.h" />
     <ClInclude Include="Source\Common\rect.h" />
-    <ClInclude Include="Source\Subsystems\Rendering\subsystem_render.h" />
+    <ClInclude Include="Source\Subsystems\Rendering\subsystem__render.h" />
     <ClInclude Include="Source\Systems\Game\Control\ai_controller.h" />
     <ClInclude Include="Source\Systems\Game\Control\controller.h" />
-    <ClInclude Include="Source\Systems\Game\Control\control_sheduler.h" />
+    <ClInclude Include="Source\Systems\Game\Control\game_system__control.h" />
     <ClInclude Include="Source\Systems\Resource\id_manager.h" />
     <ClInclude Include="Source\Systems\Game\Control\player_controller.h" />
     <ClInclude Include="Source\Game\reaction.h" />
@@ -338,7 +339,7 @@
     <ClInclude Include="Source\Systems\View\camera.h" />
     <ClInclude Include="Source\Systems\Scene\system__scene.h" />
     <ClInclude Include="Source\Systems\Game\game_system.h" />
-    <ClInclude Include="Source\Subsystems\Input\subsystem_input.h" />
+    <ClInclude Include="Source\Subsystems\Input\subsystem__input.h" />
     <ClInclude Include="Source\Systems\Game\Loot\game_system__loot.h" />
     <ClInclude Include="Source\Systems\Game\game_system_manager.h" />
     <ClInclude Include="Source\Systems\View\system__view.h" />

@@ -4,16 +4,22 @@
 #include <iostream>
 #include <filesystem>
 #include <iterator>
+
 #include "subsystem_io.h"
+
+#include "json_serializable.h"
 
 namespace fs = std::experimental::filesystem;
 
 const std::string SaveSystem::extension = ".json";
 const std::string SaveSystem::format = "CASTLELIKE_SAVEFILE";
 
+const std::string SaveSystem::profDirPath = "Profiles";
+const std::string SaveSystem::infoFileName = "info.json";
+
 bool SaveSystem::init()
 {
-    fs::path profPath("Profiles");
+    fs::path profPath(profDirPath);
 
     fs::directory_iterator begin(profPath);
     fs::directory_iterator end;
@@ -61,12 +67,90 @@ bool SaveSystem::init()
     return true;
 }
 
-std::vector<Character> SaveSystem::getCharacters() const
+void SaveSystem::useProfile(std::string profName)
 {
-    return {};
+    if (m_saves.find(profName) == m_saves.end())
+    {
+        m_saves[profName] = {};
+        // TODO: create folder
+    }
+    m_currProfile = profName;
 }
 
-std::vector<Save> SaveSystem::getSaves(const Character& character) const
+void SaveSystem::regSerializable(JSONSerializable& ser)
 {
-    return {};
+    m_serializables.push_back(&ser);
+}
+
+void SaveSystem::saveLast()
+{
+    assert(m_currProfile.length() != 0 && "profile not initialized");
+    save(m_currProfile, "quicksave");
+}
+
+void SaveSystem::loadLast(ResourceSystem& resSystem)
+{
+    auto infoPath = fs::path(profDirPath) / infoFileName;
+    Json lastInfo;
+    *IOSubsystem::getInStream(infoPath).get() >> lastInfo;
+    std::string profile = lastInfo.at("profile");
+    std::string saveFileName = lastInfo.at("name").get<std::string>() + extension;
+    
+    m_currProfile = profile;
+
+    auto savePath = fs::path(profDirPath) / profile / saveFileName;
+    Json save;
+    *IOSubsystem::getInStream(savePath).get() >> save;
+    auto& body = save.at("body");
+    for (auto serializable : m_serializables)
+    {
+        serializable->load(body.at(serializable->getStringID()), resSystem);
+    }
+}
+
+void SaveSystem::save(const std::string profile, const std::string saveName)
+{
+    std::string saveFileName = saveName + extension;
+
+    Json save;
+    save["format"] = format;
+    
+    Json header;
+    header["name"] = saveName;
+    // type, version,...
+    save["header"] = std::move(header);
+
+    Json body;
+    for (auto serializable : m_serializables)
+    {
+        body[serializable->getStringID()] = serializable->save();
+    }
+    save["body"] = std::move(body);
+
+    // TODO: async
+    auto savePath = fs::path(profDirPath) / profile / saveFileName;
+    *IOSubsystem::getOutStream(savePath) << save;
+
+    Json lastInfo;
+    lastInfo["profile"] = profile;
+    lastInfo["name"] = saveName;
+    auto infoPath = fs::path(profDirPath) / infoFileName;
+    *IOSubsystem::getOutStream(infoPath) << lastInfo;
+}
+
+std::vector<Profile> SaveSystem::getProfiles() const
+{
+    std::vector<Profile> result;
+    // TODO: use C++17 when possible
+    for (auto& pair : m_saves)
+    {
+        result.push_back(pair.first);
+    }
+    return result;
+}
+
+std::vector<Save> SaveSystem::getSaves(const Profile& profile) const
+{
+    auto iter = m_saves.find(profile);
+    return iter != m_saves.end() ? iter->second : std::vector<Save>{};
 }

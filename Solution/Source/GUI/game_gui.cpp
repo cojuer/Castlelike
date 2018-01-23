@@ -35,9 +35,9 @@
 #include "component__equipment.h"
 #include "system__scene.h"
 #include "game_system_manager.h"
-#include "control_sheduler.h"
+#include "game_system__control.h"
 #include "player_controller.h"
-#include "subsystem_render.h"
+#include "subsystem__render.h"
 #include "color.h"
 
 #include "subsystem__event.h"
@@ -278,10 +278,11 @@ void GameGUI::handleNormal(SDL_Event& event)
         auto center = m_sysManager->m_viewSystem->getCamera().getCenter();
         x = center.x + std::round((x - viewport.x - viewport.w / 2 - 32) / 64.);
         y = center.y + std::round((y - viewport.y - viewport.h / 2 - 32) / 64.);
-        auto cont = dcast<StorageActor*>(scene.getActor({ x, y }, ActorType::CONTAINER));
-        if (utils::coordDist({ x, y }, hero.getCoord()) <= 1 && cont)
+        auto contActor = scene.getActor({ x, y }, ActorType::CONTAINER);
+        if (utils::coordDist({ x, y }, hero.getCoord()) <= 1 && contActor)
         {
-            m_lootWdg->setContainer(&(cont->getContainer()));
+            auto& container = contActor->getComponent<BagComponent>()->get();
+            m_lootWdg->setContainer(&container);
             m_lootWdg->setVisible(true);
         }
 		auto actors = scene.getActorsAtCoord({ x, y });
@@ -421,14 +422,12 @@ bool GameGUI::tryMoveBagToEquip(Container& bag, Equipment& equip, SDL_Event& eve
             bag.eraseSlot(m_activeSlotIndex);
             bag.add(*m_currentSlot->getItem());
             m_equipWdg->equip(m_currentSlotIndex, *item);
-            // FIXME: update modifiers
             EventSubsystem::FireEvent(*new ActorEvent(ActorEvType::ITEM_EQUIPPED, m_hero->getID()));
         }
         else
         {
             m_equipWdg->equip(m_currentSlotIndex, *m_activeSlot->getItem());
             bag.eraseSlot(m_activeSlotIndex);
-            // FIXME: update modifiers
             EventSubsystem::FireEvent(*new ActorEvent(ActorEvType::ITEM_EQUIPPED, m_hero->getID()));
         }
         return true;
@@ -486,7 +485,6 @@ bool GameGUI::tryMoveLootToEquip(Container& loot, Container& bag, Equipment& equ
         {
             m_equipWdg->equip(m_currentSlotIndex, *m_activeSlot->getItem());
             loot.eraseSlot(m_activeSlotIndex);
-            // FIXME: update modifiers
             EventSubsystem::FireEvent(*new ActorEvent(ActorEvType::ITEM_EQUIPPED, m_hero->getID()));
             if (loot.isEmpty()) m_lootWdg->setVisible(false);
         }
@@ -504,7 +502,7 @@ bool GameGUI::tryMoveEquipToBag(Container& bag, SDL_Event& event) const
         bag.add(*m_activeSlot->getItem()))
     {
         m_equipWdg->unequip(m_activeSlotIndex);
-        // FIXME: update modifiers
+        EventSubsystem::FireEvent(*new ActorEvent(ActorEvType::ITEM_EQUIPPED, m_hero->getID()));
         return true;
     }
     return false;
@@ -557,12 +555,12 @@ bool GameGUI::tryFastMoveBagToEquip(Container& bag, Equipment& equip, SDL_Event&
         auto slotType = equip.slotFor(*m_currentSlot->getItem());
         auto equippedItem = equip.getItem(slotType);
         equip.equip(*m_currentSlot->getItem());
-        EventSubsystem::FireEvent(*new ActorEvent(ActorEvType::ITEM_EQUIPPED, m_hero->getID()));
         bag.eraseSlot(m_currentSlotIndex);
         if (equippedItem)
         {
             bag.add(*equippedItem);
         }
+        EventSubsystem::FireEvent(*new ActorEvent(ActorEvType::ITEM_EQUIPPED, m_hero->getID()));
         return true;
     }
     return false;
@@ -577,6 +575,7 @@ bool GameGUI::tryFastMoveEquipToBag(Equipment& equip, Container& bag, SDL_Event&
         bag.add(*m_currentSlot->getItem()))
     {
         m_equipWdg->unequip(m_currentSlotIndex);
+        EventSubsystem::FireEvent(*new ActorEvent(ActorEvType::ITEM_EQUIPPED, m_hero->getID()));
         return true;
     }
     return false;

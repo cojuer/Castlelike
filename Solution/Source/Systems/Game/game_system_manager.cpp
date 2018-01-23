@@ -3,9 +3,9 @@
 #include "system__shedule.h"
 #include "system__resource.h"
 
-#include "subsystem_input.h"
+#include "subsystem__input.h"
 
-#include "control_sheduler.h"
+#include "game_system__control.h"
 
 GameSystemManager::GameSystemManager() :
     m_sheduleSystem(new SheduleSystem()),

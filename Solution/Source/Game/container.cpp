@@ -106,6 +106,7 @@ bool Container::addToSlot(Item& item, int index)
     else
     {
         m_busyslots[index] = &item;
+        m_empties.erase(m_empties.begin());
         return true;
     }
 }

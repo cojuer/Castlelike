@@ -24,9 +24,10 @@
 #include "action__damage.h"
 #include "action__heal.h"
 
-bool SceneSystem::init(GameSystemManager& sysManager, ResourceSystem& resSystem)
+const std::string SceneSystem::stringID = "system_scene";
+
+bool SceneSystem::init(ResourceSystem& resSystem)
 {
-    m_sysManager = &sysManager;
     m_resSystem = &resSystem;
     return true;
 }
@@ -218,4 +219,9 @@ bool SceneSystem::loadState(Json& state, ResourceSystem& resSystem)
 Json SceneSystem::getState() const
 {
     return m_scene->toJSON();
+}
+
+std::string SceneSystem::getStringID() const
+{
+    return stringID;
 }

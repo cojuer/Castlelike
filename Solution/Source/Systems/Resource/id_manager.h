@@ -2,9 +2,12 @@
 
 #include <list>
 
+#include "json_serializable.h"
 #include "actor.h"
 
-class IDManager
+class ResourceSystem;
+
+class IDManager : public JSONSerializable
 {
 public:
     IDManager();
@@ -12,10 +15,13 @@ public:
     ActorID getActorID();
     void    free(ActorID id);
 
-    void    load(Json& node);
-    Json    save() const;
+    void    load(const Json& node, ResourceSystem& resSystem) override;
+    Json    save() const override;
 
     static IDManager& instance();
+
+    std::string getStringID() const override;
+    static const std::string stringID;
 
 private:
     ActorID            m_current;

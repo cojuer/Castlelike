@@ -3,7 +3,7 @@
 #include "atexture.h"
 #include "renderable.h"
 #include "system__resource.h"
-#include "subsystem_render.h"
+#include "subsystem__render.h"
 
 namespace gui {
 

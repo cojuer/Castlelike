@@ -8,9 +8,9 @@
 
 #include "system__sound.h"
 
-#include "subsystem_input.h"
-#include "subsystem_render.h"
-#include "rng_holder.h"
+#include "subsystem__input.h"
+#include "subsystem__render.h"
+#include "subsystem__rng.h"
 
 #include "game_gui.h"
 #include "menu_gui.h"

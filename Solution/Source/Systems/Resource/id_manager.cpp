@@ -1,5 +1,7 @@
 #include "id_manager.h"
 
+const std::string IDManager::stringID = "system__id";
+
 IDManager::IDManager() :
     m_current(0)
 {}
@@ -24,7 +26,7 @@ void IDManager::free(ActorID id)
     m_freed.push_back(id);
 }
 
-void IDManager::load(Json& node)
+void IDManager::load(const Json& node, ResourceSystem& resSystem)
 {
     m_current = node.at("current");
     for (auto it = node.at("free").begin(); it != node.at("free").end(); ++it)
@@ -45,4 +47,9 @@ IDManager& IDManager::instance()
 {
     static auto instance = new IDManager();
     return *instance;
+}
+
+std::string IDManager::getStringID() const
+{
+    return stringID;
 }

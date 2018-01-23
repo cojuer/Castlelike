@@ -1,4 +1,6 @@
-#include "rng_holder.h"
+#include "subsystem__rng.h"
+
+const std::string RNGHolder::stringID = "subsystem__rng";
 
 RNG* RNGHolder::regRNG(const std::string& name, RNG rng)
 {
@@ -16,12 +18,12 @@ RNG* RNGHolder::getRNG(const std::string& name)
     return nullptr;
 }
 
-void RNGHolder::load(Json& node)
+void RNGHolder::load(const Json& node, ResourceSystem& resSystem)
 {
     for (auto it = node.begin(); it != node.end(); ++it) 
     {
         RNG rng;
-        rng.load(it.value());
+        rng.load(Json{ it.value() });
         m_rngs[it.key()] = rng;
     }
 }
@@ -37,4 +39,9 @@ Json RNGHolder::save() const
         result[name] = rng.save();
     }
     return result;
+}
+
+std::string RNGHolder::getStringID() const
+{
+    return stringID;
 }
