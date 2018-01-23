@@ -90,14 +90,17 @@ void ItemSlot::render(RenderSubsystem& rendSubsystem, ResourceSystem& resSystem,
         };
         dstRect.x += coordStart.x;
         dstRect.y += coordStart.y;
+        Vec2i childCoord{ coordStart };
         if (m_pressed)
         {
-            SDL_GetMouseState(&(dstRect.x), &(dstRect.y));
-            dstRect.x -= texture->getWidth() / 2;
-            dstRect.y -= texture->getHeight() / 2;
+            int mouseX, mouseY;
+            SDL_GetMouseState(&mouseX, &mouseY);
+            dstRect.x = mouseX - texture->getWidth() / 2;
+            dstRect.y = mouseY - texture->getHeight() / 2;
+            childCoord = Vec2i{ dstRect.x, dstRect.y } - getPos();
         }
         rendSubsystem.render(texture, dstRect);
-        renderChildren(rendSubsystem, resSystem, coordStart);
+        renderChildren(rendSubsystem, resSystem, childCoord);
     }
 }
 

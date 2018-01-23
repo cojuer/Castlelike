@@ -455,8 +455,9 @@ bool GameGUI::tryMoveLootToBag(Container& loot, Container& bag, SDL_Event& event
 
 bool GameGUI::tryMoveLootToLoot(Container& loot, SDL_Event& event) const
 {
-    if (m_activeSlotType == ActSlotType::LOOT &&
-        m_currentSlotType == ActSlotType::LOOT)
+    if (m_activeSlotType == ActSlotType::LOOT 
+        and m_currentSlotType == ActSlotType::LOOT
+        and m_activeSlotIndex != m_currentSlotIndex)
     {
         loot.swapSlots(m_activeSlotIndex, m_currentSlotIndex);
         return true;
