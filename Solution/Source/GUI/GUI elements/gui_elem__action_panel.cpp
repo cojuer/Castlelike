@@ -1,7 +1,8 @@
-#include "actpanel.h"
+#include "gui_elem__action_panel.h"
 
 #include "system__resource.h"
 #include "subsystem__render.h"
+#include "GUI/Behaviour/behaviour.h"
 
 namespace gui {
 

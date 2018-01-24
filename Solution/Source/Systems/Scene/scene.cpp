@@ -4,7 +4,7 @@
 
 #include "container.h"
 #include "utils.h"
-#include "id_manager.h"
+#include "system__actor_id.h"
 #include "tileset.h"
 
 #include "system__resource.h"
@@ -138,11 +138,10 @@ Json Scene::toJSON() const
     }
     result["tiles"] = tilesNode;
 
-    // FIXME: use auto&[] when proper support will be available
     Json actorsNode;
-    for (auto& pair : m_actorsById)
+    for (auto&[id, actor] : m_actorsById)
     {
-        actorsNode.push_back(pair.second->toJSON());
+        actorsNode.push_back(actor->toJSON());
     }
     result["actors"] = actorsNode;
     
@@ -158,6 +157,12 @@ Scene::ActorVec Scene::getActorsAtCoord(Coord coord) const
         result.push_back(iter->second);
     }
     return result;
+}
+
+Actor* Scene::getHero() const
+{
+    auto iter = m_actorsById.find(IDManager::heroID);
+    return iter != m_actorsById.end() ? iter->second : nullptr;
 }
 
 const std::map<ActorID, Actor*>& Scene::getIDToActorMap() const
@@ -190,6 +195,12 @@ Actor* Scene::getActor(Coord coord, const std::string& type) const
     return nullptr;
 }
 
+Actor* Scene::getActor(ActorID id) const
+{
+    auto iter = m_actorsById.find(id);
+    return iter != m_actorsById.end() ? iter->second : nullptr;
+}
+
 // TODO: pass item by reference
 bool Scene::addItem(Coord coord, Item* item)
 {
@@ -217,18 +228,10 @@ SceneID Scene::getID() const
 
 Scene::~Scene()
 {
-    for (auto& row : *m_tiles)
-    {
-        for (auto tile : row)
-        {
-            delete(tile);
-        }
-    }
     delete(m_tiles);
-    // FIXME: use auto&[] when proper support will be available
-    for (auto& pair : m_actorsById)
+
+    for (auto& [id, actor] : m_actorsById)
     {
-        auto actor = pair.second;
         delete(actor);
     }
 }

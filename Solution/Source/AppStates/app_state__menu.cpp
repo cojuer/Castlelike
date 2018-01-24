@@ -1,12 +1,12 @@
 #include "app_state__menu.h"
 
-#include "subsystem__render.h"
-
 #include "app_state__loading.h"
 
 #include "subsystem__event.h"
-#include "listener__menu.h"
+#include "subsystem__render.h"
+#include "system__save.h"
 
+#include "listener__menu.h"
 #include "menu_gui.h"
 
 MenuAppState MenuAppState::menuAppState;
@@ -17,6 +17,7 @@ MenuAppState::MenuAppState() :
 
 void MenuAppState::init(App& app)
 {
+    m_initialized = true;
     EventSubsystem::AddHandler<MenuEvent>(*this);
 
     m_app = &app;
@@ -67,7 +68,13 @@ void MenuAppState::onEvent(MenuEvent& event)
     switch (event.newState)
     {
     case MenuState::ON_NEW_GAME:
+        m_app->m_loadSave = false;
+        m_app->changeState(*LoadingAppState::instance());
+        break;
     case MenuState::ON_LOAD:
+        m_app->m_loadSave = true;
+        // TODO: use special menu to choose save
+        m_app->m_saveSystem->useProfile("test");
         m_app->changeState(*LoadingAppState::instance());
         break;
     case MenuState::ON_QUIT:

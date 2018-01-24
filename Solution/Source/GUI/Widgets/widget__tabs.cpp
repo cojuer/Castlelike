@@ -13,11 +13,10 @@ TabWidget::TabWidget(const std::string& name, Widget* parent, int x, int y, int 
 
 TabWidget::~TabWidget()
 {
-    // TODO: use C++17 auto&[] when possible
-    for (auto pair : m_tabs)
+    for (auto& [button, panel] : m_tabs)
     {
-        delete(pair.first);
-        delete(pair.second);
+        delete(button);
+        delete(panel);
     }
 }
 

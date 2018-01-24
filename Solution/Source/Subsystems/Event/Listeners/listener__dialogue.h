@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "dialmanager.h"
+#include "system__dialogue.h"
 #include "event__dialogue.h"
 #include "event_handler.h"
 

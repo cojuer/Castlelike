@@ -45,9 +45,9 @@ void MdfrComponent::postLoad(ResourceSystem& resSystem)
 Json MdfrComponent::save() const
 {
     Json node;
-    for (auto pair : m_base.data())
+    for (auto&[type, value] : m_base.data())
     {
-        node[pair.first] = pair.second;
+        node[type] = value;
     }
     return { { getStringID(), node } };
 }

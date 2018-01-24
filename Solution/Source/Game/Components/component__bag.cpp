@@ -34,9 +34,9 @@ Json BagComponent::save() const
     Json node;
     node["size"] = m_container.getSize();
     auto& slots = m_container.m_busyslots;
-    for (auto& pair : slots)
+    for (auto&[index, item] : slots)
     {
-        node["slots"][std::to_string(pair.first)] = pair.second->getRes();
+        node["slots"][std::to_string(index)] = item->getRes();
     }
     return { { getStringID() , node } };
 }

@@ -92,10 +92,9 @@ Json Actor::toJSON() const
 
 Actor::~Actor()
 {
-    // use C++ auto&[] when possible
-    for (auto pair : m_componentMap)
+    for (auto& [id, component] : m_componentMap)
     {
-        delete(pair.second);
+        delete(component);
     }
     m_componentMap.clear();
 }

@@ -13,9 +13,9 @@ bool JsonLoader::load(const std::string& path)
 bool JsonLoader::has(ResourceId& id)
 {
     auto jsonPtr = (id[0] == '/' ? id : std::string("/") + id);
-    for (auto& pair : m_loaded)
+    for (auto&[path, rootNode] : m_loaded)
     {
-        auto& node = (*pair.second)[JsonPointer(jsonPtr)];
+        auto& node = (*rootNode)[JsonPointer(jsonPtr)];
         if (!node.is_null()) return true;
     }
     return false;
@@ -24,9 +24,9 @@ bool JsonLoader::has(ResourceId& id)
 Json* JsonLoader::get(ResourceId& id)
 {
     auto jsonPtr = (id[0] == '/' ? id : std::string("/") + id);
-    for (auto& pair : m_loaded)
+    for (auto&[path, rootNode] : m_loaded)
     {
-        auto& node = (*pair.second)[JsonPointer(jsonPtr)];
+        auto& node = (*rootNode)[JsonPointer(jsonPtr)];
         if (!node.is_null()) return &node;
     }
     return nullptr;

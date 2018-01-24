@@ -18,9 +18,10 @@ public:
     void unreg(ActorID id) override;
 
     void update() override;
+    void clean() override;
 
 private:
-    SceneSystem*             m_sceneSystem;
-    GameSystemManager*            m_sysManager;
+    SceneSystem*              m_sceneSystem;
+    GameSystemManager*        m_sysManager;
     std::map<ActorID, Actor*> m_registered;
 };

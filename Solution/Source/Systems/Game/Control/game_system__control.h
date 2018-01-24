@@ -23,6 +23,7 @@ public:
     void unreg(ActorID id) override;
 
     void update() override;
+    void clean() override;
 
     ActorID getCurrentID();
 
@@ -30,7 +31,7 @@ public:
     PlayerController*        m_plController;
 
 private:
-    GameSystemManager*           m_sysManager;
+    GameSystemManager*       m_sysManager;
     std::vector<std::pair<size_t, Actor*>> m_possessed;
     size_t                   m_current;
     bool                     m_giveAP;

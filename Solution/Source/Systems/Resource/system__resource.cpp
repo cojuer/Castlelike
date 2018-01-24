@@ -2,7 +2,7 @@
 
 #include "factories.h"
 #include "action_manager.h"
-#include "dialmanager.h"
+#include "system__dialogue.h"
 #include "text_renderer.h"
 #include "factions.h"
 

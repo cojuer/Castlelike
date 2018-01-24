@@ -1,4 +1,4 @@
-#include "id_manager.h"
+#include "system__actor_id.h"
 
 const std::string IDManager::stringID = "system__id";
 
@@ -41,6 +41,12 @@ Json IDManager::save() const
     result["current"] = m_current;
     result["free"] = m_freed;
     return result;
+}
+
+void IDManager::clean()
+{
+    m_current = 0;
+    m_freed.clear();
 }
 
 IDManager& IDManager::instance()

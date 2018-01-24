@@ -26,7 +26,7 @@ bool GameSystemManager::init(InputSubsystem& inputSubsystem, RenderSubsystem& re
     m_lootSystem->init(*this, sceneSystem);
     m_statsSystem->init(*this);
     m_controlSheduler->init(inputSubsystem, sceneSystem, *this);
-    m_viewSystem->init(rendSubsystem, resSystem, *this, sceneSystem);
+    m_viewSystem->init(rendSubsystem, resSystem, sceneSystem);
 
     m_systems.push_back(m_controlSheduler);
     m_systems.push_back(m_lootSystem);
@@ -55,6 +55,14 @@ void GameSystemManager::update()
 {
     m_viewSystem->update();
     //m_controller->update();
+}
+
+void GameSystemManager::clean()
+{
+    for (auto system : m_systems)
+    {
+        system->clean();
+    }
 }
 
 GameSystemManager::~GameSystemManager()

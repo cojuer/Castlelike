@@ -141,10 +141,9 @@ void SaveSystem::save(const std::string profile, const std::string saveName)
 std::vector<Profile> SaveSystem::getProfiles() const
 {
     std::vector<Profile> result;
-    // TODO: use C++17 when possible
-    for (auto& pair : m_saves)
+    for (auto& [profile, saves] : m_saves)
     {
-        result.push_back(pair.first);
+        result.push_back(profile);
     }
     return result;
 }

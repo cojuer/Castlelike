@@ -6,7 +6,6 @@
 #include <SDL.h>
 
 #include "object.h"
-#include "pugi_aliases.h"
 #include "json_aliases.h"
 #include "vec2.h"
 #include "widget_state.h"
@@ -110,7 +109,7 @@ protected:
 
     SDL_Rect         m_geometry;
 
-    Bhvr*            m_bhvr;
+    std::unique_ptr<Bhvr> m_bhvr;
     WState           m_state;
 
     bool             m_visible;

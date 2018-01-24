@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "id_manager.h"
+#include "system__actor_id.h"
 #include "game_system_manager.h"
 
 #include "subsystem__event.h"
@@ -49,6 +49,13 @@ void StatsGSystem::update()
         }
         m_updated.pop();
     }
+}
+
+void StatsGSystem::clean()
+{
+    m_registered.clear();
+    std::queue<Actor*> empty;
+    std::swap(m_updated, empty);
 }
 
 void StatsGSystem::onEvent(ActorEvent& event)

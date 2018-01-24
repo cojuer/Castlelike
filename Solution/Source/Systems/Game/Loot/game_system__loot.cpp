@@ -4,7 +4,7 @@
 #include "container.h"
 #include "actor__storage.h"
 
-#include "id_manager.h"
+#include "system__actor_id.h"
 #include "system__scene.h"
 #include "game_system_manager.h"
 
@@ -79,4 +79,9 @@ void LootGSystem::update()
         }
         else ++iter;
     }
+}
+
+void LootGSystem::clean()
+{
+    m_registered.clear();
 }

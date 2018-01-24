@@ -5,6 +5,7 @@
 
 #include "subsystem__input.h"
 #include "subsystem__render.h"
+#include "system__actor_id.h"
 #include "system__save.h"
 #include "system__scene.h"
 #include "system__shedule.h"
@@ -12,6 +13,7 @@
 #include "game_system__control.h"
 
 #include "game_gui.h"
+#include "menu_gui.h"
 
 GameAppState GameAppState::playState;
 
@@ -27,13 +29,9 @@ void GameAppState::init(App& app)
 
 void GameAppState::clean()
 {
-    // TODO: update when C++17 support will be better
-    for (auto pair : m_app->m_sceneSystem->getScene()->getIDToActorMap())
-    {
-        auto id = pair.first;
-        m_app->m_gameSysManager->unreg(id);
-    }
+    m_app->m_gameSysManager->clean();
     m_app->m_sceneSystem->clean();
+    IDManager::instance().clean();
 }
 
 void GameAppState::start()
@@ -63,6 +61,7 @@ void GameAppState::handle()
         }
         if (event.type == SDL_KEYDOWN and event.key.keysym.sym == SDLK_ESCAPE)
         {
+            m_app->m_menuGUI->setState(MenuState::ON_MAIN);
             m_app->changeState(*MenuAppState::instance());
             return;
         }

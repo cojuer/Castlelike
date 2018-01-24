@@ -84,6 +84,14 @@ void ControlGSystem::update()
     }
 }
 
+void ControlGSystem::clean()
+{
+    m_current = 0;
+    m_giveAP = true;
+    m_registered.clear();
+    m_possessed.clear();
+}
+
 ActorID ControlGSystem::getCurrentID()
 {
     // FIXME: current ID is not valid due to sheduler

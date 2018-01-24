@@ -24,10 +24,9 @@ Equipment::Equipment()
 
 Equipment::~Equipment()
 {
-    // TODO: use C++17 auto& when possible
-    for (auto pair : m_slots)
+    for (auto& [type, slot] : m_slots)
     {
-        delete(pair.second);
+        delete(slot);
     }
 }
 

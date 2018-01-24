@@ -12,14 +12,13 @@ Bhvr::Bhvr(Widget& parent, TrigVec&& trigs) :
 
 Bhvr::~Bhvr()
 {
-    for (auto trig : m_trigs)
+    for (auto trigger : m_trigs)
     {
-        delete(trig);
+        delete(trigger);
     }
-    // TODO: use C++17 auto& [] when possible
-    for (auto pair : m_keyTrigs)
+    for (auto& [key, trigger] : m_keyTrigs)
     {
-        delete(pair.second);
+        delete(trigger);
     }
 }
 

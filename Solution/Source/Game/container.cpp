@@ -14,18 +14,18 @@ Container::Container(int maxsize) :
     }
 }
 
-bool Container::add(Item& item)
+bool Container::add(Item& itemToAdd)
 {
-    for (auto& pair : m_busyslots)
+    for (auto&[index, item] : m_busyslots)
     {
-        if (pair.second->combine(item))
+        if (item->combine(itemToAdd))
         {
             // check amount, delete item if amount == 0
             return true;
         }
     }
     if (isFull()) return false;
-    m_busyslots[*m_empties.begin()] = &item;
+    m_busyslots[*m_empties.begin()] = &itemToAdd;
     m_empties.erase(m_empties.begin());
     return true;
 }
@@ -61,11 +61,11 @@ const int& Container::getGold() const
     return m_gold;
 }
 
-bool Container::hasItem(const std::string id) const
+bool Container::hasItem(const std::string& resID) const
 {
-    for (auto& slot : m_busyslots)
+    for (auto&[index, item] : m_busyslots)
     {
-        if (id == slot.second->getRes())
+        if (resID == item->getRes())
         {
             return true;
         }
@@ -89,9 +89,9 @@ void Container::swapSlots(int fstIndex, int sndIndex)
 
 void Container::takeFrom(Container& cont)
 {
-    for (auto& pair : cont.m_busyslots)
+    for (auto&[index, item] : cont.m_busyslots)
     {
-        add(*pair.second);
+        add(*item);
     }
     // FIXME: does not updates empty slots
     cont.m_busyslots.erase(cont.m_busyslots.begin(), cont.m_busyslots.end());
@@ -143,17 +143,16 @@ bool Container::takeGold(Container& cont)
 // FIXME: should container delete items?
 Container::~Container()
 {
-    // TODO: use C++17 auto&[] when possible
-    for (auto pair : m_busyslots)
+    for (auto&[index, item] : m_busyslots)
     {
-        delete(pair.second);
+        delete(item);
     }
     m_busyslots.erase(m_busyslots.begin(), m_busyslots.end());
 }
 
 bool Container::isEmpty() const
 {
-    return m_busyslots.size() == 0;
+    return m_busyslots.empty();
 }
 
 bool Container::isFull() const

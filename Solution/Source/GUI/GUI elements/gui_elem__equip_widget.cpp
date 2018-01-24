@@ -1,7 +1,8 @@
-#include "equipmentwidget.h"
+#include "gui_elem__equip_widget.h"
 
 #include "atexture.h"
 #include "equipment.h"
+#include "GUI/Behaviour/behaviour.h"
 
 #include "system__resource.h"
 

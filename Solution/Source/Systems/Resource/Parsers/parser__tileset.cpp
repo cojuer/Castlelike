@@ -3,6 +3,7 @@
 #include "system__resource.h"
 
 #include "renderable.h"
+#include "tile.h"
 
 TilesetParser::TilesetParser() = default;
 
@@ -40,9 +41,8 @@ Tileset* TilesetParser::parse(const std::string& nodeName, Json& node)
     }
 
     std::vector<std::string> tileTerrs(tset->m_cols * tset->m_rows);
-    for (const auto& pair : tset->m_terrains)
+    for (const auto&[terrName, terrain] : tset->m_terrains)
     {
-        auto terrain = pair.second;
         for (auto id : terrain.m_tiles)
         {
             tileTerrs[id] = terrain.m_name;
@@ -50,5 +50,23 @@ Tileset* TilesetParser::parse(const std::string& nodeName, Json& node)
     }
     tset->m_tileTerrs = tileTerrs;
 
+    std::vector<std::unique_ptr<ATexture>> tileTextures{ tset->m_cols * tset->m_rows };
+    for (uint32_t id = 0; id != tset->m_cols * tset->m_rows; ++id)
+    {
+        auto view = new ATexture(*tset->m_image);
+        auto x = tset->m_margin + id % tset->m_cols * (tset->m_tileW + tset->m_spacing);
+        auto y = tset->m_margin + id / tset->m_cols * (tset->m_tileH + tset->m_spacing);
+        SDL_Rect src{ x, y, tset->m_tileW, tset->m_tileH };
+        view->setSrcRect(src);
+        tileTextures[id].reset(view);
+    }
+    tset->m_tileTextures = std::move(tileTextures);
+
+    for (uint32_t id = 0; id != tset->m_cols * tset->m_rows; ++id)
+    {
+        auto view = tset->m_tileTextures.at(id).get();
+        auto collision = tset->m_terrains.at(tset->m_tileTerrs.at(id)).m_collisive;
+        tset->m_tiles.emplace_back( tset, id, view, collision );
+    }
     return tset;
 }

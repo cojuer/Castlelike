@@ -1,20 +1,21 @@
 #pragma once
 
 #include <list>
+#include <memory>
 #include <vector>
 
 #include "object.h"
 #include "vec2.h"
-#include "container.h"
-#include "equipment.h"
-#include "action_interface.h"
-#include "handler_registration.h"
 
-class RenderSubsystem;
+class ActionInterface;
 class Actor;
-class Journal;
+class Container;
+class Equipment;
 class GUIListener;
+class Journal;
+class HandlerRegistration;
 class Options;
+class RenderSubsystem;
 class ResourceSystem;
 class SceneSystem;
 class GameSystemManager;
@@ -22,14 +23,13 @@ union SDL_Event;
 
 namespace gui {
 
+class ActPanel;
 class ActSlot;
 class BagWidget;
 class EquipmentWidget;
 class ItemSlot;
-class Widget;
-class ActPanel;
 class SlotHelper;
-class ViewData;
+class Widget;
 
 enum class ActSlotType
 {
@@ -78,7 +78,6 @@ public:
     void             initInventory();
     void             initBagWidget();
     void             initActionsWdg();
-    void             initJournalPanel();
     void             initDlMenu();
 
     void             renderTextBuffer() const;
@@ -100,13 +99,14 @@ public:
     void             handle(SDL_Event& event);
 
 private:
+    void             handleDialogue(SDL_Event& event);
     void             handleInventory(SDL_Event& event);
     void             handleKeyboard(SDL_Event& event);
 
-    void             handleNormal(SDL_Event& event);
-    void             handleActInput(SDL_Event& event);
-    void             handleActAnim(SDL_Event& event);
-    void             handleCutscene(SDL_Event& event);
+    void             handleStateNormal(SDL_Event& event);
+    void             handleStateActInput(SDL_Event& event);
+    void             handleStateActAnim(SDL_Event& event);
+    void             handleStateCutscene(SDL_Event& event);
 
     void             updateCurSlot();
 
@@ -147,7 +147,6 @@ private:
     std::unique_ptr<ActPanel>  m_actionsWdg;
     std::unique_ptr<BagWidget> m_lootWdg;
     std::unique_ptr<Widget> m_dialWdg;
-    std::unique_ptr<Widget> m_journalWdg;
 
     BagWidget*       m_bagWdg;
     EquipmentWidget* m_equipWdg;

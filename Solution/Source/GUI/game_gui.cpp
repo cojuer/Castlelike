@@ -1,50 +1,36 @@
 #include "game_gui.h"
 
-#include <SDL.h>
-
-#include "widget__progress_bar.h"
-#include "renderable.h"
-#include "widget.h"
-#include "action_manager.h"
-#include "scene.h"
-#include "bagwidget.h"
-#include "widget__button.h"
-#include "container.h"
-#include "dialmanager.h"
-#include "event__dialogue.h"
-#include "equipmentwidget.h"
-#include "heropanel.h"
-#include "slot__item.h"
-#include "journal.h"
-#include "on_release.h"
-#include "actpanel.h"
-#include "slot__action.h"
-#include "options.h"
+#include "subsystem__event.h"
+#include "subsystem__render.h"
+#include "game_system_manager.h"
+#include "system__dialogue.h"
 #include "system__resource.h"
-#include "slot_helper.h"
-#include "widget__tabs.h"
-#include "text_renderer.h"
-#include "widget__text.h"
-#include "font_data.h"
+#include "system__scene.h"
+
+#include "global_time.h"
 #include "utils.h"
-#include "component__reactor.h"
-#include "component__health.h"
-#include "component__stamina.h"
-#include "component__experience_interface.h"
+#include "font_data.h"
+#include "event__dialogue.h"
+#include "text_renderer.h"
+#include "listener__gui.h"
+
+#include "widget__button.h"
+#include "widget__progress_bar.h"
+#include "widget__text.h"
+#include "slot_helper.h"
+#include "slot__item.h"
+#include "gui_elem__bag_widget.h"
+#include "gui_elem__equip_widget.h"
+#include "gui_elem__action_panel.h"
+#include "gui_elem__hero_widget.h"
+
+#include "component__action_pts.h"
 #include "component__bag.h"
 #include "component__equipment.h"
-#include "system__scene.h"
-#include "game_system_manager.h"
-#include "game_system__control.h"
-#include "player_controller.h"
-#include "subsystem__render.h"
-#include "color.h"
-
-#include "subsystem__event.h"
-#include "event__actor.h"
-#include "listener__gui.h"
-#include "component__action_pts.h"
-#include "global_time.h"
+#include "component__experience_interface.h"
+#include "component__health.h"
+#include "component__reactor_interface.h"
+#include "component__stamina.h"
 
 namespace gui {
     
@@ -59,7 +45,9 @@ bool GameGUI::init(Options& opts,
     m_opts = &opts;
     m_state = GameGUIState::NORMAL;
 
-    m_hero = sysManager.m_controlSheduler->m_plController->getPossessed().begin()->second;
+    m_hero = sceneSystem.getScene()->getHero();
+    assert(m_hero && "hero not available");
+
     // FIXME: do we need journal?
     m_journal = resSystem.m_journal;
     m_rendSubsystem = &rendSubsystem;
@@ -70,14 +58,23 @@ bool GameGUI::init(Options& opts,
     m_listener.reset(new GUIListener(*this));
     m_reg.reset(EventSubsystem::AddHandler(*m_listener));
 
-    // TODO: make_unique?
-    Widget* tempWdgPtr = new Widget("journal_back", nullptr, { 0, 0, 300, 150 }, true, m_resSystem->get<Renderable>("text_buffer_back"));
-    m_textBufferBack = std::unique_ptr<Widget>(tempWdgPtr);
+    m_textBufferBack = std::make_unique<Widget>(
+        std::string("journal_back"), 
+        nullptr, 
+        SDL_Rect{ 0, 0, 300, 150 }, 
+        true, 
+        m_resSystem->get<Renderable>("text_buffer_back")
+    );
 
     m_slotHelper = std::make_unique<SlotHelper>();
 
-    tempWdgPtr = new Widget("dial_wdg", nullptr, { 0, 500, m_opts->getInt("Width"), 160 }, false, m_resSystem->get<Renderable>("hero_panel_back_texture"));
-    m_dialWdg = std::unique_ptr<Widget>(tempWdgPtr);
+    m_dialWdg = std::make_unique<Widget>(
+        std::string("dial_wdg"), 
+        nullptr, 
+        SDL_Rect{ 0, 500, m_opts->getInt("Width"), 160 }, 
+        false, 
+        m_resSystem->get<Renderable>("hero_panel_back_texture")
+    );
 
     //! init status check
     initHeroBars();
@@ -85,7 +82,6 @@ bool GameGUI::init(Options& opts,
     initInventory();
     initBagWidget();
     initActionsWdg();
-    initJournalPanel();
     initDlMenu();
 
     return (m_journal != nullptr);
@@ -93,25 +89,97 @@ bool GameGUI::init(Options& opts,
 
 void GameGUI::initHeroBars()
 {
-    auto& hero = *m_sysManager->m_controlSheduler->m_plController->getPossessed().begin()->second;
-
     m_hpWdg = std::unique_ptr<Widget>(m_resSystem->get<Widget>("hp_bar"));
     auto progBarHpWdg = dcast<ProgressBar*>(m_hpWdg.get());
-    auto hpComponent = hero.getComponent<HealthComponent>();
+    auto hpComponent = m_hero->getComponent<HealthComponent>();
     progBarHpWdg->setData(hpComponent->getCurr(), hpComponent->getMax());
     m_widgets.push_back(m_hpWdg.get());
 
     m_spWdg = std::unique_ptr<Widget>(m_resSystem->get<Widget>("sp_bar"));
     auto progBarSpWdg = dcast<ProgressBar*>(m_spWdg.get());
-    auto spComponent = hero.getComponent<StaminaComponent>();
+    auto spComponent = m_hero->getComponent<StaminaComponent>();
     progBarSpWdg->setData(spComponent->getCurr(), spComponent->getMax());
     m_widgets.push_back(m_spWdg.get());
 
     m_xpWdg = std::unique_ptr<Widget>(m_resSystem->get<Widget>("xp_bar"));
     auto barWdg = dcast<ProgressBar*>(m_xpWdg.get());
-    auto xpComponent = hero.getComponent<ExperienceInterfaceComponent>();
+    auto xpComponent = m_hero->getComponent<ExperienceInterfaceComponent>();
     barWdg->setData(xpComponent->getXp(), xpComponent->getXpToLvlUp());
     m_widgets.push_back(m_xpWdg.get());
+}
+
+void GameGUI::initHeroPanel()
+{
+    auto texture = m_resSystem->get<Renderable>("hero_panel_back_texture");
+    auto panel = new HeroPanel("hero_panel", nullptr, 100, 100, 400, 400, false, texture);
+    panel->init(*m_resSystem, *m_hero);
+    m_heroWdg = std::unique_ptr<Widget>(panel);
+    m_widgets.push_back(m_heroWdg.get());
+}
+
+void GameGUI::initInventory()
+{
+    auto& equipment = m_hero->getComponent<EquipmentComponent>()->get();
+    m_equipWdg = dcast<EquipmentWidget*>(m_resSystem->get<Widget>("equipment"));
+    m_equipWdg->setEquipment(equipment);
+
+    auto& bag = m_hero->getComponent<BagComponent>()->get();
+    m_bagWdg = dcast<BagWidget*>(m_resSystem->get<Widget>("bag"));
+    m_bagWdg->setContainer(&bag);
+
+    m_inventoryWdg = std::unique_ptr<Widget>(m_resSystem->get<Widget>("inventory"));
+    m_inventoryWdg->setVisible(false);
+    m_inventoryWdg->addChild(*m_equipWdg);
+    m_inventoryWdg->addChild(*m_bagWdg);
+
+    m_widgets.push_back(m_inventoryWdg.get());
+}
+
+void GameGUI::initBagWidget()
+{
+    m_lootWdg = std::unique_ptr<BagWidget>(dcast<BagWidget*>(m_resSystem->get<Widget>("secbag")));
+    m_lootWdg->setVisible(false);
+    m_widgets.push_back(m_lootWdg.get());
+}
+
+void GameGUI::initActionsWdg()
+{
+    m_actionsWdg = std::unique_ptr<ActPanel>(dcast<ActPanel*>(m_resSystem->get<Widget>("actpanel")));
+    // TEST
+    auto& slots = m_actionsWdg->getSlots();
+    slots[0].setAction("action_move", *m_resSystem);
+    slots[1].setAction("action_attack", *m_resSystem);
+    slots[2].setAction("action_discard", *m_resSystem);
+    slots[3].setAction("action_whirlwind", *m_resSystem);
+    slots[4].setAction("action_swing", *m_resSystem);
+    slots[5].setAction("action_mighty_blow", *m_resSystem);
+    // TEST
+    m_widgets.push_back(m_actionsWdg.get());
+}
+
+// FIXME: rewrite
+void GameGUI::initDlMenu()
+{
+    //dialWdg->setTrigger(new ButtonTrigger(dialWdg, new DlEvent(DlEvType::NEXT_PHRASE)));
+
+    const int tMarg = 20;
+    const int lMarg = 20;
+
+    const std::string& text = m_resSystem->dialogueManager->getCurText();
+    Widget* textPanel = new TextWidget("text", m_dialWdg.get(), { lMarg, tMarg, m_opts->getInt("Width"), 100 }, true, Font::latoRegular, FontSize::medium, Color::silver, &text);
+
+    int height = tMarg + 2 * FontSize::medium;
+    for (int i = 0; i < dialMaxAnswers; ++i)
+    {
+        Widget* answer = new Button(std::string("answer ") + std::to_string(i),
+            m_dialWdg.get(), { lMarg, height }, true, nullptr, new DlEvent(DlEvType::CHOOSE_ANSWER, i));
+        m_dialWdg->addChild(*answer);
+        height += FontSize::medium;
+    }
+
+    m_dialWdg->addChild("text", *textPanel);
+
+    m_widgets.push_back(m_dialWdg.get());
 }
 
 void GameGUI::handle(SDL_Event& event)
@@ -119,20 +187,37 @@ void GameGUI::handle(SDL_Event& event)
     switch(m_state)
     {
     case GameGUIState::NORMAL:
-        handleNormal(event);
+        handleStateNormal(event);
         break;
     case GameGUIState::ACTION_INPUT:
-        handleActInput(event);
+        handleStateActInput(event);
         break;
     case GameGUIState::ACTION_ANIM:
-        handleActAnim(event);
+        handleStateActAnim(event);
         break;
     case GameGUIState::CUTSCENE:
-        handleCutscene(event);
+        handleStateCutscene(event);
         break;
     default:
         break;
     }
+}
+
+void GameGUI::handleDialogue(SDL_Event& event)
+{
+    if (!m_dialWdg->isVisible()) return;
+    
+    auto& dlMgr = *m_resSystem->dialogueManager;
+    if (dlMgr.getPhrase() == dlMgr.getCurState()->phrases.size() - 1 &&
+        dlMgr.getCurPhrase()->nextState != -1)
+    {
+        m_dialWdg->setState(WState::INACTIVE);
+    }
+    else if (m_dialWdg->getState() == WState::INACTIVE)
+    {
+        m_dialWdg->setState(WState::MOUSE_OUT);
+    }
+    m_dialWdg->handle(event);
 }
 
 GameGUI::~GameGUI()
@@ -142,9 +227,7 @@ GameGUI::~GameGUI()
 
 void GameGUI::handleInventory(SDL_Event& event)
 {
-    auto& hero = *m_sysManager->m_controlSheduler->m_plController->getPossessed().begin()->second;
-
-    auto& bag = hero.getComponent<BagComponent>()->get();
+    auto& bag = m_hero->getComponent<BagComponent>()->get();
     auto loot = m_lootWdg->getContainer();
     auto equip = m_equipWdg->getEquipment();
 
@@ -214,10 +297,6 @@ void GameGUI::handleKeyboard(SDL_Event& event)
     {
         m_actionsWdg->setVisible(!m_actionsWdg->isVisible());
     }
-    else if (curr == m_opts->getInt("open_journal"))
-    {
-        m_journalWdg->setVisible(!m_journalWdg->isVisible());
-    }
     else if (curr == SDLK_SPACE)
     {
         auto& gTime = GlobalTime::instance();
@@ -247,10 +326,9 @@ void GameGUI::handleKeyboard(SDL_Event& event)
         auto& slots = m_actionsWdg->getSlots();
         if (!slots[access_flag].isEmpty())
         {
-            auto& hero = *m_sysManager->m_controlSheduler->m_plController->getPossessed().begin()->second;
             auto& scene = *m_sceneSystem->getScene();
             ActionArgs input;
-            input[ActArgType::user] = dcast<Actor*>(&hero);
+            input[ActArgType::user] = m_hero;
             input[ActArgType::scene] = &scene;
             m_action = m_resSystem->actionManager->getAction(slots[access_flag].getAction(), std::move(input));
             m_state = GameGUIState::ACTION_INPUT;
@@ -259,12 +337,11 @@ void GameGUI::handleKeyboard(SDL_Event& event)
 }
 
 // FIXME: function too large
-void GameGUI::handleNormal(SDL_Event& event)
+void GameGUI::handleStateNormal(SDL_Event& event)
 {
     int x, y;
     SDL_GetMouseState(&x, &y);
 
-    auto& hero = *m_sysManager->m_controlSheduler->m_plController->getPossessed().begin()->second;
     auto& scene = *m_sceneSystem->getScene();
 
     if (event.type == SDL_KEYDOWN)
@@ -282,7 +359,7 @@ void GameGUI::handleNormal(SDL_Event& event)
         x = center.x + std::round((x - viewport.x - viewport.w / 2 - 32) / 64.);
         y = center.y + std::round((y - viewport.y - viewport.h / 2 - 32) / 64.);
         auto contActor = scene.getActor({ x, y }, ActorType::CONTAINER);
-        if (utils::coordDist({ x, y }, hero.getCoord()) <= 1 && contActor)
+        if (utils::coordDist({ x, y }, m_hero->getCoord()) <= 1 && contActor)
         {
             auto& container = contActor->getComponent<BagComponent>()->get();
             m_lootWdg->setContainer(&container);
@@ -300,23 +377,7 @@ void GameGUI::handleNormal(SDL_Event& event)
     }
 
     handleInventory(event);
-
-    m_journalWdg->handle(event);
-
-    if (m_dialWdg->isVisible())
-    {
-        auto& dlMgr = *m_resSystem->dialogueManager;
-        if (dlMgr.getPhrase() == dlMgr.getCurState()->phrases.size() - 1 &&
-            dlMgr.getCurPhrase()->nextState != -1)
-        {
-            m_dialWdg->setState(WState::INACTIVE);
-        }
-        else if (m_dialWdg->getState() == WState::INACTIVE)
-        {
-            m_dialWdg->setState(WState::MOUSE_OUT);
-        }
-        m_dialWdg->handle(event);
-    }
+    handleDialogue(event);
 
     auto& slots = m_actionsWdg->getSlots();
     auto coord = m_actionsWdg->getPos();
@@ -326,7 +387,7 @@ void GameGUI::handleNormal(SDL_Event& event)
             !slot.isEmpty())
         {
             ActionArgs input;
-            input[ActArgType::user] = dcast<Actor*>(&hero);
+            input[ActArgType::user] = m_hero;
             input[ActArgType::scene] = &scene;
             m_action = m_resSystem->actionManager->getAction(slot.getAction(), std::move(input));
             m_state = GameGUIState::ACTION_INPUT;
@@ -334,14 +395,14 @@ void GameGUI::handleNormal(SDL_Event& event)
     }
 }
 
-void GameGUI::handleActInput(SDL_Event& event)
+void GameGUI::handleStateActInput(SDL_Event& event)
 {
     int x, y;
     SDL_GetMouseState(&x, &y);
 
-    if (!this->isPointOnGUI({ x, y }) &&
-        event.type == SDL_MOUSEBUTTONDOWN &&
-        event.button.button == SDL_BUTTON_LEFT)
+    if (!this->isPointOnGUI({ x, y })
+        and event.type == SDL_MOUSEBUTTONDOWN
+        and event.button.button == SDL_BUTTON_LEFT)
     {
         // FIXME: stop using magic consts
         auto viewport = m_sysManager->m_viewSystem->getCamera().getViewport();
@@ -356,11 +417,11 @@ void GameGUI::handleActInput(SDL_Event& event)
     }
 }
 
-void GameGUI::handleActAnim(SDL_Event& event)
+void GameGUI::handleStateActAnim(SDL_Event& event)
 {
 }
 
-void GameGUI::handleCutscene(SDL_Event& event)
+void GameGUI::handleStateCutscene(SDL_Event& event)
 {
 }
 
@@ -595,106 +656,7 @@ bool GameGUI::isPointOnGUI(Vec2i point) const
     return pointOn;
 }
 
-void GameGUI::initHeroPanel()
-{
-    auto texture = m_resSystem->get<Renderable>("hero_panel_back_texture");
-    auto panel = new HeroPanel("hero_panel", nullptr, 100, 100, 400, 400, false, texture);
-    panel->init(*m_resSystem, *m_sysManager);
-    m_heroWdg = std::unique_ptr<Widget>(panel);
-    m_widgets.push_back(m_heroWdg.get());
-}
-
-void GameGUI::initInventory()
-{
-    auto& hero = *m_sysManager->m_controlSheduler->m_plController->getPossessed().begin()->second;
-    auto& equipment = hero.getComponent<EquipmentComponent>()->get();
-    m_equipWdg = dcast<EquipmentWidget*>(m_resSystem->get<Widget>("equipment"));
-    m_equipWdg->setEquipment(equipment);
-
-    auto& bag = hero.getComponent<BagComponent>()->get();
-    m_bagWdg = dcast<BagWidget*>(m_resSystem->get<Widget>("bag"));
-    m_bagWdg->setContainer(&bag);
-
-    m_inventoryWdg = std::unique_ptr<Widget>(m_resSystem->get<Widget>("inventory"));
-    m_inventoryWdg->setVisible(false);
-    m_inventoryWdg->addChild(*m_equipWdg);
-    m_inventoryWdg->addChild(*m_bagWdg);
-
-    m_widgets.push_back(m_inventoryWdg.get());
-}
-
-void GameGUI::initBagWidget()
-{
-    m_lootWdg = std::unique_ptr<BagWidget>(dcast<BagWidget*>(m_resSystem->get<Widget>("secbag")));
-    m_lootWdg->setVisible(false);
-    m_widgets.push_back(m_lootWdg.get());
-}
-
-void GameGUI::initActionsWdg()
-{
-    m_actionsWdg = std::unique_ptr<ActPanel>(dcast<ActPanel*>(m_resSystem->get<Widget>("actpanel")));
-    // TEST
-    auto& slots = m_actionsWdg->getSlots();
-    slots[0].setAction("action_move", *m_resSystem);
-    slots[1].setAction("action_attack", *m_resSystem);
-    slots[2].setAction("action_discard", *m_resSystem);
-    slots[3].setAction("action_whirlwind", *m_resSystem);
-    slots[4].setAction("action_swing", *m_resSystem);
-    slots[5].setAction("action_mighty_blow", *m_resSystem);
-    // TEST
-    m_widgets.push_back(m_actionsWdg.get());
-}
-
-void GameGUI::initJournalPanel()
-{
-    m_journalWdg = std::unique_ptr<Widget>(new Widget("jrn_panel", nullptr, { 100, 100, 800, 400 }, false, m_resSystem->get<Renderable>("journal_back_texture")));
-    auto journalTabs = new TabWidget("jrn_tabs", m_journalWdg.get(), 0, 0, m_journalWdg->getWidth(), m_journalWdg->getHeight(), true, nullptr);
-
-    auto button = new Button("goals", journalTabs, { 0, 0 }, true, m_resSystem->get<Renderable>("text_goals"));
-    auto panel = new Widget("goals_panel", journalTabs, { 20, 100, 760, 300 }, true, nullptr);
-    journalTabs->addTab(button, panel);
-
-    button = new Button("journal", journalTabs, { 200, 0 }, true, m_resSystem->get<Renderable>("text_journal"));
-    panel = new Widget("journal_panel", journalTabs, { 20, 100, 760, 300 }, true, nullptr);
-    journalTabs->addTab(button, panel);
-
-    button = new Button("encycl", journalTabs, { 400, 0 }, true, m_resSystem->get<Renderable>("text_encyclopedia"));
-    panel = new Widget("encycl_panel", journalTabs, { 20, 100, 760, 300 }, true, nullptr);
-    journalTabs->addTab(button, panel);
-
-    button = new Button("stats", journalTabs, { 600, 0 }, true, m_resSystem->get<Renderable>("text_statistics"));
-    panel = new Widget("stats_panel", journalTabs, { 20, 100, 760, 300 }, true, nullptr);
-    journalTabs->addTab(button, panel);
-
-    m_journalWdg->addChild("pan_jrn", *journalTabs);
-    m_widgets.push_back(m_journalWdg.get());
-}
-
-// TO REFACTOR
-void GameGUI::initDlMenu()
-{
-    //dialWdg->setTrigger(new ButtonTrigger(dialWdg, new DlEvent(DlEvType::NEXT_PHRASE)));
-
-    const int tMarg = 20;
-    const int lMarg = 20;
-
-    const std::string& text = m_resSystem->dialogueManager->getCurText();
-    Widget* textPanel = new TextWidget("text", m_dialWdg.get(), { lMarg, tMarg, m_opts->getInt("Width"), 100 }, true, Font::latoRegular, FontSize::medium, Color::silver, &text);
-
-    int height = tMarg + 2 * FontSize::medium;
-    for (int i = 0; i < dialMaxAnswers; ++i)
-    {
-        Widget* answer = new Button(std::string("answer ") + std::to_string(i), 
-            m_dialWdg.get(), { lMarg, height }, true, nullptr, new DlEvent(DlEvType::CHOOSE_ANSWER, i));
-        m_dialWdg->addChild(*answer);
-        height += FontSize::medium;
-    }
-
-    m_dialWdg->addChild("text", *textPanel);
-
-    m_widgets.push_back(m_dialWdg.get());
-}
-
+// FIXME: rewrite
 void GameGUI::refreshDlMenu()
 {
     const auto& dlMgr = *m_resSystem->dialogueManager;
@@ -771,7 +733,6 @@ void GameGUI::resetActiveSlot()
 void GameGUI::hidePanels()
 {
     m_heroWdg->setVisible(false);
-    m_journalWdg->setVisible(false);
 
     resetActiveSlot();
     m_bagWdg->resetSlots();

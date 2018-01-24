@@ -9,6 +9,7 @@ public:
     virtual void unreg(ActorID id) = 0;
 
     virtual void update() = 0;
+    virtual void clean() = 0;
 
     virtual ~GameSystem() = default;
 };

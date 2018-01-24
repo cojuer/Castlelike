@@ -1,4 +1,4 @@
-#include "dialmanager.h"
+#include "system__dialogue.h"
 
 #include "subsystem__event.h"
 #include "event__gui.h"

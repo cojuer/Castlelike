@@ -16,21 +16,20 @@ public:
 
     bool init(RenderSubsystem& rendSubsys,
               ResourceSystem& resSystem,
-              GameSystemManager& sysManager, 
               SceneSystem& sceneSystem);
 
     bool reg(Actor& actor) override;
     void unreg(ActorID id) override;
 
     void update() override;
+    void clean() override;
 
     const Camera& getCamera() const;
 
 private:
     Camera*                   m_camera;
     RenderSubsystem*          m_rendSubsystem;
-    ResourceSystem*          m_resSystem;
-    SceneSystem*             m_sceneSystem;
-    GameSystemManager*            m_sysManager;
+    ResourceSystem*           m_resSystem;
+    SceneSystem*              m_sceneSystem;
     std::map<ActorID, Actor*> m_registered;
 };

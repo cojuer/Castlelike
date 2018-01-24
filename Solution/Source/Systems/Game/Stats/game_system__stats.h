@@ -21,11 +21,12 @@ public:
     void unreg(ActorID id) override;
 
     void update() override;
+    void clean() override;
 
     void onEvent(ActorEvent& event) override;
 
 private:
-    GameSystemManager*         m_sysManager;
+    GameSystemManager*        m_sysManager;
     std::map<ActorID, Actor*> m_registered;
     std::queue<Actor*>        m_updated;
 };

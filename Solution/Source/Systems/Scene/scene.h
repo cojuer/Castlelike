@@ -30,9 +30,10 @@ public:
     size_t           getWidth() const;
     size_t           getHeight() const;
     Tile*            getTile(Coord coord) const;
-    // FIXME: delete this
     Actor*           getActor(Coord coord, const std::string& type) const;
+    Actor*           getActor(ActorID id) const; 
     ActorVec         getActorsAtCoord(Coord coord) const;
+    Actor*           getHero() const;
     const std::map<ActorID, Actor*>& getIDToActorMap() const;
 
     bool             isEmpty(Coord) const;

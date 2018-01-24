@@ -1,9 +1,9 @@
 #pragma once
 
-#include "bagwidget.h"
-#include "equipmentwidget.h"
+#include "gui_elem__bag_widget.h"
+#include "gui_elem__equip_widget.h"
 #include "game_gui.h"
-#include "actpanel.h"
+#include "gui_elem__action_panel.h"
 
 #include "event_handler.h"
 #include "event__gui.h"

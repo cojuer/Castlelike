@@ -132,9 +132,9 @@ bool SceneFactory::load(const std::string& fname)
 Resource<Scene>* SceneFactory::get(ResourceId& id)
 {
     auto tset = m_resSystem->get<Tileset>("test_tileset");
-    auto floor = *tset->getTile(tset->m_terrains.at("floor").m_tiles.front());
-    auto wall = *tset->getTile(tset->m_terrains.at("wall").m_tiles.front());
-    auto walltop = *tset->getTile(tset->m_terrains.at("walltop").m_tiles.front());
+    auto& floor = *tset->getTile(tset->m_terrains.at("floor").m_tiles.front());
+    auto& wall = *tset->getTile(tset->m_terrains.at("wall").m_tiles.front());
+    auto& walltop = *tset->getTile(tset->m_terrains.at("walltop").m_tiles.front());
 
     uint32_t width = 100;
     uint32_t height = 100;
@@ -185,11 +185,11 @@ Resource<Scene>* SceneFactory::get(ResourceId& id)
         {
             if (tileTypes[i][j] == "ground")
             {
-                area[i][j] = new Tile(floor);
+                area[i][j] = &floor;
             }
             else if (tileTypes[i][j] == "wall")
             {
-                area[i][j] = new Tile(wall);
+                area[i][j] = &wall;
             }
         }
     }
@@ -202,13 +202,13 @@ Resource<Scene>* SceneFactory::get(ResourceId& id)
 				tileTypes[i + 1][j] == "wall" &&
 				tileTypes[i][j] == "wall")
             {
-                area[i][j] = new Tile(walltop);
+                area[i][j] = &walltop;
             }
             if (area[i + 1][j] == nullptr &&
                 area[i][j] != nullptr &&
 				tileTypes[i][j] == "wall")
             {
-                area[i][j] = new Tile(walltop);
+                area[i][j] = &walltop;
             }
         }
     }
@@ -219,7 +219,7 @@ Resource<Scene>* SceneFactory::get(ResourceId& id)
 	}
 	delete[](tileTypes);
 
-    auto scene = new Scene{ "test", width, height, area, std::vector<Actor*>() };
+    auto scene = new Scene{ "test", width, height, area, std::vector<Actor*>{} };
 
     return scene;
 }

@@ -18,10 +18,14 @@ public:
     void    load(const Json& node, ResourceSystem& resSystem) override;
     Json    save() const override;
 
+    void    clean();
+
     static IDManager& instance();
 
     std::string getStringID() const override;
     static const std::string stringID;
+    
+    static constexpr ActorID heroID = 1;
 
 private:
     ActorID            m_current;

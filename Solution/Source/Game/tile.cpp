@@ -37,7 +37,4 @@ bool Tile::isCollisive() const
 	return m_collisive;
 }
 
-Tile::~Tile()
-{
-    delete(m_view);
-}
+Tile::~Tile() {}

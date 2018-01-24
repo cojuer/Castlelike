@@ -13,9 +13,9 @@ DropDownList::DropDownList(const std::string& name, Widget* parent, SDL_Rect geo
 void DropDownList::addChild(Widget& widget)
 {
     auto offset = widget.getHeight();
-    for (auto& pair : m_children)
+    for (auto&[name, child] : m_children)
     {
-        offset += pair.second->getHeight();
+        offset += child->getHeight();
     }
     widget.setPosition({ m_geometry.x, offset });
     m_children[widget.getName()] = std::unique_ptr<Widget>(&widget);
@@ -44,17 +44,17 @@ bool DropDownList::handle(SDL_Event& event, Vec2i coordStart)
     }
     if (m_opened)
     {
-        for (auto& pair : m_children)
+        for (auto&[name, child] : m_children)
         {
-            oldState = pair.second->getState();
-            handle = pair.second->handle(event, coordStart);
-            newState = pair.second->getState();
+            oldState = child->getState();
+            handle = child->handle(event, coordStart);
+            newState = child->getState();
             if (handle &&
                 oldState == WState::PRESSED &&
                 newState == WState::MOUSE_OVER)
             {
-                m_active = pair.first;
-                auto activeGraphicsCopy = pair.second->getGraphics()->clone();
+                m_active = name;
+                auto activeGraphicsCopy = child->getGraphics()->clone();
                 m_button->freeGraphics();
                 m_button->setGraphics(activeGraphicsCopy);
                 m_opened = false;
@@ -74,9 +74,9 @@ void DropDownList::render(RenderSubsystem& rendSubsys, ResourceSystem& resSystem
     
     if (!m_opened) return;
     
-    for (auto& pair : m_children)
+    for (auto&[name, child] : m_children)
     {
-        pair.second->render(rendSubsys, resSystem, coordStart);
+        child->render(rendSubsys, resSystem, coordStart);
     }
 }
 

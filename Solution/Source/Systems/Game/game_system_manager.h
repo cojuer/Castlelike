@@ -28,6 +28,7 @@ public:
     void unreg(ActorID id);
 
     void update();
+    void clean();
 
     SheduleSystem*   m_sheduleSystem;
     SceneSystem*     m_sceneSystem;

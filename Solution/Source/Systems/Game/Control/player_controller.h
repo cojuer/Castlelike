@@ -2,7 +2,7 @@
 
 #include <map>
 
-#include "id_manager.h"
+#include "system__actor_id.h"
 #include "controller.h"
 
 class SceneSystem;

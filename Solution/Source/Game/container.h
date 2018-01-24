@@ -65,7 +65,7 @@ public:
     unsigned int     getItemsNumber() const;
     const int&       getGold() const;
 
-    bool             hasItem(const std::string id) const;
+    bool             hasItem(const std::string& resID) const;
 
     bool             isEmpty() const;
     bool             isFull() const;

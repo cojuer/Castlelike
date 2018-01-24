@@ -1,8 +1,7 @@
-#include "heropanel.h"
+#include "gui_elem__hero_widget.h"
 
 #include "renderable.h"
 #include "atexture.h"
-#include "game_system__control.h"
 #include "widget__number.h"
 #include "player_controller.h"
 #include "system__resource.h"
@@ -16,7 +15,7 @@
 
 namespace gui {
 
-void HeroPanel::init(ResourceSystem& resSystem, GameSystemManager& sysManager)
+void HeroPanel::init(ResourceSystem& resSystem, Actor& hero)
 {
     auto texture = resSystem.get<Renderable>("hero_test_portrait_texture");
     auto widget = new Widget("portrait", this, { 20, 20, texture->getTexture()->getWidth(), texture->getTexture()->getHeight() }, true, texture);
@@ -25,7 +24,6 @@ void HeroPanel::init(ResourceSystem& resSystem, GameSystemManager& sysManager)
     int fSize = FontSize::medium;
     auto fColor = Color::silver;
 
-    auto& hero = *sysManager.m_controlSheduler->m_plController->getPossessed().begin()->second;
     auto& attrs = hero.getComponent<AttrComponent>()->get();
     auto& mdfrs = hero.getComponent<MdfrComponent>()->get();
 

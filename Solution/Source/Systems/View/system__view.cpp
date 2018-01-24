@@ -2,28 +2,24 @@
 
 #include <SDL.h>
 
-#include "scene.h"
-#include "id_manager.h"
+#include "subsystem__render.h"
+#include "system__actor_id.h"
+#include "system__resource.h"
 #include "system__scene.h"
-#include "game_system_manager.h"
+
 #include "component__graphics_interface.h"
+#include "component__transform.h"
+#include "scene.h"
 #include "renderable.h"
 #include "atexture.h"
-#include "subsystem__render.h"
-#include "system__resource.h"
-#include "game_system__control.h"
-#include "player_controller.h"
-#include "component__transform.h"
 
 bool ViewSystem::init(RenderSubsystem& rendSubsys,
                       ResourceSystem& resSystem,
-                      GameSystemManager& sysManager, 
                       SceneSystem& sceneSystem)
 {
     m_resSystem = &resSystem;
     m_rendSubsystem = &rendSubsys;
     m_sceneSystem = &sceneSystem;
-    m_sysManager = &sysManager;
 
     m_camera = new Camera({ 0, 0 }, { 1120, 660 });
     m_camera->setViewport({ 0, 0, 1120, 660 });
@@ -54,7 +50,7 @@ void ViewSystem::unreg(ActorID id)
 
 void ViewSystem::update()
 {
-    m_camera->focus(*m_sysManager->m_controlSheduler->m_plController->getPossessed().begin()->second);
+    m_camera->focus(*m_sceneSystem->getScene()->getHero());
 
     auto& scene = *m_sceneSystem->getScene();
     auto& center = m_camera->getCenter();
@@ -70,35 +66,30 @@ void ViewSystem::update()
             }
         }
     }
-    /*auto tiles = scene.getTilesIn(center.x - 10, center.y - 8, center.x + 10, center.y + 8);
-    for (auto& pair : tiles)
-    {
-        auto dst = m_camera->transformToSDLRect({ pair.first.y, pair.first.x, 64, 64 });
-        m_rendSubsystem->render(pair.second->getView(), dst);
-    }*/
+
     std::map<unsigned, std::vector<Actor*>> layers;
-    for (auto& pair : m_registered)
+    for (auto& [id, actor] : m_registered)
     {
-        auto coord = pair.second->getCoord();
+        auto coord = actor->getCoord();
         if (coord.x >= center.x - 10 &&
             coord.x <= center.x + 10 &&
             coord.y >= center.y - 8 &&
             coord.y <= center.y + 8)
         {
-            auto graphicsComp = pair.second->getComponent<GraphicsInterfaceComponent>();
+            auto graphicsComp = actor->getComponent<GraphicsInterfaceComponent>();
             if (layers.find(graphicsComp->getLayer()) == layers.end())
             {
-                layers[graphicsComp->getLayer()] = { pair.second };
+                layers[graphicsComp->getLayer()] = { actor };
             }
             else
             {
-                layers[graphicsComp->getLayer()].push_back(pair.second);
+                layers[graphicsComp->getLayer()].push_back(actor);
             }
         }
     }
-    for (auto layer : layers)
+    for (auto& [layer, actors] : layers)
     {
-        for (auto actor : layer.second)
+        for (auto actor : actors)
         {
             auto coord = actor->getCoord();
             
@@ -118,38 +109,15 @@ void ViewSystem::update()
             // attach actor images to the bottom of the tile
             dstRect.x += 64 - w;
             dstRect.y += 64 - h;
-            auto sdlcenter = SDL_Point{ m_camera->getCenter().x , m_camera->getCenter().y };
+            SDL_Point sdlcenter{ m_camera->getCenter().x , m_camera->getCenter().y };
             SDL_RenderCopyEx(m_rendSubsystem->getRenderer(), texture, &srcRect, &dstRect, m_camera->getRotation(), &sdlcenter, SDL_FLIP_NONE);
         }
     }
-    //for (auto& pair : m_registered)
-    //{
-    //    auto coord = pair.second->getCoord();
-    //    if (coord.x >= center.x - 10 &&
-    //        coord.x <= center.x + 10 &&
-    //        coord.y >= center.y - 8 &&
-    //        coord.y <= center.y + 8)
-    //    {
-    //        auto graphicsComponent = pair.second->getComponent<GraphicsInterfaceComponent>();
-    //        auto atexture = m_resSystem->get<Renderable>(graphicsComponent->get())->getTexture();
-    //        auto w = atexture->getWidth();
-    //        auto h = atexture->getHeight();
-    //        auto texture = atexture->getSDLTexture();
-    //        auto srcRect = atexture->getSrcRect();
-    //        auto dstRect = m_camera->transformToSDLRect({ coord.x, coord.y, w, h });
-    //        auto transformComp = pair.second->getComponent<TransformComponent>();
-    //        if (transformComp)
-    //        {
-    //            dstRect.x += transformComp->get().m_shift.x;
-    //            dstRect.y += transformComp->get().m_shift.y;
-    //        }
-    //        // attach actor images to the bottom of the tile
-    //        dstRect.x += 64 - w;
-    //        dstRect.y += 64 - h;
-    //        auto sdlcenter = SDL_Point{ m_camera->getCenter().x , m_camera->getCenter().y };
-    //        SDL_RenderCopyEx(m_rendSubsystem->getRenderer(), texture, &srcRect, &dstRect, m_camera->getRotation(), &sdlcenter, SDL_FLIP_NONE);
-    //    }
-    //}
+}
+
+void ViewSystem::clean()
+{
+    m_registered.clear();
 }
 
 const Camera& ViewSystem::getCamera() const

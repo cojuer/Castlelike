@@ -31,11 +31,8 @@ void RNGHolder::load(const Json& node, ResourceSystem& resSystem)
 Json RNGHolder::save() const
 {
     Json result;
-    // TODO: use C++17 when intellisense support is available
-    for (auto& pair : m_rngs)
+    for (auto& [name, rng] : m_rngs)
     {
-        auto& name = pair.first;
-        auto& rng = pair.second;
         result[name] = rng.save();
     }
     return result;

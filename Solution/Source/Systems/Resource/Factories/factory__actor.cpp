@@ -4,7 +4,7 @@
 
 #include "components.h"
 #include "system__resource.h"
-#include "id_manager.h"
+#include "system__actor_id.h"
 #include "factory__component.h"
 
 bool ActorFactory::init(ResourceSystem& resSystem)

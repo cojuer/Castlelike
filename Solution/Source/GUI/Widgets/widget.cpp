@@ -79,8 +79,7 @@ void Widget::setGraphics(Renderable* rendered)
 
 void Widget::setBhvr(std::vector<Trigger*>&& trigs)
 {
-    if (m_bhvr) delete(m_bhvr);
-    m_bhvr = new Bhvr(*this, std::move(trigs));
+    m_bhvr.reset(new Bhvr(*this, std::move(trigs)));
 }
 
 void Widget::setOpt(std::string name, int value)
@@ -156,10 +155,7 @@ bool Widget::handle(SDL_Event& event, Vec2i coordStart)
     return true;
 }
 
-Widget::~Widget()
-{
-    delete(m_bhvr);
-}
+Widget::~Widget() = default;
 
 void Widget::loadOptions(Json& node)
 {
@@ -203,7 +199,7 @@ void Widget::loadGraphics(Json& node, ResourceSystem& resSystem)
     setGraphics(resSystem.get<Renderable>(graphics["res"]));
 }
 
-void Widget::handleSelf(SDL_Event & event, Vec2i coordStart)
+void Widget::handleSelf(SDL_Event& event, Vec2i coordStart)
 {
     if (m_bhvr)
     {
@@ -211,12 +207,12 @@ void Widget::handleSelf(SDL_Event & event, Vec2i coordStart)
     }
 }
 
-void Widget::handleChildren(SDL_Event & event, Vec2i coordStart)
+void Widget::handleChildren(SDL_Event& event, Vec2i coordStart)
 {
     coordStart += getPos();
-    for (auto& widgPair : m_children)
+    for (auto&[name, child] : m_children)
     {
-        widgPair.second->handle(event, coordStart);
+        child->handle(event, coordStart);
     }
 }
 
@@ -329,9 +325,9 @@ void Widget::renderSelf(RenderSubsystem& rendSubsystem, ResourceSystem& resSyste
 void Widget::renderChildren(RenderSubsystem& rendSubsystem, ResourceSystem& resSystem, Vec2i coordStart) const
 {
     coordStart += getPos();
-    for (auto& pair : m_children)
+    for (auto&[name, child] : m_children)
     {
-        pair.second->render(rendSubsystem, resSystem, coordStart);
+        child->render(rendSubsystem, resSystem, coordStart);
     }
 }
 

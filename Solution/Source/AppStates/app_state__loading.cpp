@@ -9,7 +9,7 @@
 #include "game_system_manager.h"
 
 #include "app_state__game.h"
-#include "id_manager.h"
+#include "system__actor_id.h"
 #include "game_gui.h"
 
 
@@ -44,14 +44,17 @@ void LoadingAppState::clean()
 
 void LoadingAppState::start()
 {
-    m_app->m_saveSystem->useProfile("cojuer");
-    //m_app->m_sceneSystem->load("");
-    m_app->m_saveSystem->loadLast(*m_app->m_resSystem);
-
-    // TODO: update when C++17 support will be better
-    for (auto pair : m_app->m_sceneSystem->getScene()->getIDToActorMap())
+    if (m_app->m_loadSave)
     {
-        auto actor = pair.second;
+        m_app->m_saveSystem->loadLast(*m_app->m_resSystem);
+    }
+    else
+    {
+        m_app->m_sceneSystem->load("");
+    }
+
+    for (auto& [id, actor] : m_app->m_sceneSystem->getScene()->getIDToActorMap())
+    {
         m_app->m_gameSysManager->reg(*actor);
     }
 
@@ -61,8 +64,6 @@ void LoadingAppState::start()
                            *m_app->m_gameSysManager,
                            *m_app->m_sceneSystem,
                            *m_app->m_resSystem);
-
-    //auto m_hero = m_app->m_gameSysManager->m_controlSheduler->m_plController->getPossessed().begin()->second;
 
     m_app->changeState(*GameAppState::instance());
 }

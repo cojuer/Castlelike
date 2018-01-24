@@ -69,9 +69,7 @@ private:
     
     std::unique_ptr<SoundEngine>     m_sEngine;
 
-    bool m_use_save;
-    std::string profile;
-    std::string save;
+    bool m_loadSave;
 
     friend class GameAppState;
     friend class MenuAppState;

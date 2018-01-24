@@ -11,7 +11,7 @@
 #include "equipment.h"
 #include "actor__door.h"
 #include "utils.h"
-#include "id_manager.h"
+#include "system__actor_id.h"
 
 #include "subsystem_io.h"
 #include "rng.h"
@@ -20,7 +20,7 @@
 
 //TEST
 #include "factory__actor.h"
-#include "dialmanager.h"
+#include "system__dialogue.h"
 #include "action__damage.h"
 #include "action__heal.h"
 
@@ -62,18 +62,18 @@ void SceneSystem::loadTestScene1()
     auto& idManager = IDManager::instance();
     m_scene = m_resSystem->get<Scene>("test");
     
-    auto attrs = new Attributes();
-    (*attrs)[Attr("str")] = 5;
-    (*attrs)[Attr("dex")] = 5;
-    (*attrs)[Attr("int")] = 5;
-    (*attrs)[Attr("per")] = 5;
-    (*attrs)[Attr("chr")] = 5;
-    (*attrs)[Attr("vit")] = 5;
+    Attributes attrs;
+    attrs[Attr("str")] = 5;
+    attrs[Attr("dex")] = 5;
+    attrs[Attr("int")] = 5;
+    attrs[Attr("per")] = 5;
+    attrs[Attr("chr")] = 5;
+    attrs[Attr("vit")] = 5;
 
     auto hero = new Actor(idManager.getActorID(), "hero", ActorType::COMMON);
     hero->addComponent<PlayerComponent>(*new PlayerComponent());
     hero->addComponent<PositionComponent>(*new PositionComponent());
-    hero->addComponent<AttrComponent>(*new AttrComponent(*attrs));
+    hero->addComponent<AttrComponent>(*new AttrComponent(attrs));
 
     Modifiers mdfrs;
     for (auto& type : Modifiers::types)
@@ -129,7 +129,7 @@ void SceneSystem::loadTestScene1()
     
     equipment.equip("rhand", *m_resSystem->get<Item>("item_golden_sword"));
 
-    auto reactor = hero->getComponent<ReactorComponent>();
+    /*auto reactor = hero->getComponent<ReactorComponent>();
     if (reactor)
     {
         ActionArgs fstinput{ { "user", dcast<Actor*>(hero) },{ "dmg_psn", 20 },{ "dmg_mgc", 1 },{ "duration", 3 } };
@@ -141,7 +141,7 @@ void SceneSystem::loadTestScene1()
         action = new HealAction{ std::move(sndinput) };
         reaction = Reaction("heal", action);
         reactor->addReaction("move", std::move(reaction));
-    }
+    }*/
     if (hero->getComponent<MdfrComponent>())
     {
         hero->getComponent<MdfrComponent>()->refresh();

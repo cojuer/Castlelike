@@ -6,10 +6,10 @@
 #include "widget__progress_bar.h"
 #include "system__resource.h"
 #include "widget.h"
-#include "bagwidget.h"
-#include "equipmentwidget.h"
+#include "gui_elem__bag_widget.h"
+#include "gui_elem__equip_widget.h"
 #include "game_gui.h"
-#include "actpanel.h"
+#include "gui_elem__action_panel.h"
 
 WidgetParser::WidgetParser() :
     m_resSystem(nullptr)

@@ -2,6 +2,7 @@
 
 #include "widget.h"
 
+class Actor;
 class ResourceSystem;
 class GameSystemManager;
 
@@ -19,7 +20,7 @@ public:
               bool visible,
               Renderable* backImage = nullptr);
 
-    void             init(ResourceSystem& resSystem, GameSystemManager& sysManager);
+    void             init(ResourceSystem& resSystem, Actor& hero);
 };
 
 } /* gui namespace. */

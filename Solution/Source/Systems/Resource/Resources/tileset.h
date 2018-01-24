@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include <memory>
 #include <vector>
 
 #include "renderable.h"
@@ -31,5 +32,7 @@ struct Tileset
 	uint8_t m_margin;
 	uint8_t m_spacing;
     std::map<std::string, Terrain> m_terrains;
+    std::vector<std::unique_ptr<ATexture>> m_tileTextures;
+    std::vector<Tile> m_tiles;
     std::vector<std::string> m_tileTerrs;
 };

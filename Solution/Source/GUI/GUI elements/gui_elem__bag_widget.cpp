@@ -1,8 +1,9 @@
-#include "bagwidget.h"
+#include "gui_elem__bag_widget.h"
 
 #include "container.h"
 #include "subsystem__render.h"
 #include "system__resource.h"
+#include "GUI/Behaviour/behaviour.h"
 
 namespace gui {
 

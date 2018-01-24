@@ -29,9 +29,9 @@ void AttrComponent::load(Json& node, ResourceSystem& resSystem)
 Json AttrComponent::save() const
 {
     Json node;
-    for (auto pair : m_attrs.data())
+    for (auto&[type, data] : m_attrs.data())
     {
-        node[pair.first] = pair.second;
+        node[type] = data;
     }
     return { { getStringID(), node } };
 }

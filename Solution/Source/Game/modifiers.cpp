@@ -33,13 +33,13 @@ const std::vector<std::string> Modifiers::types = {
 /* Save references to modifiers after copy construction. */
 Modifiers::Modifiers(const Modifiers& another)
 {
-    for (auto& pair : m_data)
+    for (auto&[type, value] : m_data)
     {
-        pair.second = 0;
+        value = 0;
     }
-    for (auto& pair : another.m_data)
+    for (auto&[type, value] : another.m_data)
     {
-        m_data[pair.first] = pair.second;
+        m_data[type] = value;
     }
 }
 
@@ -78,13 +78,13 @@ const std::map<std::string, int>& Modifiers::data() const
 
 Modifiers& Modifiers::operator=(const Modifiers& another)
 {
-    for (auto& pair : m_data)
+    for (auto&[type, value] : m_data)
     {
-        pair.second = 0;
+        value = 0;
     }
-    for (auto& pair : another.m_data)
+    for (auto&[type, value] : another.m_data)
     {
-        m_data[pair.first] = pair.second;
+        m_data[type] = value;
     }
     return *this;
 }
