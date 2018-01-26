@@ -16,20 +16,23 @@
 #include "menu_gui.h"
 
 #include "global_time.h"
+#include "app_state__loading.h"
 
 App::App() :
     m_running(true),
-    m_stateChanged(false), 
+    m_stateChanged(false),
     m_rendSubsystem(new RenderSubsystem()),
     m_inputSubsystem(new InputSubsystem()),
     m_rngHolder(new RNGHolder()),
     m_resSystem(new ResourceSystem()),
-    m_saveSystem(new SaveSystem()),
     m_sceneSystem(new SceneSystem()),
+    m_saveSystem(new SaveSystem()),
     m_gameSysManager(new GameSystemManager()),
     m_gameGUI(nullptr),
     m_menuGUI(nullptr),
-    m_sEngine(new SoundEngine())
+    m_sEngine(new SoundEngine()), 
+    m_loadSave(false),
+    m_loadLast(false)
 {}
 
 App::~App() = default;
@@ -41,10 +44,15 @@ bool App::init()
     
     // TEST
     m_saveSystem->init();
+    m_saveSystem->useProfile("test");
 
     bool inited = true;
     inited = inited && m_rendSubsystem->init(m_opts);
     inited = inited && m_resSystem->init(*m_rendSubsystem, *m_rngHolder, m_opts);
+    
+    // TODO: create register() method as only listener registration required
+    LoadingAppState::instance()->init(*this);
+    
     return inited;
 }
 

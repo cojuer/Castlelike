@@ -2,7 +2,12 @@
 
 #include "app_state.h"
 
-class LoadingAppState final : public AppState
+#include "event_handler.h"
+#include "event__load.h"
+
+class HandlerRegistration;
+
+class LoadingAppState final : public AppState, EventHandler<LoadEvent>
 {
 public:
     LoadingAppState();
@@ -20,8 +25,15 @@ public:
 
     static LoadingAppState* instance();
 
+    void onEvent(LoadEvent& event) override;
+
 private:
     App*               m_app;
+
+    std::string m_profile;
+    std::string m_save;
+
+    std::unique_ptr<HandlerRegistration> reg;
 
     static LoadingAppState playState;
 };

@@ -61,7 +61,7 @@ Renderable* RenderableLoader::getAnimation(PugiNode& node) const
 
 Renderable* RenderableLoader::getSprSheet(PugiNode& node) const
 {
-    auto& textures = *new std::vector<ATexture*>(node.attribute("frames").as_int());
+    std::vector<ATexture*> textures{ node.attribute("frames").as_uint() };
     int counter = 0;
     for (PugiNode frame = node.child("frame"); frame; frame = frame.next_sibling("frame"))
     {
@@ -74,6 +74,6 @@ Renderable* RenderableLoader::getSprSheet(PugiNode& node) const
         Color color{ r, g, b };
         textures[counter++] = m_resSystem->textRenderer->renderTexture(text, fName, fSize, color);
     }
-    auto spr = new SprSheet(textures);
+    auto spr = new SprSheet(std::move(textures));
     return spr;
 }

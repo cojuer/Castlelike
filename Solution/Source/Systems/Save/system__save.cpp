@@ -32,12 +32,6 @@ bool SaveSystem::init()
             return fs::is_directory(path);
         });
 
-    for (const auto& profDir : profDirs)
-    {
-        std::cout << profDir << std::endl;
-    }
-    std::cout << profDirs.size() << std::endl;
-
     // Discover saves for each profile
     for (const auto& profDir : profDirs)
     {
@@ -60,7 +54,18 @@ bool SaveSystem::init()
                 std::cout << "Invalid file: " << savePath << std::endl;
                 continue;
             }
-            // TODO: save
+
+            auto profName = profDir.filename().u8string();
+            auto saveName = savePath.stem().u8string();
+            auto iter = m_saves.find(profName);
+            if (iter == m_saves.end())
+            {
+                m_saves[profName] = { Save{ saveName } };
+            }
+            else
+            {
+                iter->second.push_back(Save{ saveName });
+            }
         }
     }
 
@@ -92,7 +97,7 @@ void SaveSystem::loadLast(ResourceSystem& resSystem)
 {
     auto infoPath = fs::path(profDirPath) / infoFileName;
     Json lastInfo;
-    *IOSubsystem::getInStream(infoPath).get() >> lastInfo;
+    *IOSubsystem::getInStream(infoPath) >> lastInfo;
     std::string profile = lastInfo.at("profile");
     std::string saveFileName = lastInfo.at("name").get<std::string>() + extension;
     
@@ -100,7 +105,7 @@ void SaveSystem::loadLast(ResourceSystem& resSystem)
 
     auto savePath = fs::path(profDirPath) / profile / saveFileName;
     Json save;
-    *IOSubsystem::getInStream(savePath).get() >> save;
+    *IOSubsystem::getInStream(savePath) >> save;
     auto& body = save.at("body");
     for (auto serializable : m_serializables)
     {
@@ -108,7 +113,7 @@ void SaveSystem::loadLast(ResourceSystem& resSystem)
     }
 }
 
-void SaveSystem::save(const std::string profile, const std::string saveName)
+void SaveSystem::save(const std::string& profile, const std::string& saveName)
 {
     std::string saveFileName = saveName + extension;
 
@@ -136,6 +141,25 @@ void SaveSystem::save(const std::string profile, const std::string saveName)
     lastInfo["name"] = saveName;
     auto infoPath = fs::path(profDirPath) / infoFileName;
     *IOSubsystem::getOutStream(infoPath) << lastInfo;
+}
+
+void SaveSystem::load(const std::string& profile, const std::string& saveName, ResourceSystem& resSystem)
+{
+    m_currProfile = profile;
+
+    auto savePath = fs::path(profDirPath) / profile / (saveName + extension);
+    Json save;
+    *IOSubsystem::getInStream(savePath) >> save;
+    auto& body = save.at("body");
+    for (auto serializable : m_serializables)
+    {
+        serializable->load(body.at(serializable->getStringID()), resSystem);
+    }
+}
+
+const Profile& SaveSystem::getCurrProfile() const
+{
+    return m_currProfile;
 }
 
 std::vector<Profile> SaveSystem::getProfiles() const

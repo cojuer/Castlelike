@@ -4,8 +4,8 @@
 
 #include "atexture.h"
 
-SprSheet::SprSheet(std::vector<ATexture*>& textures) :
-    m_frames(textures),
+SprSheet::SprSheet(std::vector<ATexture*>&& textures) :
+    m_frames(std::move(textures)),
     m_frame(0)
 {}
 
@@ -48,12 +48,11 @@ bool SprSheet::loadFromFile(std::string path, int width, int height, int frames,
     return true;
 }
 
-//not sure it works nice
 void SprSheet::free()
 {
-    for (size_t i = 0; i < m_frames.size(); ++i)
+    for (auto& frame : m_frames)
     {
-        delete(m_frames[i]);
+        delete(frame);
     }
 }
 

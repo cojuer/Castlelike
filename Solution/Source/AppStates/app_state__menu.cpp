@@ -23,7 +23,10 @@ void MenuAppState::init(App& app)
     m_app = &app;
 
     m_app->m_menuGUI.reset(new gui::MenuGUI());
-    m_app->m_menuGUI->init(m_app->m_opts, *m_app->m_rendSubsystem, *m_app->m_resSystem);
+    m_app->m_menuGUI->init(m_app->m_opts, 
+                           *m_app->m_rendSubsystem, 
+                           *m_app->m_resSystem,
+                           *m_app->m_saveSystem);
 }
 
 void MenuAppState::clean() {}
@@ -53,7 +56,29 @@ void MenuAppState::handle()
 
 void MenuAppState::update()
 {
-    
+    switch (m_app->m_menuGUI->getState())
+    {
+    case MenuState::ON_CONTINUE:
+        m_app->m_loadSave = true;
+        m_app->m_loadLast = true;
+        m_app->changeState(*LoadingAppState::instance());
+        break;
+    case MenuState::ON_NEW_GAME:
+        m_app->m_loadSave = false;
+        m_app->changeState(*LoadingAppState::instance());
+        break;
+    case MenuState::ON_LOAD:
+        m_app->m_loadSave = true;
+        m_app->m_loadLast = false;
+        // TODO: use special menu to choose save
+        m_app->changeState(*LoadingAppState::instance());
+        break;
+    case MenuState::ON_QUIT:
+        m_app->quit();
+        break;
+    default:
+        break;
+    }
 }
 
 void MenuAppState::render()
@@ -65,24 +90,7 @@ void MenuAppState::render()
 
 void MenuAppState::onEvent(MenuEvent& event)
 {
-    switch (event.newState)
-    {
-    case MenuState::ON_NEW_GAME:
-        m_app->m_loadSave = false;
-        m_app->changeState(*LoadingAppState::instance());
-        break;
-    case MenuState::ON_LOAD:
-        m_app->m_loadSave = true;
-        // TODO: use special menu to choose save
-        m_app->m_saveSystem->useProfile("test");
-        m_app->changeState(*LoadingAppState::instance());
-        break;
-    case MenuState::ON_QUIT:
-        m_app->quit();
-        break;
-	default:
-		break;
-    }
+    m_app->m_menuGUI->setState(event.newState);
 }
 
 MenuAppState* MenuAppState::instance()

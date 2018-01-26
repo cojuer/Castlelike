@@ -115,6 +115,8 @@
   <ItemGroup>
     <ClCompile Include="3rd party\Pugixml\pugixml.cpp" />
     <ClCompile Include="Source\AppStates\app_state__loading.cpp" />
+    <ClCompile Include="Source\GUI\GUI elements\gui_elem__loading.cpp" />
+    <ClCompile Include="Source\GUI\Widgets\widget__dropdown_list.cpp" />
     <ClCompile Include="Source\Subsystems\Event\Events\event__shedule.cpp" />
     <ClCompile Include="Source\Game\Actions\action_args.cpp" />
     <ClCompile Include="Source\Game\Actions\action__attack.cpp" />
@@ -239,7 +241,7 @@
     <ClCompile Include="Source\Systems\Resource\Factories\factory__item.cpp" />
     <ClCompile Include="Source\Game\item_prototype.cpp" />
     <ClCompile Include="Source\GUI\Widgets\widget__table.cpp" />
-    <ClCompile Include="Source\GUI\Widgets\widget__dropdown_list.cpp" />
+    <ClCompile Include="Source\GUI\Widgets\widget__adv_dropdown_list.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Systems\Scene\scene.cpp" />
     <ClCompile Include="Source\GUI\menu_gui.cpp" />
@@ -266,6 +268,10 @@
     <ClInclude Include="Source\Common\init_object.h" />
     <ClInclude Include="Source\Common\json_serializable.h" />
     <ClInclude Include="Source\Common\time_aliases.h" />
+    <ClInclude Include="Source\GUI\Common\text_info.h" />
+    <ClInclude Include="Source\GUI\GUI elements\gui_elem__loading.h" />
+    <ClInclude Include="Source\GUI\Widgets\widget__dropdown_list.h" />
+    <ClInclude Include="Source\Subsystems\Event\Events\event__load.h" />
     <ClInclude Include="Source\Subsystems\Event\Events\event__shedule.h" />
     <ClInclude Include="Source\Subsystems\Event\Events\event__actor.h" />
     <ClInclude Include="Source\Subsystems\Event\Events\event_type__actor.h" />
@@ -416,7 +422,7 @@
     <ClInclude Include="Source\Systems\Resource\Factories\factory__item.h" />
     <ClInclude Include="Source\Game\item_prototype.h" />
     <ClInclude Include="Source\GUI\Widgets\widget__table.h" />
-    <ClInclude Include="Source\GUI\Widgets\widget__dropdown_list.h" />
+    <ClInclude Include="Source\GUI\Widgets\widget__adv_dropdown_list.h" />
     <ClInclude Include="Source\GUI\menu_gui.h" />
     <ClInclude Include="Source\Game\Actors\actor__storage.h" />
     <ClInclude Include="Source\GUI\Widgets\widget__button.h" />

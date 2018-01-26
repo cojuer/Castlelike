@@ -12,7 +12,7 @@ class SprSheet : public Renderable
 {
 public:
     SprSheet() = default;
-    explicit SprSheet(std::vector<ATexture*>& textures);
+    explicit SprSheet(std::vector<ATexture*>&& textures);
 
     Renderable*      clone() const override;
 

@@ -70,6 +70,7 @@ private:
     std::unique_ptr<SoundEngine>     m_sEngine;
 
     bool m_loadSave;
+    bool m_loadLast;
 
     friend class GameAppState;
     friend class MenuAppState;

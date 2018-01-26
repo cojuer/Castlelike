@@ -32,10 +32,12 @@ public:
 
     void saveLast();
     void loadLast(ResourceSystem& resSystem);
-    void save(const std::string profile, const std::string saveName);
+    void save(const std::string& profile, const std::string& saveName);
+    void load(const std::string& profile, const std::string& saveName, ResourceSystem& resSystem);
 
+    const Profile&       getCurrProfile() const;
     std::vector<Profile> getProfiles() const;
-    std::vector<Save> getSaves(const Profile& character) const;
+    std::vector<Save>    getSaves(const Profile& profile) const;
 
 private:
     Profile m_currProfile;

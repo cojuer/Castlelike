@@ -5,9 +5,11 @@
 #include "animation.h"
 #include "atexture.h"
 
+#include "system__save.h"
+
 #include "widget.h"
 #include "widget__button.h"
-#include "widget__dropdown_list.h"
+#include "gui_elem__loading.h"
 
 #include "on_release.h"
 #include "options.h"
@@ -32,7 +34,10 @@ MenuGUI::MenuGUI() :
     m_state(MenuState::ON_MAIN)
 {}
 
-bool MenuGUI::init(const Options& opts, RenderSubsystem& rendSubsys, ResourceSystem& resSystem)
+bool MenuGUI::init(const Options& opts, 
+                   RenderSubsystem& rendSubsys, 
+                   ResourceSystem& resSystem,
+                   SaveSystem& saveSystem)
 {
     setInitialized();
     // TODO: one line
@@ -42,12 +47,30 @@ bool MenuGUI::init(const Options& opts, RenderSubsystem& rendSubsys, ResourceSys
     m_opts = &opts;
     m_rendSubsys = &rendSubsys;
     m_resSystem = &resSystem;
+    m_saveSystem = &saveSystem;
 
+    initLoadMenu();
     initMMPanel();
     initOptions();
     initCredits();
 
     m_state = MenuState::ON_MAIN;
+
+    return true;
+}
+
+bool MenuGUI::initLoadMenu()
+{
+    assert(isInitialized());
+
+    // FIXME: magic consts
+    auto rendered = m_resSystem->get<Renderable>("load_menu");
+    auto loadX = (m_opts->getInt("Width") - 600) / 2;
+    auto loadY = (m_opts->getInt("Height") - 400) / 2;
+    auto load = new LoadingWidget{ "load", nullptr,{ loadX, loadY, 600, 400 }, true, rendered };
+    load->init(*m_resSystem, *m_saveSystem);
+
+    m_pages[MenuState::ON_LOAD_MENU] = std::unique_ptr<Widget>(load);
 
     return true;
 }
@@ -59,12 +82,16 @@ bool MenuGUI::initMMPanel()
 
     auto mmPanel = dynamic_cast<Widget*>(m_resSystem->get<Widget>("main_menu"));
 
-    auto button = mmPanel->getChild("but_ng");
+    auto button = mmPanel->getChild("continue");
     auto event = new MenuEvent(MenuState::ON_NEW_GAME);
     button->setBhvr({ new OnRelease(event) });
 
+    button = mmPanel->getChild("but_ng");
+    event = new MenuEvent(MenuState::ON_NEW_GAME);
+    button->setBhvr({ new OnRelease(event) });
+
     button = mmPanel->getChild("but_lg");
-    event = new MenuEvent(MenuState::ON_LOAD);
+    event = new MenuEvent(MenuState::ON_LOAD_MENU);
     button->setBhvr({ new OnRelease(event) });
 
     button = mmPanel->getChild("but_opt");

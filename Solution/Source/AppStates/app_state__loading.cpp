@@ -1,5 +1,6 @@
 #include "app_state__loading.h"
 
+#include "subsystem__event.h"
 #include "subsystem__input.h"
 #include "subsystem__render.h"
 #include "subsystem__rng.h"
@@ -11,7 +12,7 @@
 #include "app_state__game.h"
 #include "system__actor_id.h"
 #include "game_gui.h"
-
+#include "handler_registration.h"
 
 LoadingAppState LoadingAppState::playState;
 
@@ -23,6 +24,8 @@ void LoadingAppState::init(App& app)
 {
     m_initialized = true;
     m_app = &app;
+
+    EventSubsystem::AddHandler<LoadEvent>(*this);
     
     m_app->m_resSystem->initGame();
 
@@ -46,7 +49,14 @@ void LoadingAppState::start()
 {
     if (m_app->m_loadSave)
     {
-        m_app->m_saveSystem->loadLast(*m_app->m_resSystem);
+        if (m_app->m_loadLast)
+        {
+            m_app->m_saveSystem->loadLast(*m_app->m_resSystem);
+        }
+        else
+        {
+            m_app->m_saveSystem->load(m_profile, m_save, *m_app->m_resSystem);
+        }
     }
     else
     {
@@ -91,4 +101,10 @@ void LoadingAppState::render()
 LoadingAppState* LoadingAppState::instance()
 {
     return &playState;
+}
+
+void LoadingAppState::onEvent(LoadEvent& event)
+{
+    m_profile = event.m_profile;
+    m_save = event.m_save;
 }

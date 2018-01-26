@@ -49,10 +49,10 @@ ATexture* TextRenderer::renderTexture(const std::string& text, const std::string
 
 SprSheet* TextRenderer::renderSprSheet(const std::string& text, const std::string& fontName, int size, int width)
 {
-    auto& textures = *new std::vector<ATexture*>(5);
+    std::vector<ATexture*> textures{ 5 };
     for (auto i = 0; i < 5; ++i)
     {
         textures[i] = renderTexture(text, fontName, size, Color::white);
     }
-    return new SprSheet(textures);
+    return new SprSheet(std::move(textures));
 }
