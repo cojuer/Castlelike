@@ -10,13 +10,15 @@
 #include "gui_elem__equip_widget.h"
 #include "game_gui.h"
 #include "gui_elem__action_panel.h"
+#include "gui_elem__loading.h"
 
 WidgetParser::WidgetParser() :
     m_resSystem(nullptr)
 {}
 
-bool WidgetParser::init(ResourceSystem& resSystem)
+bool WidgetParser::init(ResourceSystem& resSystem, const Options& opts)
 {
+    m_opts = &opts;
     m_resSystem = &resSystem;
     return true;
 }
@@ -27,16 +29,19 @@ gui::Widget* WidgetParser::parseWidg(std::string nodeName, Json& widgNode, gui::
 
     std::string type = widgNode["type"];
 
-    if (type == "actpanel") widg = new gui::ActPanel();
+    // TODO: use some map
+    if (type == "actpanel")      widg = new gui::ActPanel();
     else if (type == "button")   widg = new gui::Button();
     else if (type == "progbar")  widg = new gui::ProgressBar();
     else if (type == "bag")      widg = new gui::BagWidget();
     else if (type == "equip")    widg = new gui::EquipmentWidget();
+    else if (type == "load_wdg") widg = new gui::LoadingWidget();
     else if (widg == nullptr)    widg = new gui::Widget(nullptr);
 
     widg->setVisible(true);
     widg->setName(nodeName);
-    widg->init(widgNode, *m_resSystem);
+    widg->setParent(parent);
+    widg->load(widgNode, *m_resSystem, *m_opts);
 
     auto& children = widgNode["children"];
     for (auto it = children.begin(); it != children.end(); ++it)

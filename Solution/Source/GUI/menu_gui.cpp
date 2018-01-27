@@ -34,15 +34,20 @@ MenuGUI::MenuGUI() :
     m_state(MenuState::ON_MAIN)
 {}
 
+MenuGUI::~MenuGUI()
+{
+    m_reg->removeHandler();
+}
+
 bool MenuGUI::init(const Options& opts, 
                    RenderSubsystem& rendSubsys, 
                    ResourceSystem& resSystem,
                    SaveSystem& saveSystem)
 {
     setInitialized();
-    // TODO: one line
-    const auto listener = new MenuListener(*this);
-    EventSubsystem::AddHandler(*listener);
+
+    m_listener.reset(new MenuListener(*this));
+    m_reg.reset(EventSubsystem::AddHandler(*m_listener));
 
     m_opts = &opts;
     m_rendSubsys = &rendSubsys;
@@ -63,14 +68,12 @@ bool MenuGUI::initLoadMenu()
 {
     assert(isInitialized());
 
-    // FIXME: magic consts
-    auto rendered = m_resSystem->get<Renderable>("load_menu");
-    auto loadX = (m_opts->getInt("Width") - 600) / 2;
-    auto loadY = (m_opts->getInt("Height") - 400) / 2;
-    auto load = new LoadingWidget{ "load", nullptr,{ loadX, loadY, 600, 400 }, true, rendered };
-    load->init(*m_resSystem, *m_saveSystem);
+    auto page = m_resSystem->get<Widget>("load_page");
 
-    m_pages[MenuState::ON_LOAD_MENU] = std::unique_ptr<Widget>(load);
+    auto loadMenu = dynamic_cast<LoadingWidget*>(page->getChild("load_menu"));
+    loadMenu->init(*m_resSystem, *m_saveSystem);
+
+    m_pages[MenuState::ON_LOAD_MENU] = std::unique_ptr<Widget>(page);
 
     return true;
 }
@@ -162,13 +165,14 @@ bool MenuGUI::initOptions()
 
 bool MenuGUI::initCredits()
 {
+    // TODO: load from data
     assert(isInitialized());
     auto credPage = new Widget("creds_page", m_pages[MenuState::ON_MAIN].get(), { 0, 0, 0, 0 }, true);;
 
-    auto mainPanel = new Widget("creds_panel", nullptr, { 0, 0, std::stoi(m_opts->at("Width")), std::stoi(m_opts->at("Height")) }, true);
+    auto mainPanel = new Widget("creds_panel", nullptr, { 0, 0, std::stoi(m_opts->at(OptType::WIDTH)), std::stoi(m_opts->at(OptType::HEIGHT)) }, true);
     auto title = m_resSystem->textRenderer->renderTexture("Credits aren't available in this version", Font::latoRegular, 40, { 255, 165, 0 });
-    SDL_Rect dst = { (m_opts->getInt("Width") - title->getWidth()) / 2,
-                     (m_opts->getInt("Height") - title->getHeight()) / 2,
+    SDL_Rect dst = { (m_opts->getInt(OptType::WIDTH) - title->getWidth()) / 2,
+                     (m_opts->getInt(OptType::HEIGHT) - title->getHeight()) / 2,
                      title->getWidth(),
                      title->getHeight() };
     auto textPanel = new Widget("text", mainPanel, dst, true, title);

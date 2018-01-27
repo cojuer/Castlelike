@@ -20,7 +20,7 @@ class ActPanel : public Widget
 public:
     explicit ActPanel(Widget* parent = nullptr);
 
-    void init(Json& node, ResourceSystem& resSystem) override;
+    void load(Json& node, ResourceSystem& resSystem, const Options& opts) override;
 
     SlotVec& getSlots();
 

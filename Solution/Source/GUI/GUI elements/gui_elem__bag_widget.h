@@ -20,7 +20,7 @@ class BagWidget : public Widget
 public:
     explicit BagWidget(Widget* parent = nullptr);
 
-    void init(Json& node, ResourceSystem& resSystem) override;
+    void load(Json& node, ResourceSystem& resSystem, const Options& opts) override;
 
     void                    setContainer(Container* container);
 

@@ -3,6 +3,12 @@
 #include <map>
 #include <string>
 
+namespace OptType
+{
+const std::string WIDTH = "Width";
+const std::string HEIGHT = "Height";
+}
+
 /**
  * Storage for options loaded from ini file.
  */
@@ -11,6 +17,7 @@ class Options
 public:
     bool loadFile(std::string path);
 
+    // TODO: use template
     int getInt(std::string key) const;
 
     std::string& operator[](std::string key);

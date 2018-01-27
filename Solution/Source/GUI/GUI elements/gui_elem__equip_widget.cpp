@@ -41,9 +41,9 @@ EquipmentWidget::EquipmentWidget(Widget* parent) :
     m_equipment(nullptr)
 {}
 
-void EquipmentWidget::init(Json& node, ResourceSystem& resSystem)
+void EquipmentWidget::load(Json& node, ResourceSystem& resSystem, const Options& opts)
 {
-    loadGeometry(node);
+    loadGeometry(node, opts);
     loadOptions(node);
     loadGraphics(node, resSystem);
     m_slots.reserve(slotPos.size());

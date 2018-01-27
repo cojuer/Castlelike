@@ -29,6 +29,7 @@ void GameAppState::init(App& app)
 
 void GameAppState::clean()
 {
+    m_app->m_gameGUI.reset();
     m_app->m_gameSysManager->clean();
     m_app->m_sceneSystem->clean();
     IDManager::instance().clean();
@@ -55,13 +56,14 @@ void GameAppState::handle()
         }
         if (event.type == SDL_KEYDOWN and event.key.keysym.sym == SDLK_F9)
         {
+            m_app->m_loadSave = true;
+            m_app->m_loadLast = true;
             // FIXME: use real values
             m_app->changeState(*LoadingAppState::instance());
             return;
         }
         if (event.type == SDL_KEYDOWN and event.key.keysym.sym == SDLK_ESCAPE)
         {
-            m_app->m_menuGUI->setState(MenuState::ON_MAIN);
             m_app->changeState(*MenuAppState::instance());
             return;
         }

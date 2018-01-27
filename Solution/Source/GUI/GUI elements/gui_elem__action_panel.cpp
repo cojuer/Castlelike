@@ -10,9 +10,9 @@ ActPanel::ActPanel(Widget* parent) :
     Widget(nullptr)
 {}
 
-void ActPanel::init(Json& node, ResourceSystem& resSystem)
+void ActPanel::load(Json& node, ResourceSystem& resSystem, const Options& opts)
 {
-    loadGeometry(node);
+    loadGeometry(node, opts);
     loadGraphics(node, resSystem);
     loadOptions(node);
     if (!m_opts.count("size")) m_opts["size"] = size;

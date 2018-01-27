@@ -12,11 +12,11 @@ bool Options::isLineValid(const std::string& line)
     return (line.find('=') != std::string::npos);
 }
 
-bool Options::loadFile(std::string fileName)
+bool Options::loadFile(std::string path)
 {
     m_data.clear();
 
-    std::ifstream stream(fileName);
+    std::ifstream stream(path);
     if (!stream.is_open())
     {
         return false;

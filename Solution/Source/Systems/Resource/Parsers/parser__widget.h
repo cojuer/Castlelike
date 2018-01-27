@@ -6,6 +6,8 @@
 #include "json_aliases.h"
 #include "parser__json.h"
 
+class Options;
+
 namespace gui {
 class Widget;
 } /* gui namespace. */
@@ -19,7 +21,7 @@ class WidgetParser : public JsonParser<gui::Widget*>
 public:
     WidgetParser();
 
-    bool         init(ResourceSystem& resSystem);
+    bool         init(ResourceSystem& resSystem, const Options& opts);
 
     gui::Widget* parse(const std::string& nodeName, Json& node) override;
 
@@ -27,6 +29,7 @@ protected:
     gui::Widget* parseWidg(std::string name, Json& widg, gui::Widget* parent, ParseQueue& parseQueue);
 
 private:
-    ParseQueue       m_parseQueue;
+    const Options*  m_opts;
+    ParseQueue      m_parseQueue;
     ResourceSystem* m_resSystem;
 };

@@ -4,13 +4,15 @@
 #include "parser__widget.h"
 
 WidgetFactory::WidgetFactory() :
-    m_parser(new WidgetParser())
+    m_opts(nullptr)
 {}
 
-bool WidgetFactory::init(ResourceSystem& resSystem)
+bool WidgetFactory::init(ResourceSystem& resSystem, const Options& opts)
 {
+    m_opts = &opts;
+
     auto inited = true;
-    inited = inited && m_parser->init(resSystem);
+    inited = inited && m_parser.init(resSystem, opts);
     return inited;
 }
 
@@ -26,12 +28,9 @@ Resource<gui::Widget>* WidgetFactory::get(ResourceId& id)
     auto node = m_loader.get(id);
     if (node)
     {
-        return m_parser->parse(id, *node);
+        return m_parser.parse(id, *node);
     }
     return nullptr;
 }
 
-WidgetFactory::~WidgetFactory()
-{
-    delete(m_parser);
-}
+WidgetFactory::~WidgetFactory() = default;

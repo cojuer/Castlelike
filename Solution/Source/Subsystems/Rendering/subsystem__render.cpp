@@ -108,7 +108,7 @@ bool RenderSubsystem::createWindow()
     // FIXME: use opts?
     auto windowName = "Castlelike";
     // FIXME: 2 magic consts
-    SDL_Rect geom{ 100, 100, m_opts->getInt("Width"), m_opts->getInt("Height") };
+    SDL_Rect geom{ 100, 100, m_opts->getInt(OptType::WIDTH), m_opts->getInt(OptType::HEIGHT) };
     auto sdlWindow = SDL_CreateWindow(windowName, geom.x, geom.y, geom.w, geom.h, SDL_WINDOW_SHOWN);
     if (sdlWindow)
     {

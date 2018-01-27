@@ -13,9 +13,9 @@ BagWidget::BagWidget(Widget* parent) :
     m_activeSlot(nullptr)
 {}
 
-void BagWidget::init(Json& node, ResourceSystem& resSystem)
+void BagWidget::load(Json& node, ResourceSystem& resSystem, const Options& opts)
 {
-    loadGeometry(node);
+    loadGeometry(node, opts);
     loadGraphics(node, resSystem);
     loadOptions(node);
     if (!m_opts.count("lmargin")) m_opts["lmargin"] = lMargin;

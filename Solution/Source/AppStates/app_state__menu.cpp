@@ -21,17 +21,21 @@ void MenuAppState::init(App& app)
     EventSubsystem::AddHandler<MenuEvent>(*this);
 
     m_app = &app;
+}
 
+void MenuAppState::clean()
+{
+    m_app->m_menuGUI.reset(nullptr);
+}
+
+void MenuAppState::start()
+{
     m_app->m_menuGUI.reset(new gui::MenuGUI());
-    m_app->m_menuGUI->init(m_app->m_opts, 
-                           *m_app->m_rendSubsystem, 
+    m_app->m_menuGUI->init(m_app->m_opts,
+                           *m_app->m_rendSubsystem,
                            *m_app->m_resSystem,
                            *m_app->m_saveSystem);
 }
-
-void MenuAppState::clean() {}
-
-void MenuAppState::start() {}
 
 void MenuAppState::pause() {}
 
@@ -70,7 +74,6 @@ void MenuAppState::update()
     case MenuState::ON_LOAD:
         m_app->m_loadSave = true;
         m_app->m_loadLast = false;
-        // TODO: use special menu to choose save
         m_app->changeState(*LoadingAppState::instance());
         break;
     case MenuState::ON_QUIT:

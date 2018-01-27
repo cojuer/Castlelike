@@ -64,7 +64,7 @@ bool SaveSystem::init()
             }
             else
             {
-                iter->second.push_back(Save{ saveName });
+                iter->second.insert(Save{ saveName });
             }
         }
     }
@@ -141,6 +141,16 @@ void SaveSystem::save(const std::string& profile, const std::string& saveName)
     lastInfo["name"] = saveName;
     auto infoPath = fs::path(profDirPath) / infoFileName;
     *IOSubsystem::getOutStream(infoPath) << lastInfo;
+
+    auto iter = m_saves.find(profile);
+    if (iter == m_saves.end())
+    {
+        m_saves[profile] = { Save{ saveName } };
+    }
+    else
+    {
+        iter->second.insert(Save{ saveName });
+    }
 }
 
 void SaveSystem::load(const std::string& profile, const std::string& saveName, ResourceSystem& resSystem)
@@ -172,8 +182,8 @@ std::vector<Profile> SaveSystem::getProfiles() const
     return result;
 }
 
-std::vector<Save> SaveSystem::getSaves(const Profile& profile) const
+std::set<Save> SaveSystem::getSaves(const Profile& profile) const
 {
     auto iter = m_saves.find(profile);
-    return iter != m_saves.end() ? iter->second : std::vector<Save>{};
+    return iter != m_saves.end() ? iter->second : std::set<Save>{};
 }

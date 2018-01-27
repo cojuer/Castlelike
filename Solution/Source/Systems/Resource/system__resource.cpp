@@ -51,7 +51,7 @@ bool ResourceSystem::init(RenderSubsystem& rendSubsystem, RNGHolder& rngHolder, 
 
     m_journal = new Journal();
 
-    m_widgetFactory->init(*this);
+    m_widgetFactory->init(*this, opts);
     m_rendFactory->init(*this, rendSubsystem);
     textRenderer->init(*this, rendSubsystem);
 

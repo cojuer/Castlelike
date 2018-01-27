@@ -11,6 +11,7 @@
 #include "widget_state.h"
 #include "framed_transform.h"
 
+class Options;
 class Renderable;
 class RenderSubsystem;
 class ResourceSystem;
@@ -83,13 +84,13 @@ public:
     void virtual     render(RenderSubsystem& rendSubsystem, ResourceSystem& resSystem, Vec2i coordStart = { 0, 0 }) const;
     virtual bool     handle(SDL_Event& event, Vec2i coordStart = { 0, 0 });
 
-    virtual void     init(Json& node, ResourceSystem& resSystem);
+    virtual void     load(Json& node, ResourceSystem& resSystem, const Options& opts);
 
     virtual ~Widget();
 
 protected:
     virtual void     loadOptions(Json& node);
-    virtual void     loadGeometry(Json& node);
+    virtual void     loadGeometry(Json& node, const Options& opts);
     virtual void     loadGraphics(Json& node, ResourceSystem& resSystem);
 
     virtual void     handleSelf(SDL_Event& event, Vec2i coordStart = { 0, 0 });

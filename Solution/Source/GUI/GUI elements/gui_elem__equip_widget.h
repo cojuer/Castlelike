@@ -20,7 +20,7 @@ class EquipmentWidget : public Widget
 public:
     explicit EquipmentWidget(Widget* parent = nullptr);
 
-    void                   init(Json& node, ResourceSystem& resSystem) override;
+    void                   load(Json& node, ResourceSystem& resSystem, const Options& opts) override;
 
     std::vector<ItemSlot>& getSlots();
     Equipment*             getEquipment() const;

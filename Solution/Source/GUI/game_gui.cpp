@@ -71,7 +71,7 @@ bool GameGUI::init(Options& opts,
     m_dialWdg = std::make_unique<Widget>(
         std::string("dial_wdg"), 
         nullptr, 
-        SDL_Rect{ 0, 500, m_opts->getInt("Width"), 160 }, 
+        SDL_Rect{ 0, 500, m_opts->getInt(OptType::WIDTH), 160 }, 
         false, 
         m_resSystem->get<Renderable>("hero_panel_back_texture")
     );
@@ -166,7 +166,7 @@ void GameGUI::initDlMenu()
     const int lMarg = 20;
 
     const std::string& text = m_resSystem->dialogueManager->getCurText();
-    Widget* textPanel = new TextWidget("text", m_dialWdg.get(), { lMarg, tMarg, m_opts->getInt("Width"), 100 }, true, Font::latoRegular, FontSize::medium, Color::silver, &text);
+    Widget* textPanel = new TextWidget("text", m_dialWdg.get(), { lMarg, tMarg, m_opts->getInt(OptType::WIDTH), 100 }, true, Font::latoRegular, FontSize::medium, Color::silver, &text);
 
     int height = tMarg + 2 * FontSize::medium;
     for (int i = 0; i < dialMaxAnswers; ++i)
@@ -679,7 +679,7 @@ void GameGUI::refreshDlMenu()
         {
             auto widg = m_dialWdg->getChild(std::string("answer ") + std::to_string(i));
             auto butt = dcast<Button*>(widg);
-            butt->setGraphics(m_resSystem->textRenderer->renderSprSheet(dlMgr.getCurState()->answers[i].text, Font::latoRegular, FontSize::medium, m_opts->getInt("Width")));
+            butt->setGraphics(m_resSystem->textRenderer->renderSprSheet(dlMgr.getCurState()->answers[i].text, Font::latoRegular, FontSize::medium, m_opts->getInt(OptType::WIDTH)));
             butt->setVisible(true);
         }
         for (unsigned i = dlMgr.getCurState()->answers.size(); i < dialMaxAnswers; ++i)

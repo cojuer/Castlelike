@@ -2,6 +2,7 @@
 
 #include <string>
 #include <map>
+#include <set>
 #include <vector>
 
 class ResourceSystem;
@@ -14,6 +15,11 @@ struct Save
     std::string name;
     // date
     // play time
+
+    bool operator<(const Save& rhs) const
+    {
+        return name < rhs.name;
+    }
 };
 
 class SaveSystem
@@ -37,11 +43,11 @@ public:
 
     const Profile&       getCurrProfile() const;
     std::vector<Profile> getProfiles() const;
-    std::vector<Save>    getSaves(const Profile& profile) const;
+    std::set<Save>       getSaves(const Profile& profile) const;
 
 private:
     Profile m_currProfile;
-    std::map<Profile, std::vector<Save>> m_saves;
+    std::map<Profile, std::set<Save>> m_saves;
 
     std::vector<JSONSerializable*> m_serializables;
 };

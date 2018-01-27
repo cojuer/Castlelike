@@ -168,26 +168,41 @@ void Widget::loadOptions(Json& node)
     }
 }
 
-void Widget::loadGeometry(Json& node)
+void Widget::loadGeometry(Json& node, const Options& opts)
 {
     auto geom = node["geom"];
-    if (geom.is_null()) return;
+    if (geom.is_null())
+    {
+        setGeometry({ 0, 0, opts.getInt(OptType::WIDTH), opts.getInt(OptType::HEIGHT) });
+        return;
+    }
 
     int x = geom["x"].is_null() ? 0 : geom["x"];
     int y = geom["y"].is_null() ? 0 : geom["y"];
-    int w = geom["w"].is_null() ? 0 : geom["w"];
-    int h = geom["h"].is_null() ? 0 : geom["h"];
-    char halign = geom["halign"].is_null() ? 0 : geom["halign"].get<char>();
-    char valign = geom["valign"].is_null() ? 0 : geom["valign"].get<char>();
+    int w = geom["w"].is_null() ? opts.getInt(OptType::WIDTH) : geom["w"];
+    int h = geom["h"].is_null() ? opts.getInt(OptType::HEIGHT) : geom["h"];
+    auto halign = geom["halign"].is_null() ? std::string{} : geom["halign"].get<std::string>();
+    auto valign = geom["valign"].is_null() ? std::string{} : geom["valign"].get<std::string>();
 
-    if (halign && m_parent)
-    {
-        x = m_parent->getPos().x + (m_parent->getWidth() - w) / 2;
-    }
-    if (valign && m_parent)
-    {
-        y = m_parent->getPos().y + (m_parent->getHeight() - h) / 2;
-    }
+    auto parentX = m_parent ? m_parent->getPos().x : 0;
+    auto parentY = m_parent ? m_parent->getPos().y : 0;
+    auto parentW = m_parent ? m_parent->getWidth() : opts.getInt(OptType::WIDTH);
+    auto parentH = m_parent ? m_parent->getHeight() : opts.getInt(OptType::HEIGHT);
+    
+    if (halign == std::string{ 'l' })
+        x = parentX;
+    else if (halign == std::string{ 'c' })
+        x = parentX + (parentW - w) / 2;
+    else if (halign == std::string{ 'r' })
+        x = parentW - w;
+
+    if (valign == std::string{ 'l' })
+        y = parentY;
+    else if (valign == std::string{ 'c' })
+        y = parentY + (parentH - h) / 2;
+    else if (valign == std::string{ 'r' })
+        y = parentH - h;
+
     setGeometry({ x, y, w, h });
 }
 
@@ -253,15 +268,11 @@ void Widget::setVisible(bool visible)
 
 bool Widget::isPointOn(Vec2i point, Vec2i coordStart) const
 {
-    if (m_visible &&
-        point.x > m_geometry.x + coordStart.x && 
-        point.x < m_geometry.x + coordStart.x + m_geometry.w &&
-        point.y > m_geometry.y + coordStart.y &&
-        point.y < m_geometry.y + coordStart.y + m_geometry.h)
-    {
-        return true;
-    }
-    return false;
+    return m_visible 
+           and point.x > m_geometry.x + coordStart.x
+           and point.x < m_geometry.x + coordStart.x + m_geometry.w
+           and point.y > m_geometry.y + coordStart.y
+           and point.y < m_geometry.y + coordStart.y + m_geometry.h;
 }
 
 void Widget::render(RenderSubsystem& rendSubsystem, ResourceSystem& resSystem,
@@ -307,9 +318,11 @@ const Renderable* Widget::getGraphics() const
     return m_rendered;
 }
 
-void Widget::init(Json& node, ResourceSystem& resSystem)
+void Widget::load(Json& node, 
+                  ResourceSystem& resSystem,
+                  const Options& opts)
 {
-    loadGeometry(node);
+    loadGeometry(node, opts);
     loadOptions(node);
     loadGraphics(node, resSystem);
 }

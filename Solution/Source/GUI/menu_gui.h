@@ -6,6 +6,8 @@
 #include "menu_state.h"
 #include "init_object.h"
 
+class HandlerRegistration;
+class MenuListener;
 class Options;
 class RenderSubsystem;
 class ResourceSystem;
@@ -21,6 +23,7 @@ class MenuGUI : public InitObject
 {
 public:
     MenuGUI();
+    ~MenuGUI();
 
     bool             init(const Options& opts, 
                           RenderSubsystem& rendSubsys, 
@@ -49,6 +52,9 @@ private:
 
     MenuState        m_state;
     std::map<MenuState, std::unique_ptr<Widget>> m_pages;
+
+    std::unique_ptr<HandlerRegistration> m_reg;
+    std::unique_ptr<MenuListener> m_listener;
 };
 
 } /* gui namespace. */

@@ -18,6 +18,13 @@
 
 namespace gui {
 
+LoadingWidget::LoadingWidget(Widget* parent) :
+    Widget(parent), 
+    m_resSystem(nullptr),
+    m_saveSystem(nullptr),
+    m_profMenu(nullptr)
+{}
+
 LoadingWidget::LoadingWidget(const std::string& name,
                              Widget* parent,
                              SDL_Rect rect,
@@ -25,7 +32,8 @@ LoadingWidget::LoadingWidget(const std::string& name,
                              Renderable* rendered) :
     Widget(name, parent, rect, visible, rendered),
     m_resSystem(nullptr),
-    m_saveSystem(nullptr)
+    m_saveSystem(nullptr),
+    m_profMenu(nullptr)
 {}
 
 void LoadingWidget::init(ResourceSystem& resSystem, SaveSystem& saveSystem)
@@ -33,6 +41,7 @@ void LoadingWidget::init(ResourceSystem& resSystem, SaveSystem& saveSystem)
     m_resSystem = &resSystem;
     m_saveSystem = &saveSystem;
     
+    // FIXME: magic consts
     auto profiles = m_saveSystem->getProfiles();
     auto profW = 100;
     auto profH = 40;

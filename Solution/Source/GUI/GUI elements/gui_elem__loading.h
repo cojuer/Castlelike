@@ -12,17 +12,16 @@ class DropDownList;
 class LoadingWidget : public Widget
 {
 public:
+    LoadingWidget(Widget* parent = nullptr);
     LoadingWidget(const std::string& name,
                   Widget* parent,
                   SDL_Rect rect,
                   bool visible,
-                  Renderable* backImage = nullptr);
+                  Renderable* rendered = nullptr);
 
     void init(ResourceSystem& resSystem, SaveSystem& saveSystem);
 
-    bool handle(SDL_Event& event, Vec2i coordStart) override;
-
-private: 
+    bool handle(SDL_Event& event, Vec2i coordStart) override; 
     void refresh();
 
 private:
