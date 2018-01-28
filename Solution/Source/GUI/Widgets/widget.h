@@ -10,6 +10,7 @@
 #include "vec2.h"
 #include "widget_state.h"
 #include "framed_transform.h"
+#include "gui_text.h"
 
 class Options;
 class Renderable;
@@ -61,6 +62,9 @@ public:
     virtual void     setPosition(Vec2i pos);
     virtual void     setVisible(bool state);
     virtual void     setState(WState state);
+    virtual void     setGUIText(GUIText text);
+    virtual void     setText(std::string text);
+    virtual void     setTextStyle(TextStyle style);
 
     const std::string& getName() const;
     Widget*          getParent() const;
@@ -75,6 +79,9 @@ public:
     SDL_Rect         getRenderRect() const;
     const WState&    getState() const;
     Children&        getChildren();
+    GUIText          getGUIText() const;
+    std::string      getText() const;
+    TextStyle        getTextStyle() const;
 
     void             freeGraphics();
 
@@ -97,6 +104,7 @@ protected:
     virtual void     handleChildren(SDL_Event& event, Vec2i coordStart = { 0, 0 });
 
     virtual void     renderSelf(RenderSubsystem& rendSubsystem, ResourceSystem& resSystem, Vec2i coordStart = { 0, 0 }) const;
+    virtual void     renderText(RenderSubsystem& rendSubsystem, ResourceSystem& resSystem, Vec2i coordStart = { 0, 0 }) const;
     virtual void     renderChildren(RenderSubsystem& rendSubsystem, ResourceSystem& resSystem, Vec2i coordStart = { 0, 0 }) const;
 
 protected:
@@ -107,9 +115,10 @@ protected:
     FramedTransform* m_transform;
 
     std::string      m_name;
-
     SDL_Rect         m_geometry;
 
+    std::string      m_text;
+    TextStyle        m_textStyle;
     std::unique_ptr<Bhvr> m_bhvr;
     WState           m_state;
 

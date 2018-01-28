@@ -12,7 +12,6 @@
 #include "font_data.h"
 #include "color.h"
 
-#include "widget__text_holder.h"
 #include "text_manager.h"
 
 namespace gui {
@@ -25,11 +24,18 @@ ItemHelper::ItemHelper() :
 
 bool ItemHelper::init()
 {
-    m_titleSection.reset(new TextOwnerWidget("title", nullptr, { 0 ,0, 200, 20 }, true, {Font::latoBold, FontSize::large, Color::silver}));
-    m_infoSection.reset(new TextOwnerWidget("itype", nullptr, { 0, 0, 200, 20 }, true, { Font::latoRegular, FontSize::medium, Color::silver }));
-    m_primStatsSection.reset(new TextOwnerWidget("prim_stat", nullptr, { 0 ,0, 200, 20 }, true, { Font::latoBold, FontSize::medium, Color::silver }));
-    m_secStatsSection.reset(new TextOwnerWidget("sec_stat", nullptr, { 0 ,0, 200, 20 }, true, { Font::latoRegular, FontSize::medium, Color::silver }));
-    m_descrSection.reset(new TextOwnerWidget("desc", nullptr, { 0 ,0, 200, 20 }, true, { Font::latoRegular, FontSize::medium, Color::silver }));
+    // FIXME: magic const
+    uint32_t width = 200;
+    m_titleSection.reset(new Widget{ "title", nullptr, { 0 ,0, 200, 20 }, true });
+    m_titleSection->setTextStyle({ Font::latoBold, FontSize::large, Color::silver, width });
+    m_infoSection.reset(new Widget("itype", nullptr, { 0, 0, 200, 20 }, true));
+    m_infoSection->setTextStyle({ Font::latoRegular, FontSize::medium, Color::silver, width });
+    m_primStatsSection.reset(new Widget("prim_stat", nullptr, { 0 ,0, 200, 20 }, true));
+    m_primStatsSection->setTextStyle({ Font::latoBold, FontSize::medium, Color::silver, width });
+    m_secStatsSection.reset(new Widget("sec_stat", nullptr, { 0 ,0, 200, 20 }, true));
+    m_secStatsSection->setTextStyle({ Font::latoRegular, FontSize::medium, Color::silver, width });
+    m_descrSection.reset(new Widget("desc", nullptr, { 0 ,0, 200, 20 }, true));
+    m_descrSection->setTextStyle({ Font::latoRegular, FontSize::medium, Color::silver, width });
     return true;
 }
 
@@ -77,9 +83,12 @@ void ItemHelper::render(RenderSubsystem& rendSubsys, ResourceSystem& resSystem) 
     m_infoSection->render(rendSubsys, resSystem, pos);
     curHeight += m_infoSection->getHeight() + spacing;
 
-    m_primStatsSection->setPosition({ lMargin, curHeight });
-    m_primStatsSection->render(rendSubsys, resSystem, pos);
-    curHeight += m_primStatsSection->getHeight() + spacing;
+    if (itemHasPrimary)
+    {
+        m_primStatsSection->setPosition({ lMargin, curHeight });
+        m_primStatsSection->render(rendSubsys, resSystem, pos);
+        curHeight += m_primStatsSection->getHeight() + spacing;
+    }
 
     m_descrSection->setPosition({ lMargin, curHeight });
     m_descrSection->render(rendSubsys, resSystem, pos);

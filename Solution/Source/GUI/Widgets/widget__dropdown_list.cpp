@@ -10,38 +10,28 @@ namespace gui {
 
 DropDownList::DropDownList(const std::string& name, Widget* parent, SDL_Rect geometry, bool visible) :
     Widget(name, parent, geometry, visible),
-    m_button(new Button("main", this, { 0, 0, 0, 0 }, true, nullptr, nullptr)),
+    m_button(new Button("main", this, { 0, 0, geometry.w, geometry.h }, true, nullptr, nullptr)),
     m_opened(false)
 {}
 
 void DropDownList::addElem(std::string elem, ResourceSystem& resSystem)
 {
-    // FIXME: memory leak
-    auto sprites = new SprSheet{
-        std::vector<ATexture*>{
-            resSystem.textRenderer->renderTexture(elem, Font::latoBold, FontSize::medium, Color::silver),
-            resSystem.textRenderer->renderTexture(elem, Font::latoBold, FontSize::medium, Color::silver),
-            resSystem.textRenderer->renderTexture(elem, Font::latoBold, FontSize::medium, Color::silver),
-            resSystem.textRenderer->renderTexture(elem, Font::latoBold, FontSize::medium, Color::silver),
-            resSystem.textRenderer->renderTexture(elem, Font::latoBold, FontSize::medium, Color::silver)
-        }
-    };
+    // FIXME: magic consts
+    auto button = new Button{ elem, this, {0,0,m_geometry.w,m_geometry.h}, true, nullptr, nullptr };
+    button->setGUIText({ { Font::latoBold, uint32_t(FontSize::medium), Color::silver, 100 }, elem });
 
-    auto button = new Button{ elem, this, {0,0,20,100}, true, sprites, nullptr };
-    addChild(*button);
-
-    auto offset = button->getHeight();
+    auto offset = m_button->getHeight();
     for (auto&[name, child] : m_children)
     {
         offset += child->getHeight();
     }
     button->setPosition({ 0, offset });
+    addChild(*button);
     
     if (m_children.size() == 1)
     {
         m_active = m_children.cbegin()->first;
-        m_button->freeGraphics();
-        m_button->setGraphics(sprites->clone());
+        m_button->setGUIText(m_children.at(m_active)->getGUIText());
     }
 }
 
@@ -49,9 +39,7 @@ void DropDownList::setActiveElem(const std::string& active)
 {
     assert(m_children.find(active) != m_children.end());
     m_active = active;
-    auto activeGraphicsCopy = m_children.at(m_active)->getGraphics()->clone();
-    m_button->freeGraphics();
-    m_button->setGraphics(activeGraphicsCopy);
+    m_button->setGUIText(m_children.at(m_active)->getGUIText());
     m_opened = false;
 }
 
@@ -85,9 +73,7 @@ bool DropDownList::handle(SDL_Event& event, Vec2i coordStart)
             newState == WState::MOUSE_OVER)
         {
             m_active = name;
-            auto activeGraphicsCopy = child->getGraphics()->clone();
-            m_button->freeGraphics();
-            m_button->setGraphics(activeGraphicsCopy);
+            m_button->setGUIText(m_children.at(m_active)->getGUIText());
             m_opened = false;
             break;
         }
@@ -101,6 +87,8 @@ void DropDownList::render(RenderSubsystem& rendSubsys, ResourceSystem& resSystem
 
     coordStart += getPos();
     m_button->render(rendSubsys, resSystem, coordStart);
+
+    renderText(rendSubsys, resSystem, coordStart);
 
     if (!m_opened) return;
 

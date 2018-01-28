@@ -260,7 +260,6 @@
     <ClCompile Include="Source\Common\timer.cpp" />
     <ClCompile Include="Source\GUI\Widgets\widget__text.cpp" />
     <ClCompile Include="Source\GUI\Widgets\widget.cpp" />
-    <ClCompile Include="Source\GUI\Widgets\widget__text_holder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\AppStates\app_state__loading.h" />
@@ -268,7 +267,8 @@
     <ClInclude Include="Source\Common\init_object.h" />
     <ClInclude Include="Source\Common\json_serializable.h" />
     <ClInclude Include="Source\Common\time_aliases.h" />
-    <ClInclude Include="Source\GUI\Common\text_info.h" />
+    <ClInclude Include="Source\GUI\Common\gui_text.h" />
+    <ClInclude Include="Source\GUI\Common\gui_text_style.h" />
     <ClInclude Include="Source\GUI\GUI elements\gui_elem__loading.h" />
     <ClInclude Include="Source\GUI\Widgets\widget__dropdown_list.h" />
     <ClInclude Include="Source\Subsystems\Event\Events\event__load.h" />
@@ -450,7 +450,6 @@
     <ClInclude Include="Source\GUI\Common\font_data.h" />
     <ClInclude Include="Source\GUI\Widgets\widget.h" />
     <ClInclude Include="Source\GUI\Common\widget_state.h" />
-    <ClInclude Include="Source\GUI\Widgets\widget__text_holder.h" />
     <ClInclude Include="Source\Common\transform.h" />
     <ClInclude Include="Source\Systems\Save\system__save.h" />
   </ItemGroup>

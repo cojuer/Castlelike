@@ -27,8 +27,8 @@ Button::Button(const std::string& name, Widget* parent, SDL_Rect geometry, bool 
 
 void Button::setGraphics(Renderable* rendered)
 {
+    if (!rendered) return;
     auto sprSheet = dynamic_cast<SprSheet*>(rendered);
-    assert(!rendered || sprSheet);
     m_rendered = rendered;
     if (sprSheet)
     {
@@ -52,9 +52,13 @@ void Button::render(RenderSubsystem& rendSubsystem, ResourceSystem& resSystem, V
 {
     if (!m_visible) return;
 
-    dynamic_cast<SprSheet*>(m_rendered)->setFrame(static_cast<int>(m_state));
+    if (m_rendered)
+    {
+        dynamic_cast<SprSheet*>(m_rendered)->setFrame(static_cast<int>(m_state));
+    }
 
     renderSelf(rendSubsystem, resSystem, coordStart);
+    renderText(rendSubsystem, resSystem, coordStart);
 }
 
 void Button::loadGraphics(Json& node, ResourceSystem& resSystem)

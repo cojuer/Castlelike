@@ -12,7 +12,6 @@ class Item;
 
 namespace gui {
 
-class TextOwnerWidget;
 class Widget;
 
 class ItemHelper : public Widget
@@ -43,11 +42,11 @@ private:
     bool itemHasSecondary;
     bool itemHasDescription;
 
-    std::unique_ptr<TextOwnerWidget> m_titleSection;
-    std::unique_ptr<TextOwnerWidget> m_infoSection;
-    std::unique_ptr<TextOwnerWidget> m_primStatsSection;
-    std::unique_ptr<TextOwnerWidget> m_secStatsSection;
-    std::unique_ptr<TextOwnerWidget> m_descrSection;
+    std::unique_ptr<Widget> m_titleSection;
+    std::unique_ptr<Widget> m_infoSection;
+    std::unique_ptr<Widget> m_primStatsSection;
+    std::unique_ptr<Widget> m_secStatsSection;
+    std::unique_ptr<Widget> m_descrSection;
 };
 
 } /* gui namespace. */

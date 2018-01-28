@@ -10,6 +10,7 @@
 #include "subsystem__render.h"
 #include "system__resource.h"
 #include "utils.h"
+#include "text_renderer.h"
 
 namespace gui {
 
@@ -256,6 +257,21 @@ Widget::Children& Widget::getChildren()
     return m_children;
 }
 
+GUIText Widget::getGUIText() const
+{
+    return GUIText{ m_textStyle, m_text };
+}
+
+std::string Widget::getText() const
+{
+    return m_text;
+}
+
+TextStyle Widget::getTextStyle() const
+{
+    return m_textStyle;
+}
+
 bool Widget::isVisible() const
 {
     return m_visible;
@@ -281,6 +297,7 @@ void Widget::render(RenderSubsystem& rendSubsystem, ResourceSystem& resSystem,
     if (!m_visible) return;
 
     renderSelf(rendSubsystem, resSystem, coordStart);
+    renderText(rendSubsystem, resSystem, coordStart);
     renderChildren(rendSubsystem, resSystem, coordStart);
 }
 
@@ -289,9 +306,25 @@ void Widget::setState(WState state)
     m_state = state;
 }
 
+void Widget::setGUIText(GUIText text)
+{
+    m_text = text.m_text;
+    m_textStyle = text.m_style;
+}
+
+void Widget::setText(std::string text)
+{
+    m_text = text;
+}
+
+void Widget::setTextStyle(TextStyle style)
+{
+    m_textStyle = std::move(style);
+}
+
 void Widget::freeGraphics()
 {
-    free(m_rendered);
+    delete(m_rendered);
     m_rendered = nullptr;
 }
 
@@ -333,6 +366,30 @@ void Widget::renderSelf(RenderSubsystem& rendSubsystem, ResourceSystem& resSyste
     dstRect.x += coordStart.x;
     dstRect.y += coordStart.y;
     rendSubsystem.render(m_rendered, m_transform, dstRect);
+}
+
+void Widget::renderText(RenderSubsystem& rendSubsystem, ResourceSystem& resSystem, Vec2i coordStart) const
+{
+    if (m_text.empty()) return;
+
+    coordStart += getPos();
+
+    auto font = resSystem.textRenderer->getFont(m_textStyle.m_font, m_textStyle.m_fontSize);
+    
+    auto texture = new ATexture();
+    texture->loadFromText(rendSubsystem, 
+                          m_text, 
+                          font, 
+                          m_textStyle.m_color, 
+                          m_textStyle.m_width);
+    auto dstRect = m_geometry;
+    dstRect.x = coordStart.x;
+    dstRect.y = coordStart.y;
+    dstRect.w = texture->getWidth();
+    dstRect.h = texture->getHeight();
+    rendSubsystem.render(texture, m_transform, dstRect);
+    SDL_DestroyTexture(texture->getSDLTexture());
+    delete(texture);
 }
 
 void Widget::renderChildren(RenderSubsystem& rendSubsystem, ResourceSystem& resSystem, Vec2i coordStart) const

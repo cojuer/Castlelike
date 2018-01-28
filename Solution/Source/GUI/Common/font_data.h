@@ -24,9 +24,9 @@ private:
 
 struct FontSize
 {
-    static const int large;
-    static const int medium;
-    static const int small;
+    static const uint32_t large;
+    static const uint32_t medium;
+    static const uint32_t small;
 };
 
 } /* gui namespace */

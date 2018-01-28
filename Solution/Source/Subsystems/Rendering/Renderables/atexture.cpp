@@ -30,7 +30,7 @@ bool ATexture::loadFromFile(std::string path, RenderSubsystem& rendSubsystem)
 
 bool ATexture::loadFromText(RenderSubsystem& rendSubsystem, std::string text, TTF_Font* font, SDL_Color color, int textWidth)
 {
-    SDL_Surface* surface = nullptr;
+    SDL_Surface* surface{ nullptr };
     if (textWidth > 0)
     {
         surface = TTF_RenderText_Blended_Wrapped(font, text.c_str(), color, textWidth);

@@ -29,11 +29,9 @@ TTF_Font* TextRenderer::getFont(const std::string& name, int size)
     }
 }
 
-ATexture* TextRenderer::renderTexture(const std::string& text, const std::string& fontName, int size, Color color, int width)
+ATexture* TextRenderer::renderTexture(const std::string& text, const std::string& fontName, uint32_t size, Color color, uint32_t width)
 {
-    auto font = getFont(fontName, size);
-    if (!font) return nullptr;
-    auto newIter = m_textures.find({text, font, color, width});
+    auto newIter = m_textures.find({ { fontName, size, color, width }, text });
     if (newIter != m_textures.end())
     {
         return newIter->second;
@@ -42,7 +40,24 @@ ATexture* TextRenderer::renderTexture(const std::string& text, const std::string
     {
         auto result = new ATexture();
         result->loadFromText(*m_rendSubsystem, text, this->getFont(fontName, size), color, width);
-        m_textures[{text, font, color, width}] = result;
+        m_textures[{ { fontName, size, color, width }, text }] = result;
+        return result;
+    }
+}
+
+ATexture* TextRenderer::renderTexture(const std::string& text, gui::TextStyle style)
+{
+    auto iter = m_textures.find({ style, text });
+    if (iter != m_textures.end())
+    {
+        return iter->second;
+    }
+    else
+    {
+        auto result = new ATexture();
+        auto font = m_resSystem->textRenderer->getFont(style.m_font, style.m_fontSize);
+        result->loadFromText(*m_rendSubsystem, text, font, style.m_color, style.m_width);
+        m_textures[{ style, text }] = result;
         return result;
     }
 }

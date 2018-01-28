@@ -44,7 +44,7 @@ void LoadingWidget::init(ResourceSystem& resSystem, SaveSystem& saveSystem)
     // FIXME: magic consts
     auto profiles = m_saveSystem->getProfiles();
     auto profW = 100;
-    auto profH = 40;
+    auto profH = 20;
     auto profMenuX = (getWidth() - profW) / 2;
     auto profMenuY = (60 - profH) / 2;
     m_profMenu = new DropDownList{ "profiles", nullptr, { profMenuX, profMenuY, profW, profH }, true };
@@ -91,19 +91,11 @@ void LoadingWidget::refresh()
     auto offset = 75;
     for (auto& save : saves)
     {
-        // FIXME: memory leak, renderer requires possibility to give spritesheets
-        auto sprites = new SprSheet{
-            std::vector<ATexture*>{
-                m_resSystem->textRenderer->renderTexture(save.name, Font::latoBold, FontSize::medium, Color::silver),
-                m_resSystem->textRenderer->renderTexture(save.name, Font::latoBold, FontSize::medium, Color::silver),
-                m_resSystem->textRenderer->renderTexture(save.name, Font::latoBold, FontSize::medium, Color::silver),
-                m_resSystem->textRenderer->renderTexture(save.name, Font::latoBold, FontSize::medium, Color::silver),
-                m_resSystem->textRenderer->renderTexture(save.name, Font::latoBold, FontSize::medium, Color::silver)
-            }
-        };
         auto loadEvent = new LoadEvent{ currProf, save.name };
         auto menuEvent = new MenuEvent{ MenuState::ON_LOAD };
-        auto button = new Button{ save.name, this, { 20, offset, 20, 100 }, true, sprites, nullptr };
+        auto button = new Button{ save.name, this, { 20, offset, 100, 20 }, true, nullptr, nullptr };
+        TextStyle style{ Font::latoBold, FontSize::medium, Color::silver, 100};
+        button->setGUIText({ style, save.name });
         button->setBhvr({ new OnRelease{ loadEvent }, new OnRelease{ menuEvent } });
         addChild(*button);
         m_saveButtons[save.name] = button;
