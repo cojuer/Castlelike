@@ -10,6 +10,13 @@ public:
 	explicit ExperienceInterfaceComponent(Actor* parent = nullptr);
 	ExperienceInterfaceComponent(int level, int xp, Actor* parent = nullptr);
 
+    ExperienceInterfaceComponent(const ExperienceInterfaceComponent&) = delete;
+    ExperienceInterfaceComponent(ExperienceInterfaceComponent&&) = delete;
+    ExperienceInterfaceComponent& operator=(const ExperienceInterfaceComponent&) = delete;
+    ExperienceInterfaceComponent& operator=(ExperienceInterfaceComponent&&) = delete;
+
+    virtual ~ExperienceInterfaceComponent();
+
     Json save() const override;
 	void load(Json& node, ResourceSystem& resSystem) override;
 
@@ -23,8 +30,6 @@ public:
     void updateLvl();
 
     virtual int countXpToLvlUp(int level) const = 0;
-
-    virtual ~ExperienceInterfaceComponent();
 
 protected:
     int m_level;

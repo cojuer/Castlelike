@@ -1,10 +1,10 @@
 #include "text_renderer.h"
 
-#include "atexture.h"
-#include "system__resource.h"
-#include "spritesheet.h"
 #include "subsystem__render.h"
-#include "font_data.h"
+#include "system__resource.h"
+
+#include "atexture.h"
+#include "spritesheet.h"
 #include "color.h"
 
 bool TextRenderer::init(ResourceSystem& resSystem, RenderSubsystem& rendSubsystem)

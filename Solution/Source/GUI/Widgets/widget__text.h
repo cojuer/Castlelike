@@ -5,6 +5,7 @@
 
 namespace gui {
 
+// FIXME: rewrite or delete
 class TextWidget : public Widget
 {
 public:
@@ -19,7 +20,7 @@ public:
 
     void render(RenderSubsystem& rendSubsys,
                 ResourceSystem& resSystem,
-                Vec2i coordStart = { 0, 0 }) const override;
+                Vec2i coordStart) const override;
 
 private:
     // FIXME: codestyle

@@ -1,8 +1,5 @@
 #include "subsystem__render.h"
 
-#include <iostream>
-#include <string>
-
 #include "animation.h"
 #include "atexture.h"
 #include "options.h"
@@ -32,8 +29,7 @@ bool RenderSubsystem::init(Options& opts)
     return true;
 
     err3:
-    auto window = m_window.release();
-    delete(window);
+    m_window.reset();
     err2:
     deinitSDL();
     err1:
@@ -108,7 +104,7 @@ bool RenderSubsystem::createWindow()
     // FIXME: use opts?
     auto windowName = "Castlelike";
     // FIXME: 2 magic consts
-    SDL_Rect geom{ 100, 100, m_opts->getInt(OptType::WIDTH), m_opts->getInt(OptType::HEIGHT) };
+    SDL_Rect geom{ 100, 100, m_opts->get<int>(OptType::WIDTH), m_opts->get<int>(OptType::HEIGHT) };
     auto sdlWindow = SDL_CreateWindow(windowName, geom.x, geom.y, geom.w, geom.h, SDL_WINDOW_SHOWN);
     if (sdlWindow)
     {

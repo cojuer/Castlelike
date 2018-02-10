@@ -7,8 +7,6 @@
 #include "action__move.h"
 
 #include "subsystem__input.h"
-
-#include "game_system_manager.h"
 #include "system__scene.h"
 
 #include "component__health.h"
@@ -21,12 +19,11 @@
 #include "cutscene__move.h"
 #include "component__action_pts.h"
 
-bool PlayerController::init(SceneSystem& sceneSystem, InputSubsystem& inputSubsystem, GameSystemManager& sysManager)
+bool PlayerController::init(SceneSystem& sceneSystem, InputSubsystem& inputSubsystem)
 {
     m_sceneSystem = &sceneSystem;
     m_inputSubsystem = &inputSubsystem;
     m_heroDir = Direction::NONE;
-    m_sysManager = &sysManager;
     return true;
 }
 
@@ -79,7 +76,7 @@ bool PlayerController::control(Actor& actor)
         if (scene->isEmpty(coord))
         {
             ActionArgs input;
-            input[ActArgType::coord] = new Coord(coord);
+            input[ActArgType::coord] = coord;
             input[ActArgType::user] = hero;
             input[ActArgType::scene] = scene;
 
@@ -98,7 +95,7 @@ bool PlayerController::control(Actor& actor)
                 if (target->getComponent<HealthComponent>())
                 {
                     ActionArgs input;
-                    input[ActArgType::coord] = new Coord(coord);
+                    input[ActArgType::coord] = coord;
                     input[ActArgType::user] = hero;
                     input[ActArgType::scene] = scene;
 
@@ -117,14 +114,7 @@ bool PlayerController::control(Actor& actor)
     }
 
     // If no AP, turn is over
-    if (apComp->getCurr() == 0)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return (apComp->getCurr() == 0);
 }
 
 std::map<ActorID, Actor*>& PlayerController::getPossessed()

@@ -23,7 +23,7 @@ public:
     const ATexture*  getTexture() const override;
 
     // FIXME: use JSON to initialize
-    bool             loadFromFile(std::string path, int width, int height, int frames, SDL_Renderer* const renderer);
+    bool             loadFromFile(const std::string& path, int width, int height, int frames, SDL_Renderer* renderer);
 
     void             free();
 
@@ -31,5 +31,5 @@ public:
 
 private:
     std::vector<ATexture*> m_frames;
-    int                    m_frame;
+    int                    m_frame { 0 };
 };

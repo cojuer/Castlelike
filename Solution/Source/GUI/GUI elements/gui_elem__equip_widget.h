@@ -10,8 +10,6 @@ class Item;
 
 namespace gui {
 
-class ATexture;
-
 class EquipmentWidget : public Widget
 {
     static std::map<int, std::string> idToType;
@@ -34,7 +32,7 @@ public:
 
     void                   refresh();
 
-    void                   render(RenderSubsystem& rendSubsystem, ResourceSystem& resSystem, Vec2i coordStart = { 0, 0 }) const override;
+    void                   render(RenderSubsystem& rendSubsystem, ResourceSystem& resSystem, Vec2i coordStart) const override;
 
 private:
     Equipment*        m_equipment;

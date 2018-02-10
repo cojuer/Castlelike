@@ -1,7 +1,5 @@
 #include "gui_elem__loading.h"
 
-#include <iostream>
-
 #include "system__resource.h"
 #include "system__save.h"
 

@@ -4,7 +4,6 @@
 #include "item.h"
 #include "system__resource.h"
 #include "subsystem__render.h"
-#include "widget__number.h"
 
 namespace gui {
 
@@ -12,8 +11,7 @@ ItemSlot::ItemSlot(const std::string& name, Widget* parent, SDL_Rect geometry) :
     Slot(name, parent, geometry, SlotType::ITEM),
     m_item(nullptr)
 {
-    // FIXME: magic consts
-    auto itemNumWdg = new NumberWidget("num", this, { 20, 20, 10, 10 }, true, nullptr);
+    auto itemNumWdg = new Widget("num", this, { 20, 20, 10, 10 }, true, nullptr);
     Widget::addChild(*itemNumWdg);
 }
 
@@ -22,7 +20,7 @@ void ItemSlot::setItem(Item& item)
     m_item = &item;
     if (m_item->getMaxCount() > 1)
     {
-        dynamic_cast<NumberWidget*>(m_children["num"].get())->setData(m_item->getCount());
+        m_children["num"].get()->setText(std::to_string(m_item->getCount()));
     }
 }
 
@@ -49,7 +47,7 @@ bool ItemSlot::handle(SDL_Event& event, Vec2i coordStart)
                 break;
             }
         }
-        else if (m_pressed == true && event.type == SDL_MOUSEBUTTONUP)
+        else if (m_pressed && event.type == SDL_MOUSEBUTTONUP)
         {
             m_pressed = false;
         }
@@ -60,7 +58,7 @@ bool ItemSlot::handle(SDL_Event& event, Vec2i coordStart)
 void ItemSlot::eraseItem()
 {
     m_item = nullptr;
-    dynamic_cast<NumberWidget*>(m_children["num"].get())->eraseData();
+    m_children["num"].get()->setText("");
 }
 
 Item* ItemSlot::getItem() const

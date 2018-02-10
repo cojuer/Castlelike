@@ -9,7 +9,6 @@
 #include "options.h"
 
 #include "resource.h"
-#include "journal.h"
 
 // FIXME: these includes can be deleted 
 // if Renderable and Widget are defined
@@ -57,9 +56,6 @@ public:
     DialManager*     dialogueManager;
     FactionsMgr*     factionsManager;
     TextRenderer*    textRenderer;
-
-    // TODO: move somewhere else
-    Journal*         m_journal;
 
     std::unique_ptr<ActFactory>        m_actionFactory;
     std::unique_ptr<ItemFactory>       m_itemFactory;

@@ -11,10 +11,6 @@
 
 MenuAppState MenuAppState::menuAppState;
 
-MenuAppState::MenuAppState() :
-    m_app(nullptr)
-{}
-
 void MenuAppState::init(App& app)
 {
     m_initialized = true;
@@ -93,7 +89,7 @@ void MenuAppState::render()
 
 void MenuAppState::onEvent(MenuEvent& event)
 {
-    m_app->m_menuGUI->setState(event.newState);
+    m_app->m_menuGUI->setState(event.m_state);
 }
 
 MenuAppState* MenuAppState::instance()

@@ -7,18 +7,18 @@
 #include "object.h"
 #include "vec2.h"
 
+class ViewSystem;
 class ActionInterface;
 class Actor;
 class Container;
 class Equipment;
 class GUIListener;
-class Journal;
+class JournalSystem;
 class HandlerRegistration;
 class Options;
 class RenderSubsystem;
 class ResourceSystem;
 class SceneSystem;
-class GameSystemManager;
 union SDL_Event;
 
 namespace gui {
@@ -58,20 +58,26 @@ enum class GameGUIState
 
 class GameGUI final : public Object
 {
-    friend class GUIListener;
+    friend class ::GUIListener;
 
     static constexpr int entriesToRender = 7;
 
 public:
     GameGUI();
 
+    GameGUI(const GameGUI&) = delete;
+    GameGUI(GameGUI&&) = delete;
+    GameGUI& operator=(const GameGUI&) = delete;
+    GameGUI& operator=(GameGUI&&) = delete;
+
     ~GameGUI();
 
     bool             init(Options& opts,
-                          RenderSubsystem&  rendSubsystem, 
-                          GameSystemManager&    sysManager, 
-                          SceneSystem&     sceneSystem, 
-                          ResourceSystem&  resSystem);
+                          RenderSubsystem& rendSubsystem, 
+                          ViewSystem& viewSystem,
+                          JournalSystem& journalSystem,
+                          SceneSystem& sceneSystem, 
+                          ResourceSystem& resSystem);
 
     void             initHeroBars();
     void             initHeroPanel();
@@ -126,14 +132,14 @@ private:
 
 private:
     // imported
-    ResourceSystem* m_resSystem;
-    GameSystemManager*   m_sysManager;
-    SceneSystem*    m_sceneSystem;
-    RenderSubsystem* m_rendSubsystem;
+    JournalSystem*     m_journalSystem{ nullptr };
+    ResourceSystem*    m_resSystem{ nullptr };
+    ViewSystem*        m_viewSystem{ nullptr };
+    SceneSystem*       m_sceneSystem{ nullptr };
+    RenderSubsystem*   m_rendSubsystem{ nullptr };
 
-    Options*         m_opts;
-    Actor*           m_hero;
-    Journal*         m_journal;
+    Options*         m_opts{};
+    Actor*           m_hero{};
 
     // owned
     GameGUIState     m_state;
@@ -148,25 +154,23 @@ private:
     std::unique_ptr<BagWidget> m_lootWdg;
     std::unique_ptr<Widget> m_dialWdg;
 
-    BagWidget*       m_bagWdg;
-    EquipmentWidget* m_equipWdg;
+    BagWidget*       m_bagWdg{};
+    EquipmentWidget* m_equipWdg{};
 
     std::unique_ptr<SlotHelper> m_slotHelper;
 
     // used
     std::list<Widget*> m_widgets;
 
-    ActSlot*         m_activeSkillSlot;
-
-    ItemSlot*        m_activeSlot;
+    ItemSlot*        m_activeSlot{};
     ActSlotType      m_activeSlotType;
-    int              m_activeSlotIndex;
+    int              m_activeSlotIndex{};
 
-    ItemSlot*        m_currentSlot;
+    ItemSlot*        m_currentSlot{};
     ActSlotType      m_currentSlotType;
-    int              m_currentSlotIndex;
+    int              m_currentSlotIndex{};
 
-    ActionInterface* m_action;
+    ActionInterface* m_action{};
 
     std::unique_ptr<HandlerRegistration> m_reg;
     std::unique_ptr<GUIListener> m_listener;

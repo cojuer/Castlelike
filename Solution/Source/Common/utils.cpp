@@ -52,7 +52,7 @@ std::string format(std::string& str, std::vector<std::string>& args)
         words.push_back(word);
         isArg.push_back(false);
     }
-    std::string result("");
+    std::string result;
     for (size_t i = 0; i < words.size(); ++i)
     {
         word = words[i];

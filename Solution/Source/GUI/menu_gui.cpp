@@ -2,7 +2,6 @@
 
 #include <SDL.h>
 
-#include "animation.h"
 #include "atexture.h"
 
 #include "system__save.h"
@@ -13,7 +12,6 @@
 
 #include "on_release.h"
 #include "options.h"
-#include "factory__renderable.h"
 #include "system__resource.h"
 #include "subsystem__render.h"
 #include "widget__tabs.h"
@@ -134,11 +132,11 @@ bool MenuGUI::initOptions()
     testPanel->addChild(*new Widget("3", testPanel, 20, 60, true, m_resSystem->textRenderer->renderTexture("Effects", fName, fSize, fColor)));
     testPanel->addChild(*new Widget("4", testPanel, 20, 80, true, m_resSystem->textRenderer->renderTexture("Difficulty", fName, fSize, fColor)));
 
-    optionsWidget->addTab(testButton, testPanel);
+    optionsWidget->addTab(*testButton, *testPanel);
 
     testButton = new Button("controls", optionsWidget, { 80, 70, 0, 0 }, true, m_resSystem->get<Renderable>("text_controls"));
     testPanel = new Widget("controls_panel", optionsWidget, { 250, 40, 600, 600 }, true, m_resSystem->get<Renderable>("main_background"));
-    optionsWidget->addTab(testButton, testPanel);
+    optionsWidget->addTab(*testButton, *testPanel);
 
     testPanel->addChild(*new Widget("5", testPanel, 20, 20, true, m_resSystem->textRenderer->renderTexture("move up", fName, fSize, fColor)));
     testPanel->addChild(*new Widget("6", testPanel, 20, 40, true, m_resSystem->textRenderer->renderTexture("move down", fName, fSize, fColor)));
@@ -171,8 +169,8 @@ bool MenuGUI::initCredits()
 
     auto mainPanel = new Widget("creds_panel", nullptr, { 0, 0, std::stoi(m_opts->at(OptType::WIDTH)), std::stoi(m_opts->at(OptType::HEIGHT)) }, true);
     auto title = m_resSystem->textRenderer->renderTexture("Credits aren't available in this version", Font::latoRegular, 40, { 255, 165, 0 });
-    SDL_Rect dst = { (m_opts->getInt(OptType::WIDTH) - title->getWidth()) / 2,
-                     (m_opts->getInt(OptType::HEIGHT) - title->getHeight()) / 2,
+    SDL_Rect dst = { (m_opts->get<int>(OptType::WIDTH) - title->getWidth()) / 2,
+                     (m_opts->get<int>(OptType::HEIGHT) - title->getHeight()) / 2,
                      title->getWidth(),
                      title->getHeight() };
     auto textPanel = new Widget("text", mainPanel, dst, true, title);
@@ -202,9 +200,11 @@ void MenuGUI::handle(SDL_Event& event)
     }
     // FIXME: rework menu states
     if (m_state != MenuState::ON_LOAD &&
-        m_state != MenuState::ON_NEW_GAME && 
+        m_state != MenuState::ON_NEW_GAME &&
         m_state != MenuState::ON_QUIT)
-    m_pages.at(m_state)->handle(event);
+    {
+        m_pages.at(m_state)->handle(event);
+    }
 }
 
 void MenuGUI::setState(MenuState state)

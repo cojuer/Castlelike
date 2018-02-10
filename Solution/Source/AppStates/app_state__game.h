@@ -1,12 +1,11 @@
 #pragma once
 
 #include "app_state.h"
-#include "vec2.h"
 
 class GameAppState final : public AppState
 {
 public:
-    GameAppState();
+    GameAppState() = default;
 
     void             init(App& app) override;
     void             clean() override;
@@ -22,7 +21,7 @@ public:
     static GameAppState* instance();
 
 private:
-    App*             m_app;
+    App*             m_app { nullptr };
 
     static GameAppState playState;
 };

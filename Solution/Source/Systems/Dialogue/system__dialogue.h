@@ -11,7 +11,7 @@ private:
     DialFactory&        dlFactory;
     const Dialogue*     dial;
     int                 state;
-    int                 phrase;
+    uint32_t            phrase;
 
     const DialState*    curState;
     const DialPhrase*   curPhrase;
@@ -25,7 +25,7 @@ public:
 
     const Dialogue*     getDial() const;
     const int&          getState() const;
-    const int&          getPhrase() const;
+    const uint32_t&     getPhrase() const;
     const DialState*    getCurState() const;
     const DialPhrase*   getCurPhrase() const;
     const std::string&  getCurText() const;

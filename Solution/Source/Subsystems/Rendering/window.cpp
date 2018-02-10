@@ -13,7 +13,7 @@ Window::~Window()
 
 void Window::configure(Options& opts)
 {
-    if (opts.getInt("Fullscreen"))
+    if (opts.get<bool>("Fullscreen"))
     {
         SDL_SetWindowFullscreen(m_window, SDL_WINDOW_FULLSCREEN_DESKTOP);
     }

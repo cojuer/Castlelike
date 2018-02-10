@@ -4,9 +4,6 @@
 #include "cutscene_element.h"
 #include "global_time.h"
 
-CutsceneSystem::CutsceneSystem() = default;
-CutsceneSystem::~CutsceneSystem() = default;
-
 void CutsceneSystem::startCutscene(Cutscene& cutscene)
 {
     m_currentCutscene = &cutscene;

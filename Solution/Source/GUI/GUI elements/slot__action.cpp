@@ -5,9 +5,9 @@
 
 namespace gui {
 
-ActSlot::ActSlot(const std::string& name, Widget* parent, SDL_Rect geometry, const std::string& action) :
+ActSlot::ActSlot(const std::string& name, Widget* parent, SDL_Rect geometry, std::string action) :
     Slot(name, parent, geometry, SlotType::SKILL),
-    m_action(action),
+    m_action(std::move(action)),
     m_img(nullptr)
 {}
 
@@ -24,7 +24,7 @@ void ActSlot::setAction(std::string actName, ResourceSystem& resSystem)
 
 bool ActSlot::isEmpty() const
 {
-    return m_action.size() == 0;
+    return m_action.empty();
 }
 
 bool ActSlot::handle(SDL_Event& event, Vec2i coordStart)
@@ -33,13 +33,9 @@ bool ActSlot::handle(SDL_Event& event, Vec2i coordStart)
 
     int x, y;
     SDL_GetMouseState(&x, &y);
-    if (this->isPointOn({x, y}, coordStart) &&
-        event.type == SDL_MOUSEBUTTONUP &&
-        event.button.button == SDL_BUTTON_LEFT)
-    {
-        return true;
-    }
-    return false;
+    return this->isPointOn({ x, y }, coordStart) 
+           and event.type == SDL_MOUSEBUTTONUP 
+           and event.button.button == SDL_BUTTON_LEFT;
 }
 
 void ActSlot::render(RenderSubsystem& rendSubsys, ResourceSystem& resSystem, Vec2i coordStart) const

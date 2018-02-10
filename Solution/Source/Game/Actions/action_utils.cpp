@@ -7,7 +7,7 @@
 
 #include "rng.h"
 #include "vec2.h"
-#include "event__text.h"
+#include "event__journal.h"
 #include "subsystem__event.h"
 
 namespace attack
@@ -15,14 +15,13 @@ namespace attack
 
 HitType getHitType(RNG& rng, int offRating, int defRating)
 {
-    auto offDefDiff = offRating - defRating;
     // FIXME: use consts, no magic numbers
     // TODO: normal hit chance does not change before (0, 0, 40, 40, 20) or (20, 40, 40, 0, 0) 
-    float chanceToFail = std::min(std::max(10.0 + (defRating - offRating) * 0.1, 0.0), 20.0);
-    float chanceToHitWeak = std::min(std::max(20.0 + (defRating - offRating) * 0.2, 0.0), 40.0);
-    float chanceToHitNorm = 40.0;
-    float chanceToHitHard = std::min(std::max(20.0 + (offRating - defRating) * 0.2, 0.0), 40.0);
-    float chanceToHitCrit = std::min(std::max(10.0 + (offRating - defRating) * 0.1, 0.0), 20.0);
+    double chanceToFail = std::min(std::max(10.0 + (defRating - offRating) * 0.1, 0.0), 20.0);
+    double chanceToHitWeak = std::min(std::max(20.0 + (defRating - offRating) * 0.2, 0.0), 40.0);
+    double chanceToHitNorm = 40.0;
+    double chanceToHitHard = std::min(std::max(20.0 + (offRating - defRating) * 0.2, 0.0), 40.0);
+    double chanceToHitCrit = std::min(std::max(10.0 + (offRating - defRating) * 0.1, 0.0), 20.0);
     // FIXME: use eps
     if (100 < defRating - offRating && defRating - offRating <= 233)
     {
@@ -51,11 +50,11 @@ HitType getHitType(RNG& rng, int offRating, int defRating)
 
     auto hitRandom = rng.get();
     auto hitType = HitType::FAIL;
-    Vec2f failRange{ 0.0, chanceToFail };
-    Vec2f weakRange{ failRange.y, failRange.y + chanceToHitWeak };
-    Vec2f normRange{ weakRange.y, weakRange.y + chanceToHitNorm };
-    Vec2f hardRange{ normRange.y, normRange.y + chanceToHitHard };
-    Vec2f critRange{ hardRange.y, 100.0 };
+    Vec2d failRange{ 0.0, chanceToFail };
+    Vec2d weakRange{ failRange.y, failRange.y + chanceToHitWeak };
+    Vec2d normRange{ weakRange.y, weakRange.y + chanceToHitNorm };
+    Vec2d hardRange{ normRange.y, normRange.y + chanceToHitHard };
+    Vec2d critRange{ hardRange.y, 100.0 };
 
     if (failRange.x != failRange.y && failRange.x <= hitRandom && hitRandom <= failRange.y) hitType = HitType::FAIL;
     if (weakRange.x != weakRange.y && weakRange.x <= hitRandom && hitRandom <= weakRange.y) hitType = HitType::WEAK;
@@ -115,13 +114,13 @@ void updateJournal(const Actor& attacker, const Actor& victim, HitType hitType, 
         default: strHitTypeId = "hit_?";
         }
         auto vecInit = { attacker.getRes() + "_name", victim.getRes() + "_name", strHitTypeId, std::to_string(damage) };
-        TextEvent ev = { std::string("jrn_attack"), vecInit };
+        JournalEvent ev = { std::string("jrn_attack"), vecInit };
         EventSubsystem::FireEvent(ev);
     }
     else
     {
         auto vecInit = { attacker.getRes(), victim.getRes() };
-        TextEvent ev = { std::string("jrn_attack_block"), vecInit };
+        JournalEvent ev = { std::string("jrn_attack_block"), vecInit };
         EventSubsystem::FireEvent(ev);
     }
 }

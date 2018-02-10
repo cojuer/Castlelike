@@ -1,4 +1,4 @@
-#include "game_system__control.h"
+#include "system__control.h"
 
 #include <iostream>
 
@@ -6,19 +6,18 @@
 #include "player_controller.h"
 #include "component__action_pts.h"
 
-bool ControlGSystem::init(InputSubsystem& inputSubsystem, SceneSystem& sceneSystem, GameSystemManager& sysManager)
+bool ControlGSystem::init(InputSubsystem& inputSubsystem, SceneSystem& sceneSystem)
 {
     m_aiController = new AIController();
     m_plController = new PlayerController();
 
     auto inited = true;
-    inited = inited && m_aiController->init(sceneSystem, sysManager);
-    inited = inited && m_plController->init(sceneSystem, inputSubsystem, sysManager);
+    inited = inited && m_aiController->init(sceneSystem);
+    inited = inited && m_plController->init(sceneSystem, inputSubsystem);
 
     m_controllers.push_back(m_aiController);
     m_controllers.push_back(m_plController);
 
-    m_sysManager = &sysManager;
     m_current = 0;
     m_giveAP = true;
 
@@ -32,7 +31,7 @@ bool ControlGSystem::reg(Actor& actor)
         auto controller = m_controllers[i];
         if (controller->possess(actor))
         {
-            m_possessed.push_back(std::make_pair(i, &actor));
+            m_possessed.emplace_back(i, &actor);
             m_registered.insert(actor.getID());
             return true;
         }
@@ -59,7 +58,7 @@ void ControlGSystem::unreg(ActorID id)
 
 void ControlGSystem::update()
 {
-    if (m_possessed.size() == 0) return;
+    if (m_possessed.empty()) return;
     if (m_current >= m_possessed.size())
     {
         m_current = 0;

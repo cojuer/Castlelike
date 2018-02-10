@@ -15,7 +15,7 @@ class AStarAlgorithm
 {
     struct PriorityQueue {
         using Elem = std::pair<int, Coord>;
-        std::priority_queue<Elem, std::vector<Elem>, std::greater<Elem>> elements;
+        std::priority_queue<Elem, std::vector<Elem>, std::greater<>> elements;
 
         bool empty() const { return elements.empty(); }
 

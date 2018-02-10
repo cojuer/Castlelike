@@ -89,8 +89,6 @@ Resource<Actor>* ActorFactory::loadActor(Json& node)
     return &actor;
 }
 
-ActorFactory::~ActorFactory() {}
-
 void ActorFactory::generateComps(const Json& node, Actor& actor)
 {
     auto components = node.at("components");

@@ -12,7 +12,7 @@ public:
     static const std::string stringID;
 
 	explicit BagComponent(Actor* parent = nullptr);
-	explicit BagComponent(Container& container, Actor* parent = nullptr);
+	explicit BagComponent(Container&& container, Actor* parent = nullptr);
 
 	void load(Json& node, ResourceSystem& resSystem) override;
     Json save() const override;
@@ -22,8 +22,6 @@ public:
 	Container& get();
 
     bool isDropped() const;
-
-    ~BagComponent();
 
 private:
     bool       m_dropped;

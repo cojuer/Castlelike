@@ -81,5 +81,3 @@ Json StatComponent::save() const
     node.push_back(m_max);
     return { { getStringID(), node } };
 }
-
-StatComponent::~StatComponent() {}

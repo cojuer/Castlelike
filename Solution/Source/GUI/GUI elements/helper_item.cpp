@@ -1,10 +1,8 @@
 #include "helper_item.h"
 
 #include <string>
-#include <vector>
 
 #include "item.h"
-#include "slot__item.h"
 #include "modifiers.h"
 #include "system__resource.h"
 #include "subsystem__render.h"
@@ -17,7 +15,10 @@
 namespace gui {
 
 ItemHelper::ItemHelper() :
-    Widget(nullptr)
+    Widget(nullptr),
+    itemHasPrimary(false),
+    itemHasSecondary(false),
+    itemHasDescription(false)
 {
     init();
 }
@@ -51,7 +52,9 @@ void ItemHelper::setItem(const Item& item)
     initPrimaryStatsSection(item);
 }
 
-void ItemHelper::render(RenderSubsystem& rendSubsys, ResourceSystem& resSystem) const
+void ItemHelper::render(RenderSubsystem& rendSubsystem, 
+                        ResourceSystem& resSystem,
+                        Vec2i coordStart) const
 {
     int x, y;
     SDL_GetMouseState(&x, &y);
@@ -59,42 +62,40 @@ void ItemHelper::render(RenderSubsystem& rendSubsys, ResourceSystem& resSystem) 
     std::string iclass = "delete";
     std::string strdamage = "delete";
 
-    Vec2i pos(x - width, y - 65);
+    Vec2i pos(x - s_width, y - 65);
 
-    auto height = tMargin;
-    height += m_titleSection->getHeight() + spacing;
-    height += m_infoSection->getHeight() + spacing;
-    height += itemHasPrimary ? m_primStatsSection->getHeight() + spacing : 0;
-    height += itemHasSecondary ? m_secStatsSection->getHeight() + spacing : 0;
-    height += itemHasDescription ? m_descrSection->getHeight() + spacing : 0;
-    height += bMargin;
+    auto height = s_tMargin;
+    height += m_titleSection->getHeight() + s_spacing;
+    height += m_infoSection->getHeight() + s_spacing;
+    height += itemHasPrimary ? m_primStatsSection->getHeight() + s_spacing : 0;
+    height += itemHasSecondary ? m_secStatsSection->getHeight() + s_spacing : 0;
+    height += itemHasDescription ? m_descrSection->getHeight() + s_spacing : 0;
+    height += s_bMargin;
 
     auto texture = resSystem.get<Renderable>("helper_back");
-    SDL_Rect dst = { pos.x, pos.y, width, height };
-    rendSubsys.render(texture, dst);
+    SDL_Rect dst = { pos.x, pos.y, s_width, height };
+    rendSubsystem.render(texture, dst);
 
-    int curHeight = tMargin;
+    int curHeight = s_tMargin;
 
-    m_titleSection->setPosition({ lMargin, curHeight });
-    m_titleSection->render(rendSubsys, resSystem, pos);
-    curHeight += m_titleSection->getHeight() + spacing;
+    m_titleSection->setPosition({ s_lMargin, curHeight });
+    m_titleSection->render(rendSubsystem, resSystem, pos);
+    curHeight += m_titleSection->getHeight() + s_spacing;
 
-    m_infoSection->setPosition({ lMargin, curHeight });
-    m_infoSection->render(rendSubsys, resSystem, pos);
-    curHeight += m_infoSection->getHeight() + spacing;
+    m_infoSection->setPosition({ s_lMargin, curHeight });
+    m_infoSection->render(rendSubsystem, resSystem, pos);
+    curHeight += m_infoSection->getHeight() + s_spacing;
 
     if (itemHasPrimary)
     {
-        m_primStatsSection->setPosition({ lMargin, curHeight });
-        m_primStatsSection->render(rendSubsys, resSystem, pos);
-        curHeight += m_primStatsSection->getHeight() + spacing;
+        m_primStatsSection->setPosition({ s_lMargin, curHeight });
+        m_primStatsSection->render(rendSubsystem, resSystem, pos);
+        curHeight += m_primStatsSection->getHeight() + s_spacing;
     }
 
-    m_descrSection->setPosition({ lMargin, curHeight });
-    m_descrSection->render(rendSubsys, resSystem, pos);
+    m_descrSection->setPosition({ s_lMargin, curHeight });
+    m_descrSection->render(rendSubsystem, resSystem, pos);
 }
-
-ItemHelper::~ItemHelper() = default;
 
 void ItemHelper::initPrimaryStatsSection(const Item& item)
 {

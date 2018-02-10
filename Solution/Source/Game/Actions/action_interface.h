@@ -9,6 +9,13 @@
 class ActionInterface
 {
 public:
+    ActionInterface() = default;
+
+    ActionInterface(const ActionInterface&) = default;
+    ActionInterface(ActionInterface&&) = default;
+    ActionInterface& operator=(const ActionInterface&) = default;
+    ActionInterface& operator=(ActionInterface&&) = default;
+
     virtual ~ActionInterface() = default;
 
     virtual void act() = 0;

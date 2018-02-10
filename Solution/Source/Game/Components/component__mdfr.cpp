@@ -67,9 +67,6 @@ const Modifiers& MdfrComponent::get() const
 	return m_current;
 }
 
-MdfrComponent::~MdfrComponent()
-{}
-
 void MdfrComponent::refresh()
 {
     m_current = m_base;
@@ -80,7 +77,7 @@ void MdfrComponent::refresh()
     {
         auto& equipment = equipmentComponent->get();
 
-        for (auto& slotType: equipment.types)
+        for (auto& slotType : Equipment::types)
         {
             auto item = equipment.getItem(slotType);
             if (item)

@@ -20,8 +20,6 @@ public:
     const Transform& get() const;
     void             set(Transform transform);
 
-    ~TransformComponent();
-
 private:
     Transform m_transform;
 };

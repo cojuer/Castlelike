@@ -23,12 +23,6 @@ public:
     bool isNeutralTo(Actor& actor);
     bool isAllyTo(Actor& actor);
 
-    /* decision making staff */
-    void scanScene(Scene& scene);
-    void makeMove();
-
-    void react(std::string event);
-
     const Factions& getFactions() const;
 
 private:

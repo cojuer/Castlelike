@@ -44,7 +44,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <LibraryPath>$(LibraryPath)</LibraryPath>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)Source;$(SolutionDir)Source\Common;$(SolutionDir)Source\ResourceManagement\Caches;$(SolutionDir)Source\ResourceManagement\Factories;$(SolutionDir)Source\ResourceManagement\Loaders;$(SolutionDir)Source\ResourceManagement\Parsers;$(SolutionDir)Source\ResourceManagement\Resources;$(SolutionDir)Source\ResourceManagement;$(SolutionDir)Source\AppStates;$(SolutionDir)Source\Subsystems\Event;$(SolutionDir)Source\Subsystems\Event\Events;$(SolutionDir)Source\Subsystems\Event\Factories;$(SolutionDir)Source\Subsystems\Event\Listeners;$(SolutionDir)Source\GUI;$(SolutionDir)Source\GUI\GUI elements;$(SolutionDir)Source\GUI\Behaviour;$(SolutionDir)Source\GUI\Common;$(SolutionDir)Source\GUI\Widgets;$(SolutionDir)Source\Game;$(SolutionDir)Source\Game\Actions;$(SolutionDir)Source\Game\Actors;$(SolutionDir)Source\Game\Conditions;$(SolutionDir)Source\Game\Abilities;$(SolutionDir)Source\Game\Components;$(SolutionDir)Source\Game\AI;$(SolutionDir)Source\Subsystems;$(SolutionDir)Source\Subsystems\Sound;$(SolutionDir)Source\Subsystems\Input;$(SolutionDir)Source\Subsystems\IO;$(SolutionDir)Source\Subsystems\Time;$(SolutionDir)Source\Subsystems\Rendering;$(SolutionDir)Source\Subsystems\RNG;$(SolutionDir)Source\Subsystems\Rendering\Renderables;$(SolutionDir)Source\Systems\Scene;$(SolutionDir)Source\Systems\Control;$(SolutionDir)Source\Systems\Rendering;$(SolutionDir)Source\Systems\Game;$(SolutionDir)Source\Systems\Game\Stats;$(SolutionDir)Source\Systems\Game\Loot;$(SolutionDir)Source\Systems\Game\Control;$(SolutionDir)Source\Systems\Dialogue;$(SolutionDir)Source\Systems\ActorID;$(SolutionDir)Source\Systems\Sound;$(SolutionDir)Source\Systems\Sheduler;$(SolutionDir)Source\Systems\Cutscene;$(SolutionDir)Source\Systems\Cutscene\Cutscenes;$(SolutionDir)Source\Systems\Cutscene\Elements;$(SolutionDir)Source\Systems\Resource;$(SolutionDir)Source\Systems\Resource\Resources;$(SolutionDir)Source\Systems\Resource\Parsers;$(SolutionDir)Source\Systems\Resource\Loaders;$(SolutionDir)Source\Systems\Resource\Factories;$(SolutionDir)Source\Systems\Resource\Caches;$(SolutionDir)Source\Systems\Save;$(SolutionDir)Source\Systems\View;$(SolutionDir)Source\Systems;$(SolutionDir)3rd party\Pugixml</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)Source;$(SolutionDir)Source\Common;$(SolutionDir)Source\ResourceManagement\Caches;$(SolutionDir)Source\ResourceManagement\Factories;$(SolutionDir)Source\ResourceManagement\Loaders;$(SolutionDir)Source\ResourceManagement\Parsers;$(SolutionDir)Source\ResourceManagement\Resources;$(SolutionDir)Source\ResourceManagement;$(SolutionDir)Source\AppStates;$(SolutionDir)Source\Subsystems\Event;$(SolutionDir)Source\Subsystems\Event\Events;$(SolutionDir)Source\Subsystems\Event\Factories;$(SolutionDir)Source\Subsystems\Event\Listeners;$(SolutionDir)Source\GUI;$(SolutionDir)Source\GUI\GUI elements;$(SolutionDir)Source\GUI\Behaviour;$(SolutionDir)Source\GUI\Common;$(SolutionDir)Source\GUI\Widgets;$(SolutionDir)Source\Game;$(SolutionDir)Source\Game\Actions;$(SolutionDir)Source\Game\Actors;$(SolutionDir)Source\Game\Conditions;$(SolutionDir)Source\Game\Abilities;$(SolutionDir)Source\Game\Components;$(SolutionDir)Source\Game\AI;$(SolutionDir)Source\Subsystems;$(SolutionDir)Source\Subsystems\Sound;$(SolutionDir)Source\Subsystems\Input;$(SolutionDir)Source\Subsystems\IO;$(SolutionDir)Source\Subsystems\Time;$(SolutionDir)Source\Subsystems\Rendering;$(SolutionDir)Source\Subsystems\RNG;$(SolutionDir)Source\Subsystems\Rendering\Renderables;$(SolutionDir)Source\Systems\Scene;$(SolutionDir)Source\Systems\Control;$(SolutionDir)Source\Systems\Rendering;$(SolutionDir)Source\Systems\Journal;$(SolutionDir)Source\Systems\Game;$(SolutionDir)Source\Systems\Stats;$(SolutionDir)Source\Systems\Loot;$(SolutionDir)Source\Systems\ActorRegistrar;$(SolutionDir)Source\Systems\Dialogue;$(SolutionDir)Source\Systems\ActorID;$(SolutionDir)Source\Systems\Sound;$(SolutionDir)Source\Systems\Sheduler;$(SolutionDir)Source\Systems\Cutscene;$(SolutionDir)Source\Systems\Cutscene\Cutscenes;$(SolutionDir)Source\Systems\Cutscene\Elements;$(SolutionDir)Source\Systems\Resource;$(SolutionDir)Source\Systems\Resource\Resources;$(SolutionDir)Source\Systems\Resource\Parsers;$(SolutionDir)Source\Systems\Resource\Loaders;$(SolutionDir)Source\Systems\Resource\Factories;$(SolutionDir)Source\Systems\Resource\Caches;$(SolutionDir)Source\Systems\Save;$(SolutionDir)Source\Systems\View;$(SolutionDir)Source\Systems;$(SolutionDir)3rd party\Pugixml</IncludePath>
     <ReferencePath>$(ReferencePath)</ReferencePath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
     <SourcePath>$(SourcePath)</SourcePath>
@@ -55,7 +55,7 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>.\Game\$(Configuration)\</OutDir>
     <IntDir>.\Temp\$(Configuration)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)Source;$(SolutionDir)Source\Common;$(SolutionDir)Source\ResourceManagement\Caches;$(SolutionDir)Source\ResourceManagement\Factories;$(SolutionDir)Source\ResourceManagement\Loaders;$(SolutionDir)Source\ResourceManagement\Parsers;$(SolutionDir)Source\ResourceManagement\Resources;$(SolutionDir)Source\ResourceManagement;$(SolutionDir)Source\AppStates;$(SolutionDir)Source\Subsystems\Event;$(SolutionDir)Source\Subsystems\Event\Events;$(SolutionDir)Source\Subsystems\Event\Factories;$(SolutionDir)Source\Subsystems\Event\Listeners;$(SolutionDir)Source\GUI;$(SolutionDir)Source\GUI\GUI elements;$(SolutionDir)Source\GUI\Behaviour;$(SolutionDir)Source\GUI\Common;$(SolutionDir)Source\GUI\Widgets;$(SolutionDir)Source\Game;$(SolutionDir)Source\Game\Actions;$(SolutionDir)Source\Game\Actors;$(SolutionDir)Source\Game\Conditions;$(SolutionDir)Source\Game\Abilities;$(SolutionDir)Source\Game\Components;$(SolutionDir)Source\Game\AI;$(SolutionDir)Source\Subsystems;$(SolutionDir)Source\Subsystems\Sound;$(SolutionDir)Source\Subsystems\Input;$(SolutionDir)Source\Subsystems\IO;$(SolutionDir)Source\Subsystems\Time;$(SolutionDir)Source\Subsystems\Rendering;$(SolutionDir)Source\Subsystems\RNG;$(SolutionDir)Source\Subsystems\Rendering\Renderables;$(SolutionDir)Source\Systems\Scene;$(SolutionDir)Source\Systems\Control;$(SolutionDir)Source\Systems\Rendering;$(SolutionDir)Source\Systems\Game;$(SolutionDir)Source\Systems\Game\Stats;$(SolutionDir)Source\Systems\Game\Loot;$(SolutionDir)Source\Systems\Game\Control;$(SolutionDir)Source\Systems\Dialogue;$(SolutionDir)Source\Systems\ActorID;$(SolutionDir)Source\Systems\Sound;$(SolutionDir)Source\Systems\Sheduler;$(SolutionDir)Source\Systems\Cutscene;$(SolutionDir)Source\Systems\Cutscene\Cutscenes;$(SolutionDir)Source\Systems\Cutscene\Elements;$(SolutionDir)Source\Systems\Resource;$(SolutionDir)Source\Systems\Resource\Resources;$(SolutionDir)Source\Systems\Resource\Parsers;$(SolutionDir)Source\Systems\Resource\Loaders;$(SolutionDir)Source\Systems\Resource\Factories;$(SolutionDir)Source\Systems\Resource\Caches;$(SolutionDir)Source\Systems\Save;$(SolutionDir)Source\Systems\View;$(SolutionDir)Source\Systems;$(SolutionDir)3rd party\Pugixml</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)Source;$(SolutionDir)Source\Common;$(SolutionDir)Source\ResourceManagement\Caches;$(SolutionDir)Source\ResourceManagement\Factories;$(SolutionDir)Source\ResourceManagement\Loaders;$(SolutionDir)Source\ResourceManagement\Parsers;$(SolutionDir)Source\ResourceManagement\Resources;$(SolutionDir)Source\ResourceManagement;$(SolutionDir)Source\AppStates;$(SolutionDir)Source\Subsystems\Event;$(SolutionDir)Source\Subsystems\Event\Events;$(SolutionDir)Source\Subsystems\Event\Factories;$(SolutionDir)Source\Subsystems\Event\Listeners;$(SolutionDir)Source\GUI;$(SolutionDir)Source\GUI\GUI elements;$(SolutionDir)Source\GUI\Behaviour;$(SolutionDir)Source\GUI\Common;$(SolutionDir)Source\GUI\Widgets;$(SolutionDir)Source\Game;$(SolutionDir)Source\Game\Actions;$(SolutionDir)Source\Game\Actors;$(SolutionDir)Source\Game\Conditions;$(SolutionDir)Source\Game\Abilities;$(SolutionDir)Source\Game\Components;$(SolutionDir)Source\Game\AI;$(SolutionDir)Source\Subsystems;$(SolutionDir)Source\Subsystems\Sound;$(SolutionDir)Source\Subsystems\Input;$(SolutionDir)Source\Subsystems\IO;$(SolutionDir)Source\Subsystems\Time;$(SolutionDir)Source\Subsystems\Rendering;$(SolutionDir)Source\Subsystems\RNG;$(SolutionDir)Source\Subsystems\Rendering\Renderables;$(SolutionDir)Source\Systems\Scene;$(SolutionDir)Source\Systems\Control;$(SolutionDir)Source\Systems\Rendering;$(SolutionDir)Source\Systems\Journal;$(SolutionDir)Source\Systems\Game;$(SolutionDir)Source\Systems\Stats;$(SolutionDir)Source\Systems\Loot;$(SolutionDir)Source\Systems\ActorRegistrar;$(SolutionDir)Source\Systems\Dialogue;$(SolutionDir)Source\Systems\ActorID;$(SolutionDir)Source\Systems\Sound;$(SolutionDir)Source\Systems\Sheduler;$(SolutionDir)Source\Systems\Cutscene;$(SolutionDir)Source\Systems\Cutscene\Cutscenes;$(SolutionDir)Source\Systems\Cutscene\Elements;$(SolutionDir)Source\Systems\Resource;$(SolutionDir)Source\Systems\Resource\Resources;$(SolutionDir)Source\Systems\Resource\Parsers;$(SolutionDir)Source\Systems\Resource\Loaders;$(SolutionDir)Source\Systems\Resource\Factories;$(SolutionDir)Source\Systems\Resource\Caches;$(SolutionDir)Source\Systems\Save;$(SolutionDir)Source\Systems\View;$(SolutionDir)Source\Systems;$(SolutionDir)3rd party\Pugixml</IncludePath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
     <ReferencePath>$(ReferencePath)</ReferencePath>
     <LibraryPath>$(LibraryPath)</LibraryPath>
@@ -74,7 +74,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <ObjectFileName>$(IntDir)/%(RelativeDir)/</ObjectFileName>
-      <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/std:c++latest /permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -101,7 +101,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)3rd party\Fmod\inc;$(SolutionDir)3rd party\JSON;$(SolutionDir)3rd party\Pugixml;$(SolutionDir)3rd party\SDL2_ttf\include;$(SolutionDir)3rd party\SDL2_image\include;$(SolutionDir)3rd party\SDL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/std:c++latest /permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -165,10 +165,10 @@
     <ClCompile Include="Source\Subsystems\Rendering\subsystem__render.cpp" />
     <ClCompile Include="Source\Subsystems\Rendering\window.cpp" />
     <ClCompile Include="Source\Subsystems\RNG\subsystem__rng.cpp" />
-    <ClCompile Include="Source\Systems\Game\Control\ai_controller.cpp" />
-    <ClCompile Include="Source\Systems\Game\Control\game_system__control.cpp" />
+    <ClCompile Include="Source\Systems\Control\ai_controller.cpp" />
+    <ClCompile Include="Source\Systems\Control\system__control.cpp" />
     <ClCompile Include="Source\Systems\ActorID\system__actor_id.cpp" />
-    <ClCompile Include="Source\Systems\Game\Control\player_controller.cpp" />
+    <ClCompile Include="Source\Systems\Control\player_controller.cpp" />
     <ClCompile Include="Source\Game\reaction.cpp" />
     <ClCompile Include="Source\Systems\Cutscene\Cutscenes\cutscene.cpp" />
     <ClCompile Include="Source\Systems\Cutscene\Cutscenes\cutscene__attack.cpp" />
@@ -184,9 +184,9 @@
     <ClCompile Include="Source\Systems\View\camera.cpp" />
     <ClCompile Include="Source\Systems\Scene\system__scene.cpp" />
     <ClCompile Include="Source\Subsystems\Input\subsystem__input.cpp" />
-    <ClCompile Include="Source\Systems\Game\Loot\game_system__loot.cpp" />
-    <ClCompile Include="Source\Systems\Game\game_system_manager.cpp" />
-    <ClCompile Include="Source\Systems\Game\Stats\game_system__stats.cpp" />
+    <ClCompile Include="Source\Systems\Loot\system__loot.cpp" />
+    <ClCompile Include="Source\Systems\ActorRegistrar\system__actor_registrar.cpp" />
+    <ClCompile Include="Source\Systems\Stats\system__stats.cpp" />
     <ClCompile Include="Source\Systems\View\system__view.cpp" />
     <ClCompile Include="Source\Systems\Resource\Caches\cache__renderable.cpp" />
     <ClCompile Include="Source\Systems\Resource\Factories\factory__actor.cpp" />
@@ -210,7 +210,6 @@
     <ClCompile Include="Source\Systems\Resource\Loaders\loader__renderable.cpp" />
     <ClCompile Include="Source\Systems\Resource\system__resource.cpp" />
     <ClCompile Include="Source\Systems\Resource\text_renderer.cpp" />
-    <ClCompile Include="Source\Systems\Sound\system__sound.cpp" />
     <ClCompile Include="Source\Common\utils.cpp" />
     <ClCompile Include="Source\GUI\Behaviour\behaviour.cpp" />
     <ClCompile Include="Source\Subsystems\Event\Events\event.cpp" />
@@ -255,7 +254,7 @@
     <ClCompile Include="Source\GUI\Widgets\widget__slot.cpp" />
     <ClCompile Include="Source\Subsystems\Rendering\Renderables\spritesheet.cpp" />
     <ClCompile Include="Source\GUI\Widgets\widget__tabs.cpp" />
-    <ClCompile Include="Source\Game\journal.cpp" />
+    <ClCompile Include="Source\Systems\Journal\system__journal.cpp" />
     <ClCompile Include="Source\Game\tile.cpp" />
     <ClCompile Include="Source\Common\timer.cpp" />
     <ClCompile Include="Source\GUI\Widgets\widget__text.cpp" />
@@ -292,6 +291,7 @@
     <ClInclude Include="Source\Game\Components\component__transform.h" />
     <ClInclude Include="Source\Game\Components\component__weight.h" />
     <ClInclude Include="Source\GUI\Common\color.h" />
+    <ClInclude Include="Source\Systems\Journal\system__journal.h" />
     <ClInclude Include="Source\Systems\Resource\Parsers\parser__dialogue.h" />
     <ClInclude Include="Source\Systems\Resource\Parsers\parser__widget.h" />
     <ClInclude Include="Source\Systems\Resource\Parsers\parser__tileset.h" />
@@ -330,24 +330,24 @@
     <ClInclude Include="Source\Systems\Cutscene\Cutscenes\cutscene__move.h" />
     <ClInclude Include="Source\Systems\Cutscene\system__cutscene.h" />
     <ClInclude Include="Source\Common\framed_transform.h" />
-    <ClInclude Include="Source\Systems\Game\Stats\game_system__stats.h" />
+    <ClInclude Include="Source\Systems\Stats\system__stats.h" />
     <ClInclude Include="Source\Common\json_aliases.h" />
     <ClInclude Include="Source\Common\rect.h" />
     <ClInclude Include="Source\Subsystems\Rendering\subsystem__render.h" />
-    <ClInclude Include="Source\Systems\Game\Control\ai_controller.h" />
-    <ClInclude Include="Source\Systems\Game\Control\controller.h" />
-    <ClInclude Include="Source\Systems\Game\Control\game_system__control.h" />
+    <ClInclude Include="Source\Systems\Control\ai_controller.h" />
+    <ClInclude Include="Source\Systems\Control\controller.h" />
+    <ClInclude Include="Source\Systems\Control\system__control.h" />
     <ClInclude Include="Source\Systems\ActorID\system__actor_id.h" />
-    <ClInclude Include="Source\Systems\Game\Control\player_controller.h" />
+    <ClInclude Include="Source\Systems\Control\player_controller.h" />
     <ClInclude Include="Source\Game\reaction.h" />
     <ClInclude Include="Source\Subsystems\Time\global_time.h" />
     <ClInclude Include="Source\Systems\Sheduler\system__shedule.h" />
     <ClInclude Include="Source\Systems\View\camera.h" />
     <ClInclude Include="Source\Systems\Scene\system__scene.h" />
-    <ClInclude Include="Source\Systems\Game\game_system.h" />
+    <ClInclude Include="Source\Systems\ActorRegistrar\actor_holder.h" />
     <ClInclude Include="Source\Subsystems\Input\subsystem__input.h" />
-    <ClInclude Include="Source\Systems\Game\Loot\game_system__loot.h" />
-    <ClInclude Include="Source\Systems\Game\game_system_manager.h" />
+    <ClInclude Include="Source\Systems\Loot\system__loot.h" />
+    <ClInclude Include="Source\Systems\ActorRegistrar\system__actor_registrar.h" />
     <ClInclude Include="Source\Systems\View\system__view.h" />
     <ClInclude Include="Source\Systems\Resource\Caches\cache__renderable.h" />
     <ClInclude Include="Source\Systems\Resource\Factories\factory__actor.h" />
@@ -373,13 +373,10 @@
     <ClInclude Include="Source\Subsystems\Event\Events\event__dialogue.h" />
     <ClInclude Include="Source\Subsystems\Event\Events\event__gui.h" />
     <ClInclude Include="Source\Subsystems\Event\Events\event__menu.h" />
-    <ClInclude Include="Source\Subsystems\Event\Events\event__text.h" />
-    <ClInclude Include="Source\Subsystems\Event\Events\event__ui_trait.h" />
+    <ClInclude Include="Source\Subsystems\Event\Events\event__journal.h" />
     <ClInclude Include="Source\Subsystems\Event\handler_registration.h" />
     <ClInclude Include="Source\Subsystems\Event\Listeners\listener__dialogue.h" />
     <ClInclude Include="Source\Subsystems\Event\Listeners\listener__gui.h" />
-    <ClInclude Include="Source\Subsystems\Event\Listeners\listener__text.h" />
-    <ClInclude Include="Source\Subsystems\Event\Listeners\listener__ui_trait.h" />
     <ClInclude Include="Source\Systems\Resource\Factories\factories.h" />
     <ClInclude Include="Source\Systems\Resource\action_manager.h" />
     <ClInclude Include="Source\Game\Actors\actor.h" />
@@ -404,7 +401,6 @@
     <ClInclude Include="Source\Common\pugi_aliases.h" />
     <ClInclude Include="Source\Systems\Resource\system__resource.h" />
     <ClInclude Include="Source\Systems\Resource\text_renderer.h" />
-    <ClInclude Include="Source\Systems\Sound\system__sound.h" />
     <ClInclude Include="Source\Systems\Resource\text_manager.h" />
     <ClInclude Include="Source\Common\utils.h" />
     <ClInclude Include="Source\Subsystems\Rendering\Renderables\animation.h" />
@@ -442,7 +438,6 @@
     <ClInclude Include="Source\GUI\Widgets\widget__slot.h" />
     <ClInclude Include="Source\Subsystems\Rendering\Renderables\spritesheet.h" />
     <ClInclude Include="Source\GUI\Widgets\widget__tabs.h" />
-    <ClInclude Include="Source\Game\journal.h" />
     <ClInclude Include="Source\Game\tile.h" />
     <ClInclude Include="Source\Common\timer.h" />
     <ClInclude Include="Source\GUI\Widgets\widget__text.h" />

@@ -7,10 +7,16 @@
 #include "options.h"
 #include "timer.h"
 
+class ViewSystem;
+class SheduleSystem;
+class StatsGSystem;
+class LootGSystem;
+class ControlGSystem;
 class AppState;
+class JournalSystem;
 class ResourceSystem;
 class SceneSystem;
-class GameSystemManager;
+class ActorRegistrar;
 class SaveSystem;
 
 class SoundEngine;
@@ -59,15 +65,20 @@ private:
     std::unique_ptr<InputSubsystem>  m_inputSubsystem;
     std::unique_ptr<RNGHolder>       m_rngHolder;
 
+    std::unique_ptr<JournalSystem>  m_journalSystem;
     std::unique_ptr<ResourceSystem> m_resSystem;
     std::unique_ptr<SceneSystem>    m_sceneSystem;
+    std::unique_ptr<SheduleSystem>  m_sheduleSystem;
     std::unique_ptr<SaveSystem>     m_saveSystem;
-    std::unique_ptr<GameSystemManager> m_gameSysManager;
+    std::unique_ptr<ActorRegistrar> m_actorRegistrar;
+    std::unique_ptr<ViewSystem>     m_viewSystem;
+
+    std::unique_ptr<ControlGSystem> m_controlGSystem;
+    std::unique_ptr<LootGSystem>    m_lootGSystem;
+    std::unique_ptr<StatsGSystem>   m_statsGSystem;
     
     std::unique_ptr<gui::GameGUI>    m_gameGUI;
     std::unique_ptr<gui::MenuGUI>    m_menuGUI;
-    
-    std::unique_ptr<SoundEngine>     m_sEngine;
 
     bool m_loadSave;
     bool m_loadLast;

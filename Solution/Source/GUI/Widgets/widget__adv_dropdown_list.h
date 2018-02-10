@@ -14,8 +14,8 @@ public:
 
     void addChild(Widget& widget) override;
 
-    bool handle(SDL_Event& event, Vec2i coordStart = { 0, 0 }) override;
-    void render(RenderSubsystem& rendSubsys, ResourceSystem& resSystem, Vec2i coordStart = { 0, 0 }) const override;
+    bool handle(SDL_Event& event, Vec2i coordStart) override;
+    void render(RenderSubsystem& rendSubsys, ResourceSystem& resSystem, Vec2i coordStart) const override;
 private:
     Button*     m_button;
     std::string m_active;

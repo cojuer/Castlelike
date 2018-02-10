@@ -6,10 +6,13 @@ class InitObject : public Object
 {
 public:
     InitObject() : m_initialized(false) {}
-    virtual ~InitObject() = default;
 
     InitObject(const InitObject& another) = default;
     InitObject(InitObject&& another) = default;
+    InitObject& operator=(const InitObject& rhs) = default;
+    InitObject& operator=(InitObject&& rhs) = default;
+
+    virtual ~InitObject() = default;
 
     void setInitialized() { m_initialized = true; }
 

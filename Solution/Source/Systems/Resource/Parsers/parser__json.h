@@ -6,7 +6,14 @@ template<class T>
 class JsonParser
 {
 public:
-    virtual ~JsonParser() {};
+    JsonParser() = default;
+
+    JsonParser(const JsonParser&) = delete;
+    JsonParser(JsonParser&&) = delete;
+    JsonParser& operator=(const JsonParser&) = delete;
+    JsonParser& operator=(JsonParser&&) = delete;
+
+    virtual ~JsonParser() = default;
 
     virtual T parse(const std::string& nodeName, Json& node) = 0;
 };

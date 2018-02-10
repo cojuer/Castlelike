@@ -29,4 +29,4 @@ Actor* ActorComponent::getParent() const
     return m_parent;
 }
 
-ActorComponent::~ActorComponent() {}
+ActorComponent::~ActorComponent() = default;

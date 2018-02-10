@@ -32,8 +32,6 @@ const Transform& TransformComponent::get() const
     return m_transform;
 }
 
-TransformComponent::~TransformComponent() {}
-
 void TransformComponent::set(Transform transform)
 {
     m_transform = transform;

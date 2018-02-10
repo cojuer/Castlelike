@@ -2,10 +2,12 @@
 
 #include "subsystem__event.h"
 #include "subsystem__render.h"
-#include "game_system_manager.h"
+#include "system__actor_registrar.h"
 #include "system__dialogue.h"
+#include "system__journal.h"
 #include "system__resource.h"
 #include "system__scene.h"
+#include "system__view.h"
 
 #include "global_time.h"
 #include "utils.h"
@@ -31,6 +33,7 @@
 #include "component__health.h"
 #include "component__reactor_interface.h"
 #include "component__stamina.h"
+#include "camera.h"
 
 namespace gui {
     
@@ -38,8 +41,9 @@ GameGUI::GameGUI() = default;
 
 bool GameGUI::init(Options& opts,
                    RenderSubsystem& rendSubsystem,
-                   GameSystemManager&    sysManager,
-                   SceneSystem&     sceneSystem,
+                   ViewSystem& viewSystem,
+                   JournalSystem& journalSystem,
+                   SceneSystem& sceneSystem,
                    ResourceSystem&  resSystem)
 {
     m_opts = &opts;
@@ -48,11 +52,10 @@ bool GameGUI::init(Options& opts,
     m_hero = sceneSystem.getScene()->getHero();
     assert(m_hero && "hero not available");
 
-    // FIXME: do we need journal?
-    m_journal = resSystem.m_journal;
     m_rendSubsystem = &rendSubsystem;
+    m_viewSystem = &viewSystem;
+    m_journalSystem = &journalSystem;
     m_resSystem = &resSystem;
-    m_sysManager = &sysManager;
     m_sceneSystem = &sceneSystem;
 
     m_listener.reset(new GUIListener(*this));
@@ -71,7 +74,7 @@ bool GameGUI::init(Options& opts,
     m_dialWdg = std::make_unique<Widget>(
         std::string("dial_wdg"), 
         nullptr, 
-        SDL_Rect{ 0, 500, m_opts->getInt(OptType::WIDTH), 160 }, 
+        SDL_Rect{ 0, 500, m_opts->get<int>(OptType::WIDTH), 160 }, 
         false, 
         m_resSystem->get<Renderable>("hero_panel_back_texture")
     );
@@ -84,7 +87,7 @@ bool GameGUI::init(Options& opts,
     initActionsWdg();
     initDlMenu();
 
-    return (m_journal != nullptr);
+    return true;
 }
 
 void GameGUI::initHeroBars()
@@ -166,13 +169,14 @@ void GameGUI::initDlMenu()
     const int lMarg = 20;
 
     const std::string& text = m_resSystem->dialogueManager->getCurText();
-    Widget* textPanel = new TextWidget("text", m_dialWdg.get(), { lMarg, tMarg, m_opts->getInt(OptType::WIDTH), 100 }, true, Font::latoRegular, FontSize::medium, Color::silver, &text);
+    Widget* textPanel = new TextWidget("text", m_dialWdg.get(), { lMarg, tMarg, m_opts->get<int>(OptType::WIDTH), 100 }, true, Font::latoRegular, FontSize::medium, Color::silver, &text);
 
     int height = tMarg + 2 * FontSize::medium;
     for (int i = 0; i < dialMaxAnswers; ++i)
     {
-        Widget* answer = new Button(std::string("answer ") + std::to_string(i),
-            m_dialWdg.get(), { lMarg, height }, true, nullptr, new DlEvent(DlEvType::CHOOSE_ANSWER, i));
+        auto childName{ std::string("answer ") + std::to_string(i) };
+        SDL_Rect childGeom{ lMarg, height, 0, 0 };
+        auto answer = new Button(childName, nullptr, childGeom, true, nullptr, new DlEvent(DlEvType::CHOOSE_ANSWER, i));
         m_dialWdg->addChild(*answer);
         height += FontSize::medium;
     }
@@ -208,7 +212,8 @@ void GameGUI::handleDialogue(SDL_Event& event)
     if (!m_dialWdg->isVisible()) return;
     
     auto& dlMgr = *m_resSystem->dialogueManager;
-    if (dlMgr.getPhrase() == dlMgr.getCurState()->phrases.size() - 1 &&
+    // FIXME: what is happening here?
+    if (dlMgr.getPhrase() + 1 == dlMgr.getCurState()->phrases.size() &&
         dlMgr.getCurPhrase()->nextState != -1)
     {
         m_dialWdg->setState(WState::INACTIVE);
@@ -248,8 +253,7 @@ void GameGUI::handleInventory(SDL_Event& event)
     }
 
     auto moved = false;
-    if (m_activeSlot &&
-        m_activeSlot->handle(event, coordStart) == false)
+    if (m_activeSlot and !m_activeSlot->handle(event, coordStart))
     {
         if (m_currentSlot)
         {
@@ -285,15 +289,15 @@ void GameGUI::handleInventory(SDL_Event& event)
 void GameGUI::handleKeyboard(SDL_Event& event)
 {
     auto curr = event.key.keysym.sym;
-    if (curr == m_opts->getInt("open_hero_panel"))
+    if (curr == m_opts->get<int>("open_hero_panel"))
     {
         m_heroWdg->setVisible(!m_heroWdg->isVisible());
     }
-    else if (curr == m_opts->getInt("open_equip"))
+    else if (curr == m_opts->get<int>("open_equip"))
     {
         m_inventoryWdg->setVisible(!m_inventoryWdg->isVisible());
     }
-    else if (curr == m_opts->getInt("open_skills"))
+    else if (curr == m_opts->get<int>("open_skills"))
     {
         m_actionsWdg->setVisible(!m_actionsWdg->isVisible());
     }
@@ -310,12 +314,12 @@ void GameGUI::handleKeyboard(SDL_Event& event)
         }
     }
     int access_flag = -1;
-    if (curr == m_opts->getInt("quick_access_1"))      access_flag = 0;
-    else if (curr == m_opts->getInt("quick_access_2")) access_flag = 1;
-    else if (curr == m_opts->getInt("quick_access_3")) access_flag = 2;
-    else if (curr == m_opts->getInt("quick_access_4")) access_flag = 3;
-    else if (curr == m_opts->getInt("quick_access_5")) access_flag = 4;
-    else if (curr == m_opts->getInt("quick_access_6")) access_flag = 5;
+    if (curr == m_opts->get<int>("quick_access_1"))      access_flag = 0;
+    else if (curr == m_opts->get<int>("quick_access_2")) access_flag = 1;
+    else if (curr == m_opts->get<int>("quick_access_3")) access_flag = 2;
+    else if (curr == m_opts->get<int>("quick_access_4")) access_flag = 3;
+    else if (curr == m_opts->get<int>("quick_access_5")) access_flag = 4;
+    else if (curr == m_opts->get<int>("quick_access_6")) access_flag = 5;
     // Check if it is right turn
     
     auto actionPtsComp = m_hero->getComponent<ActionPtsComponent>();
@@ -354,8 +358,8 @@ void GameGUI::handleStateNormal(SDL_Event& event)
         event.type == SDL_MOUSEBUTTONDOWN &&
         event.button.button == SDL_BUTTON_LEFT)
     {
-        auto viewport = m_sysManager->m_viewSystem->getCamera().getViewport();
-        auto center = m_sysManager->m_viewSystem->getCamera().getCenter();
+        auto viewport = m_viewSystem->getCamera().getViewport();
+        auto center = m_viewSystem->getCamera().getCenter();
         x = center.x + std::round((x - viewport.x - viewport.w / 2 - 32) / 64.);
         y = center.y + std::round((y - viewport.y - viewport.h / 2 - 32) / 64.);
         auto contActor = scene.getActor({ x, y }, ActorType::CONTAINER);
@@ -405,11 +409,11 @@ void GameGUI::handleStateActInput(SDL_Event& event)
         and event.button.button == SDL_BUTTON_LEFT)
     {
         // FIXME: stop using magic consts
-        auto viewport = m_sysManager->m_viewSystem->getCamera().getViewport();
-        auto center = m_sysManager->m_viewSystem->getCamera().getCenter();
+        auto viewport = m_viewSystem->getCamera().getViewport();
+        auto center = m_viewSystem->getCamera().getCenter();
         x = center.x + std::round((x - viewport.x - viewport.w / 2 - 32) / 64.);
         y = center.y + std::round((y - viewport.y - viewport.h / 2 - 32) / 64.);
-        m_action->setArg(ActArgType::coord, new Coord(x, y));
+        m_action->setArg(ActArgType::coord, Coord(x, y));
         m_action->act();
         delete(m_action);
         m_action = nullptr;
@@ -679,7 +683,7 @@ void GameGUI::refreshDlMenu()
         {
             auto widg = m_dialWdg->getChild(std::string("answer ") + std::to_string(i));
             auto butt = dcast<Button*>(widg);
-            butt->setGraphics(m_resSystem->textRenderer->renderSprSheet(dlMgr.getCurState()->answers[i].text, Font::latoRegular, FontSize::medium, m_opts->getInt(OptType::WIDTH)));
+            butt->setGraphics(m_resSystem->textRenderer->renderSprSheet(dlMgr.getCurState()->answers[i].text, Font::latoRegular, FontSize::medium, m_opts->get<int>(OptType::WIDTH)));
             butt->setVisible(true);
         }
         for (unsigned i = dlMgr.getCurState()->answers.size(); i < dialMaxAnswers; ++i)
@@ -712,14 +716,13 @@ void GameGUI::renderTextBuffer() const
 {
     m_textBufferBack->render(*m_rendSubsystem, *m_resSystem);
 
-	int size = m_journal->getSize();
-    if (size > 0)
+	int size = m_journalSystem->getSize();
+    if (size == 0) return;
+ 
+    for (int i = size - 1; i >= 0 && i >= size - entriesToRender; --i)
     {
-        for (int i = size - 1; i >= 0 && i >= size - entriesToRender; --i)
-        {
-            auto title = m_resSystem->textRenderer->renderTexture(m_journal->getEntry(i), Font::latoRegular, FontSize::medium, Color::white);
-            m_rendSubsystem->render(title, { 10, 120 - title->getHeight() * (size - 1 - i) });
-        }
+        auto title = m_resSystem->textRenderer->renderTexture(m_journalSystem->getEntry(i), Font::latoRegular, FontSize::medium, Color::white);
+        m_rendSubsystem->render(title, { 10, 120 - title->getHeight() * (size - 1 - i), 0, 0 });
     }
 }
 
@@ -766,7 +769,7 @@ void GameGUI::renderTileFrame() const
     int x, y;
     SDL_GetMouseState(&x, &y);
 
-    auto& camera = m_sysManager->m_viewSystem->getCamera();
+    auto& camera = m_viewSystem->getCamera();
 
     auto viewport = camera.getViewport();
     if (!isPointOnGUI({ x, y }))

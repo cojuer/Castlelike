@@ -13,7 +13,7 @@ class Table : public Widget
 public:
     Table(const std::string& name, Widget* parent, SDL_Rect geometry, bool visible, int rows, int cols);
 
-    void addChild(Widget& widg, int row, int col);
+    void addChildToCell(Widget& widg, int row, int col);
     void setColWidth(int col, int width);
     void setRowHeight(int row, int height);
 

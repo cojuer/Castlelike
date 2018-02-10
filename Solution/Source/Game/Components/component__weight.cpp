@@ -1,6 +1,5 @@
-#pragma once
-
 #include "component__weight.h"
+
 #include "actor.h"
 
 const std::string WeightComponent::stringID = "weight";
@@ -17,5 +16,3 @@ std::string WeightComponent::getStringID() const
 {
     return stringID;
 }
-
-WeightComponent::~WeightComponent() {}

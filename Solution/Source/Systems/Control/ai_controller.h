@@ -6,22 +6,21 @@
 #include "controller.h"
 
 class SceneSystem;
-class GameSystemManager;
+class ActorRegistrar;
 
 class AIController : public Controller
 {
 public:
     AIController() = default;
 
-    bool init(SceneSystem& sceneSystem, GameSystemManager& sysManager);
+    bool init(SceneSystem& sceneSystem);
 
     bool possess(Actor& actor) override;
     void release(ActorID actorID) override;
 
-    bool control(Actor& actor) override;
+    bool control(Actor& possessed) override;
 
 private:
-    SceneSystem*             m_sceneSystem;
-    GameSystemManager*            m_sysManager;
+    SceneSystem*              m_sceneSystem { nullptr };
     std::map<ActorID, Actor*> m_registered;
 };

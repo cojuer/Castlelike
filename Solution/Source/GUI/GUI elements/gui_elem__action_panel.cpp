@@ -7,7 +7,7 @@
 namespace gui {
 
 ActPanel::ActPanel(Widget* parent) :
-    Widget(nullptr)
+    Widget(parent)
 {}
 
 void ActPanel::load(Json& node, ResourceSystem& resSystem, const Options& opts)

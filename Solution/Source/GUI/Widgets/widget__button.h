@@ -15,14 +15,11 @@ public:
 
     void             setGraphics(Renderable* rendered) override;
 
-    bool             handle(SDL_Event& event, Vec2i coordStart = { 0, 0 }) override;
+    bool             handle(SDL_Event& event, Vec2i coordStart) override;
     void             render(RenderSubsystem& rendSubsystem, ResourceSystem& resSystem, Vec2i coordStart) const override;
 
 protected:
     void loadGraphics(Json& node, ResourceSystem& resSystem) override;
-
-private:
-    Event*           m_event;
 };
 
 }

@@ -25,7 +25,7 @@ bool Animation::isLooped() const
 ATexture* Animation::getTexture()
 {
     auto now = TimePoint{ GlobalTime::instance().getTicks() };
-    if (m_timeline.size() == 0)
+    if (m_timeline.empty())
     {
         return nullptr;
     }
@@ -46,7 +46,7 @@ ATexture* Animation::getTexture()
 const ATexture* Animation::getTexture() const
 {
     auto now = TimePoint{ GlobalTime::instance().getTicks() };
-    if (m_timeline.size() == 0)
+    if (m_timeline.empty())
     {
         return nullptr;
     }
@@ -66,7 +66,7 @@ const ATexture* Animation::getTexture() const
 
 const ATexture* Animation::getTexture(TimePoint timePoint) const
 {
-    if (m_timeline.size() == 0)
+    if (m_timeline.empty())
     {
         return nullptr;
     }

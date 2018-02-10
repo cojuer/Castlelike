@@ -58,17 +58,13 @@ std::vector<std::string> AttackAction::getRequiredArgTypes() const
 
 bool AttackAction::canAct() const
 {
-    if (getRequiredArgTypes().size() == 0)
-    {
-        return true;
-    }
-    return false;
+    return getRequiredArgTypes().empty();
 }
 
 std::vector<Actor*> AttackAction::getVictims() const
 {
     auto& scene = *get<Scene*>(m_args, ActArgType::scene);
-    auto& coord = *get<Coord*>(m_args, ActArgType::coord);
+    auto coord = get<Coord>(m_args, ActArgType::coord);
     std::vector<Actor*> victims;
     for (auto& actor : scene.getActorsAtCoord(coord))
     {

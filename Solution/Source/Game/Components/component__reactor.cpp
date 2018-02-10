@@ -1,5 +1,7 @@
 #include "component__reactor.h"
+
 #include "actor.h"
+#include "reaction.h"
 
 const std::string ReactorComponent::stringID = "reactor";
 
@@ -61,5 +63,3 @@ void ReactorComponent::react(const std::string& condition, ActionArgs input)
 		++liter;
     }
 }
-
-ReactorComponent::~ReactorComponent() {}

@@ -8,6 +8,12 @@ class Window final
 {
 public:
     explicit Window(SDL_Window& window);
+
+    Window(const Window&) = delete;
+    Window(Window&&) = delete;
+    Window& operator=(const Window&) = delete;
+    Window& operator=(Window&&) = delete;
+
     ~Window();
     
     void configure(Options& opts);

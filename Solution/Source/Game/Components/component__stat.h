@@ -7,6 +7,13 @@ class StatComponent : public ActorComponent
 public:
     StatComponent(int base, int current, int max, Actor* parent = nullptr);
 
+    StatComponent(const StatComponent&) = delete;
+    StatComponent(StatComponent&&) = delete;
+    StatComponent& operator=(const StatComponent&) = delete;
+    StatComponent& operator=(StatComponent&&) = delete;
+
+    virtual ~StatComponent() = default;
+
     void load(Json& node, ResourceSystem& resSystem) override;
     Json save() const override;
 
@@ -19,8 +26,6 @@ public:
     const int& getBase() const;
     const int& getCurr() const;
     const int& getMax() const;
-
-    virtual ~StatComponent();
 
 protected:
     int m_base;

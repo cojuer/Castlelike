@@ -1,7 +1,6 @@
 #pragma once
 
 #include "actor.h"
-#include "animation.h"
 #include "cutscene_element.h"
 
 class Cutscene
@@ -11,7 +10,6 @@ class Cutscene
 public:
     Cutscene();
     Cutscene(ElemVec&& fragments, Duration duration);
-    ~Cutscene();
 
     ElemVec& getFragments();
     void start(TimePoint time);

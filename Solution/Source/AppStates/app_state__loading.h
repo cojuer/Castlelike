@@ -10,7 +10,7 @@ class HandlerRegistration;
 class LoadingAppState final : public AppState, EventHandler<LoadEvent>
 {
 public:
-    LoadingAppState();
+    LoadingAppState() = default;
 
     void             init(App& app) override;
     void             clean() override;
@@ -28,12 +28,12 @@ public:
     void onEvent(LoadEvent& event) override;
 
 private:
-    App*               m_app;
+    App*               m_app { nullptr };
 
     std::string m_profile;
     std::string m_save;
 
     std::unique_ptr<HandlerRegistration> reg;
 
-    static LoadingAppState playState;
+    static LoadingAppState loadState;
 };

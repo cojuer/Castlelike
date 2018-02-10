@@ -1,9 +1,7 @@
-#include "game_system__stats.h"
-
-#include <iostream>
+#include "system__stats.h"
 
 #include "system__actor_id.h"
-#include "game_system_manager.h"
+#include "system__actor_registrar.h"
 
 #include "subsystem__event.h"
 
@@ -11,12 +9,18 @@
 #include "component__attr.h"
 #include "component__mdfr.h"
 
-bool StatsGSystem::init(GameSystemManager& sysManager)
+StatsGSystem::StatsGSystem()
 {
-    m_sysManager = &sysManager;
+    m_reg.reset(EventSubsystem::AddHandler(*this));
+}
 
-    EventSubsystem::AddHandler(*this);
+StatsGSystem::~StatsGSystem()
+{
+    m_reg->removeHandler();
+}
 
+bool StatsGSystem::init()
+{
     return true;
 }
 

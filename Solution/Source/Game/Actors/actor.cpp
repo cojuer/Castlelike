@@ -4,16 +4,16 @@
 #include "component__collision.h"
 #include "component__position.h"
 
-Actor::Actor(ActorID id, const std::string& resID, const std::string& type) :
+Actor::Actor(ActorID id, std::string resID, std::string type) :
     m_id(id),
-	m_res(resID),
-    m_type(type)
+	m_res(std::move(resID)),
+    m_type(std::move(type))
 {}
 
-Actor::Actor(ActorID id, const std::string& resID, const std::string& type, Coord pos, bool collisive) :
+Actor::Actor(ActorID id, std::string resID, std::string type, Coord pos, bool collisive) :
     m_id(id),
-    m_res(resID),
-    m_type(type)
+    m_res(std::move(resID)),
+    m_type(std::move(type))
 {
 	auto posComponent = new PositionComponent();
 	posComponent->set(pos);

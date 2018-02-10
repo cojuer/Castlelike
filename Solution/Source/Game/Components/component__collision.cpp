@@ -32,5 +32,3 @@ void CollisionComponent::set(bool collisive)
 {
 	m_collisive = collisive;
 }
-
-CollisionComponent::~CollisionComponent() {}

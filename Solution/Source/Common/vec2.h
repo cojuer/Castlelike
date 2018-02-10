@@ -8,11 +8,11 @@ struct Vec2
     Vec2();
     Vec2(T x, T y);
 
-    explicit Vec2(const Direction dir);
+    explicit Vec2(Direction dir);
 
     Vec2<T> operator+(const Vec2<T>& another) const;
     Vec2<T> operator-(const Vec2<T>& another) const;
-    Vec2<T> operator*(const int multiplier) const;
+    Vec2<T> operator*(int multiplier) const;
 
     Vec2<T>& operator+=(const Vec2<T>& another);
     Vec2<T>& operator-=(const Vec2<T>& another);
@@ -32,7 +32,7 @@ template<typename T>
 Vec2<T>::Vec2(T x, T y) : x(x), y(y) {}
 
 template<typename T>
-Vec2<T>::Vec2(const Direction dir) : x(0), y(0)
+Vec2<T>::Vec2(Direction dir) : x(0), y(0)
 {
     switch (dir)
     {
@@ -63,7 +63,7 @@ Vec2<T> Vec2<T>::operator-(const Vec2<T>& another) const
 }
 
 template<typename T>
-Vec2<T> Vec2<T>::operator*(const int multiplier) const
+Vec2<T> Vec2<T>::operator*(int multiplier) const
 {
     Vec2<T> result;
     result.x = x * multiplier;
@@ -108,3 +108,4 @@ bool Vec2<T>::operator<(const Vec2<T>& another) const
 using Coord = Vec2<int>;
 using Vec2i = Vec2<int>;
 using Vec2f = Vec2<float>;
+using Vec2d = Vec2<double>;

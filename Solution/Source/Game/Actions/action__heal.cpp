@@ -43,9 +43,5 @@ std::vector<std::string> HealAction::getRequiredArgTypes() const
 
 bool HealAction::canAct() const
 {
-    if (getRequiredArgTypes().size() == 0)
-    {
-        return true;
-    }
-    return false;
+    return getRequiredArgTypes().empty();
 }

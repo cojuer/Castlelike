@@ -5,7 +5,7 @@
 #include "widget__number.h"
 #include "player_controller.h"
 #include "system__resource.h"
-#include "game_system_manager.h"
+#include "system__actor_registrar.h"
 #include "text_renderer.h"
 #include "font_data.h"
 #include "color.h"

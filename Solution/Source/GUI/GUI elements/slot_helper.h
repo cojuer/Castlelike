@@ -19,7 +19,6 @@ private:
     ItemHelper       m_itemHelper;
 public:
     SlotHelper();
-    ~SlotHelper() = default;
 
     void             setSlot(Slot* slot);
 

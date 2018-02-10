@@ -27,6 +27,27 @@ bool Options::loadFile(std::string path)
     return true;
 }
 
+template <>
+uint32_t Options::get<uint32_t>(const std::string& key) const
+{
+    auto iter = m_data.find(key);
+    return iter != m_data.end() ? std::stoul(iter->second) : 0;
+}
+
+template <>
+int32_t Options::get<int32_t>(const std::string& key) const
+{
+    auto iter = m_data.find(key);
+    return iter != m_data.end() ? std::stoi(iter->second) : 0;
+}
+
+template <>
+bool Options::get<bool>(const std::string& key) const
+{
+    auto iter = m_data.find(key);
+    return iter != m_data.end() ? std::stoi(iter->second) : false;
+}
+
 void Options::parse(std::ifstream& stream)
 {
     std::string line;
@@ -40,11 +61,6 @@ void Options::parse(std::ifstream& stream)
         auto value = line.substr(separator + 1);
         m_data[key] = value;
     }
-}
-
-int Options::getInt(std::string key) const
-{
-    return std::stoi(m_data.at(key));
 }
 
 std::string& Options::operator[](std::string key)

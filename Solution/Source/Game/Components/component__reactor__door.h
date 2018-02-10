@@ -2,7 +2,6 @@
 
 #include <map>
 
-#include "actor.h"
 #include "component__reactor_interface.h"
 
 class ResourceSystem;
@@ -27,11 +26,9 @@ public:
 
 	void react(const std::string& condition, ActionArgs input) override;
 
-    ~DoorReactorComponent();
-
 private:
-	void onOpened(const std::string& condition, ActionArgs input);
-	void onClosed(const std::string& condition, ActionArgs input);
+	void onOpened(const std::string& condition, const ActionArgs& input);
+	void onClosed(const std::string& condition, const ActionArgs& input);
 
 private:
 	State     m_state;

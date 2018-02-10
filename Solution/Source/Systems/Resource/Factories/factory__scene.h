@@ -2,7 +2,6 @@
 
 #include "factory.h"
 #include "room.h"
-#include "tile.h"
 #include "rng.h"
 #include "scene.h"
 
@@ -34,7 +33,6 @@ public:
                                 std::vector<RoomModel>& rooms,
                                 bool hasEntrance);
 
-    ~SceneFactory() override;
 private:
-    ResourceSystem* m_resSystem;
+    ResourceSystem* m_resSystem { nullptr };
 };

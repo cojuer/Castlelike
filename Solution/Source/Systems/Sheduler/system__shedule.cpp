@@ -27,6 +27,7 @@ void SheduleSystem::refresh()
         {
             auto action = std::get<ActionInterface*>(m_eventQueue.front());
             action->act();
+            delete(action);
             m_eventQueue.pop();
         }
         if (!m_eventQueue.empty() && std::holds_alternative<Cutscene*>(m_eventQueue.front()))

@@ -10,7 +10,7 @@ class MenuAppState final : public AppState, EventHandler<MenuEvent>
 {
 public:
 
-	MenuAppState::MenuAppState();
+	MenuAppState() = default;
 
     void             init(App& app) override;
     void             clean() override;
@@ -28,7 +28,7 @@ public:
     static MenuAppState* instance();
 
 private:
-	App*             m_app;
+	App*             m_app { nullptr };
 
 	static MenuAppState menuAppState;
 };

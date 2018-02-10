@@ -8,7 +8,7 @@
 #include "component__mdfr.h"
 #include "component__health.h"
 #include "component__experience_interface.h"
-#include "event__text.h"
+#include "event__journal.h"
 #include "subsystem__event.h"
 
 #include "utils.h"
@@ -36,11 +36,7 @@ std::vector<std::string> WhirlwindAction::getRequiredArgTypes() const
 
 bool WhirlwindAction::canAct() const
 {
-    if (getRequiredArgTypes().size() == 0)
-    {
-        return true;
-    }
-    return false;
+    return getRequiredArgTypes().empty();
 }
 
 std::vector<Actor*> WhirlwindAction::getVictims() const

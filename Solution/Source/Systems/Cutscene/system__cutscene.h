@@ -1,13 +1,10 @@
 #pragma once
 
-struct Cutscene;
+class Cutscene;
 
 class CutsceneSystem final
 {
 public:
-    CutsceneSystem();
-    ~CutsceneSystem();
-
     void startCutscene(Cutscene& cutscene);
     void updateCutscene();
     void finishCutscene();
@@ -15,5 +12,5 @@ public:
     bool onCutscene() const;
 
 private:
-    Cutscene* m_currentCutscene;
+    Cutscene* m_currentCutscene { nullptr };
 };

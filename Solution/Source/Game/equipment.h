@@ -11,6 +11,12 @@ class Equipment
 
 public:
     Equipment();
+
+    Equipment(const Equipment&) = delete;
+    Equipment(Equipment&&) = default;
+    Equipment& operator=(const Equipment&) = delete;
+    Equipment& operator=(Equipment&&) = default;
+
     ~Equipment();
 
     bool  equip(Item& item);

@@ -10,7 +10,7 @@ enum class EventId
     REFRESH_DIALOG
 };
 
-class GUIEvent : public Event
+class GUIEvent final : public Event
 {
 public:
     const EventId    id;
@@ -19,6 +19,4 @@ public:
         Event(sender),
         id(id)
     {}
-
-    virtual ~GUIEvent() {};
 };

@@ -31,22 +31,26 @@ protected:
 public:
     explicit Widget(Widget* parent = nullptr);
 
-    explicit Widget(const Widget&) = delete;
-    explicit Widget(Widget&&) = default;
-
-    explicit Widget(const std::string& name, 
+    explicit Widget(std::string name, 
                     Widget* parent, 
                     SDL_Rect geometry, 
                     bool visible = true, 
                     Renderable* rendered = nullptr, 
                     WState state = WState::MOUSE_OUT);
     
-    explicit Widget(const std::string& name, 
+    explicit Widget(std::string name, 
                     Widget* parent, 
                     int x, 
                     int y, 
                     bool visible, 
                     Renderable* rendered);
+
+    Widget(const Widget&) = delete;
+    Widget(Widget&&) = default;
+    Widget& operator=(const Widget&) = delete;
+    Widget& operator=(Widget&&) = default;
+
+    virtual ~Widget();
 
     void             resize(int width, int height);
     void             setName(const std::string& name);
@@ -60,7 +64,7 @@ public:
     virtual void     addChild(std::string, Widget&);
     virtual void     setParent(Widget*);
     virtual void     setPosition(Vec2i pos);
-    virtual void     setVisible(bool state);
+    virtual void     setVisible(bool visible);
     virtual void     setState(WState state);
     virtual void     setGUIText(GUIText text);
     virtual void     setText(std::string text);
@@ -93,8 +97,6 @@ public:
 
     virtual void     load(Json& node, ResourceSystem& resSystem, const Options& opts);
 
-    virtual ~Widget();
-
 protected:
     virtual void     loadOptions(Json& node);
     virtual void     loadGeometry(Json& node, const Options& opts);
@@ -112,7 +114,7 @@ protected:
     Children         m_children;
     WdgOpts          m_opts;
     Renderable*      m_rendered;
-    FramedTransform* m_transform;
+    std::unique_ptr<FramedTransform> m_transform;
 
     std::string      m_name;
     SDL_Rect         m_geometry;

@@ -1,16 +1,13 @@
 #include "slot_helper.h"
 
-#include <iostream>
 #include <string>
 #include <vector>
 
+#include "subsystem__render.h"
+#include "system__resource.h"
+
 #include "item.h"
 #include "slot__item.h"
-#include "modifiers.h"
-#include "system__resource.h"
-#include "subsystem__render.h"
-#include "text_renderer.h"
-#include "font_data.h"
 
 namespace gui {
 
@@ -39,14 +36,12 @@ void SlotHelper::render(RenderSubsystem& rendSubsys, ResourceSystem& resSystem) 
     int x, y;
     SDL_GetMouseState(&x, &y);
 
-    Vec2i pos(x, y - 65);
-
     std::vector<std::string> strings;
     if (curSlot && !curSlot->isEmpty())
     {
         if (curSlot->getSlotType() == SlotType::ITEM)
         {
-            m_itemHelper.render(rendSubsys, resSystem);
+            m_itemHelper.render(rendSubsys, resSystem, { 0, 0 });
         }
     }
 }

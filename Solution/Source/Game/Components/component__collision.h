@@ -19,8 +19,6 @@ public:
 	const bool&     get() const;
 	void            set(bool collisive);
 
-    ~CollisionComponent();
-
 private:
 	bool m_collisive;
 };

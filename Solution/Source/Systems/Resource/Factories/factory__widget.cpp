@@ -3,10 +3,6 @@
 #include "system__resource.h"
 #include "parser__widget.h"
 
-WidgetFactory::WidgetFactory() :
-    m_opts(nullptr)
-{}
-
 bool WidgetFactory::init(ResourceSystem& resSystem, const Options& opts)
 {
     m_opts = &opts;
@@ -32,5 +28,3 @@ Resource<gui::Widget>* WidgetFactory::get(ResourceId& id)
     }
     return nullptr;
 }
-
-WidgetFactory::~WidgetFactory() = default;

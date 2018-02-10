@@ -34,7 +34,7 @@ std::string AIComponent::getStringID() const
 
 Behaviour* AIComponent::get() const
 {
-    return m_bhvr;
+    return m_bhvr.get();
 }
 
 bool AIComponent::possess()
@@ -50,9 +50,4 @@ bool AIComponent::possess()
 bool AIComponent::isPossessed() const
 {
     return m_possessed;
-}
-
-AIComponent::~AIComponent()
-{
-    delete(m_bhvr);
 }

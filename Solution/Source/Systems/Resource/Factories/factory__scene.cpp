@@ -65,6 +65,8 @@ bool SceneFactory::createRoom(Coord entrance,
     case Direction::RIGHTWARD:
         leftTop = { entrance.x + 1, entrance.y - shift };
         break;
+    default:
+        break;
     }
 
     if (isPlaceForRoom(leftTop, width, height, areaw, areah, tiles))
@@ -115,13 +117,11 @@ bool SceneFactory::createRoom(Coord entrance,
                 break;
             }
         }
-        rooms.push_back(RoomModel(leftTop, width, height));
+        rooms.emplace_back(leftTop, width, height);
         return true;
     }
     return false;
 }
-
-SceneFactory::~SceneFactory() {}
 
 /* FIXME: reconsider areafactory usage */
 bool SceneFactory::load(const std::string& fname)
@@ -132,9 +132,9 @@ bool SceneFactory::load(const std::string& fname)
 Resource<Scene>* SceneFactory::get(ResourceId& id)
 {
     auto tset = m_resSystem->get<Tileset>("test_tileset");
-    auto& floor = *tset->getTile(tset->m_terrains.at("floor").m_tiles.front());
-    auto& wall = *tset->getTile(tset->m_terrains.at("wall").m_tiles.front());
-    auto& walltop = *tset->getTile(tset->m_terrains.at("walltop").m_tiles.front());
+    auto& floor = *tset->getTile(tset->getTerrain("floor").m_tiles.front());
+    auto& wall = *tset->getTile(tset->getTerrain("wall").m_tiles.front());
+    auto& walltop = *tset->getTile(tset->getTerrain("walltop").m_tiles.front());
 
     uint32_t width = 100;
     uint32_t height = 100;
@@ -145,19 +145,19 @@ Resource<Scene>* SceneFactory::get(ResourceId& id)
     std::vector<RoomModel> rooms;
 
 	std::string** tileTypes = new std::string*[height];
-    for (int i = 0; i < height; ++i)
+    for (uint32_t i = 0; i < height; ++i)
     {
         tileTypes[i] = new std::string[width];
     }
-    for (int i = 0; i < height; ++i)
+    for (uint32_t i = 0; i < height; ++i)
     {
-        for (int j = 0; j < width; ++j)
+        for (uint32_t j = 0; j < width; ++j)
         {
             tileTypes[i][j] = "none";
         }
     }
 
-    while (rooms.size() < 1)
+    while (rooms.empty())
     {
         Coord center(rng.getFrom(7, width - 7), rng.getFrom(7, height - 7));
         createRoom(center, Direction::DOWNWARD, rng, width, height, tileTypes, rooms, false);
@@ -179,9 +179,9 @@ Resource<Scene>* SceneFactory::get(ResourceId& id)
         }
     }
 
-    for (int i = 0; i < height; ++i)
+    for (uint32_t i = 0; i < height; ++i)
     {
-        for (int j = 0; j < width; ++j)
+        for (uint32_t j = 0; j < width; ++j)
         {
             if (tileTypes[i][j] == "ground")
             {
@@ -193,9 +193,9 @@ Resource<Scene>* SceneFactory::get(ResourceId& id)
             }
         }
     }
-    for (int i = 0; i < height - 1; ++i)
+    for (uint32_t i = 0; i < height - 1; ++i)
     {
-        for (int j = 0; j < width; ++j)
+        for (uint32_t j = 0; j < width; ++j)
         {
             if (area[i + 1][j] != nullptr &&
                 area[i][j] != nullptr &&
@@ -213,13 +213,12 @@ Resource<Scene>* SceneFactory::get(ResourceId& id)
         }
     }
 
-	for (int i = 0; i < height; ++i)
+	for (uint32_t i = 0; i < height; ++i)
 	{
 		delete[](tileTypes[i]);
 	}
 	delete[](tileTypes);
 
-    auto scene = new Scene{ "test", width, height, area, std::vector<Actor*>{} };
-
+    auto scene = new Scene{ "test", width, height, { tset }, area, std::vector<Actor*>{} };
     return scene;
 }

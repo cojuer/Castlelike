@@ -4,6 +4,3 @@ SheduleEvent::SheduleEvent(std::variant<ActionInterface*, Cutscene*> event, Obje
     Event(sender),
     m_event(event)
 {}
-
-SheduleEvent::~SheduleEvent() 
-{};

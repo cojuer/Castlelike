@@ -1,7 +1,7 @@
 #include "reaction.h"
 
-Reaction::Reaction(const std::string conditionID, ActionInterface* action) :
-	m_conditionID(conditionID),
+Reaction::Reaction(std::string conditionID, ActionInterface* action) :
+	m_conditionID(std::move(conditionID)),
 	m_action(action)
 {}
 

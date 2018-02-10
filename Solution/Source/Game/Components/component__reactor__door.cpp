@@ -29,7 +29,7 @@ std::string DoorReactorComponent::getStringID() const
     return stringID;
 }
 
-void DoorReactorComponent::onOpened(const std::string& condition, ActionArgs input)
+void DoorReactorComponent::onOpened(const std::string& condition, const ActionArgs& input)
 {
     auto& scene = *get<Scene*>(input, ActArgType::scene);
 	auto collisionComponent = m_parent->getComponent<CollisionComponent>();
@@ -45,7 +45,7 @@ void DoorReactorComponent::onOpened(const std::string& condition, ActionArgs inp
 	}
 }
 
-void DoorReactorComponent::onClosed(const std::string& condition, ActionArgs input)
+void DoorReactorComponent::onClosed(const std::string& condition, const ActionArgs& input)
 {
 	auto collisionComponent = m_parent->getComponent<CollisionComponent>();
 	auto graphicsComponent = m_parent->getComponent<GraphicsComponent>();
@@ -64,14 +64,12 @@ void DoorReactorComponent::react(const std::string& condition, ActionArgs input)
 	switch(m_state)
 	{
 	case State::OPENED:
-		onOpened(condition, input);
+		onOpened(condition, std::move(input));
 		break;
 	case State::CLOSED:
-		onClosed(condition, input);
+		onClosed(condition, std::move(input));
 		break;
 	default:
 		break;
 	}
 }
-
-DoorReactorComponent::~DoorReactorComponent() {}

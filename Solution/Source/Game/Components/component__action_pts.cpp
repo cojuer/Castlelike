@@ -1,6 +1,5 @@
-#pragma once
-
 #include "component__action_pts.h"
+
 #include "actor.h"
 
 const std::string ActionPtsComponent::stringID = "action_pts";
@@ -17,5 +16,3 @@ std::string ActionPtsComponent::getStringID() const
 {
     return stringID;
 }
-
-ActionPtsComponent::~ActionPtsComponent() {}

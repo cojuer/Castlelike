@@ -7,13 +7,18 @@ class GraphicsInterfaceComponent : public ActorComponent
 public:
 	explicit GraphicsInterfaceComponent(unsigned layer, Actor* parent = nullptr);
     
+    GraphicsInterfaceComponent(const GraphicsInterfaceComponent&) = delete;
+    GraphicsInterfaceComponent(GraphicsInterfaceComponent&&) = delete;
+    GraphicsInterfaceComponent& operator=(const GraphicsInterfaceComponent&) = delete;
+    GraphicsInterfaceComponent& operator=(GraphicsInterfaceComponent&&) = delete;
+
+    virtual ~GraphicsInterfaceComponent();
+
 	void                setLayer(unsigned layer);
 
 	int					getLayer() const;
 	virtual std::string get() const = 0;
 
-    virtual ~GraphicsInterfaceComponent();
-
 protected:
-	unsigned            m_layer;
+	uint32_t m_layer;
 };

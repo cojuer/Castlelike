@@ -31,8 +31,6 @@ const Coord& PositionComponent::get() const
 	return m_position;
 }
 
-PositionComponent::~PositionComponent() {}
-
 void PositionComponent::set(Coord position)
 {
 	m_position = position;

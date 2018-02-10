@@ -16,17 +16,15 @@ class ResourceSystem;
 class WidgetFactory : public Factory<gui::Widget>
 {
 public:
-    WidgetFactory();
+    WidgetFactory() = default;
 
     bool init(ResourceSystem& resSystem, const Options& opts);
 
     bool                  load(const std::string& fname) override;
     Resource<gui::Widget>* get(ResourceId& id) override;
 
-    ~WidgetFactory();
-
 private:
-    const Options* m_opts;
+    const Options* m_opts { nullptr };
     JsonLoader     m_loader;
     WidgetParser   m_parser;
     PugiDoc        m_parseResult;

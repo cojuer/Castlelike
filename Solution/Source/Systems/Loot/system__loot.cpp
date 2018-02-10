@@ -1,4 +1,4 @@
-#include "game_system__loot.h"
+#include "system__loot.h"
 
 #include "scene.h"
 #include "container.h"
@@ -6,17 +6,15 @@
 
 #include "system__actor_id.h"
 #include "system__scene.h"
-#include "game_system_manager.h"
+#include "system__actor_registrar.h"
 
-#include "component__bag.h"
-#include "component__equipment.h"
 #include "component__health.h"
 #include "component__loot.h"
 
-bool LootGSystem::init(GameSystemManager& sysManager, SceneSystem& sceneSystem)
+bool LootGSystem::init(ActorRegistrar& actorRegistrar, SceneSystem& sceneSystem)
 {
+    m_actorRegistrar = &actorRegistrar;
     m_sceneSystem = &sceneSystem;
-    m_sysManager = &sysManager;
     return true;
 }
 
@@ -51,30 +49,25 @@ void LootGSystem::update()
         { 
             auto coord = actor->getCoord();
             auto scene = m_sceneSystem->getScene();
+            // FIXME: no Storage Actors after loading
             auto areaCont = dynamic_cast<StorageActor*>(scene->getActor(coord, ActorType::CONTAINER));
-            Container* cont = nullptr;
             if (!areaCont)
             {
+                Container cont{ 36 };
                 if (lootComp)
                 {
-                    // FIXME: 2 containers have ownership
-                    cont = new Container(lootComp->get());
+                    cont.takeFrom(lootComp->get());
                 }
-                else
-                {
-                    // FIXME: no loot = no container
-                    cont = new Container(36);
-                }
-                areaCont = new StorageActor(IDManager::instance().getActorID(), coord, actor->getRes() + "_remains", false, *cont, false);
+                areaCont = new StorageActor(IDManager::instance().getActorID(), coord, actor->getRes() + "_remains", false, std::move(cont), false);
                 scene->addActor(*areaCont);
-                m_sysManager->reg(*areaCont);
+                m_actorRegistrar->reg(*areaCont);
             }
             else if (lootComp)
             {
                 areaCont->getContainer().takeFrom(lootComp->get());
             }
             iter = m_registered.erase(iter);
-            m_sysManager->unreg(actor->getID());
+            m_actorRegistrar->unreg(actor->getID());
             m_sceneSystem->getScene()->delActor(*actor);
         }
         else ++iter;

@@ -3,30 +3,33 @@
 #include <queue>
 #include <map>
 
-#include "game_system.h"
+#include "actor_holder.h"
 
 #include "event__actor.h"
 #include "event_handler.h"
 
-class GameSystemManager;
+class HandlerRegistration;
 
-class StatsGSystem : public GameSystem, public EventHandler<ActorEvent>
+class StatsGSystem : public ActorHolder, public EventHandler<ActorEvent>
 {
 public:
-    StatsGSystem() = default;
+    StatsGSystem();
 
-    bool init(GameSystemManager& sysManager);
+    ~StatsGSystem();
+
+    bool init();
 
     bool reg(Actor& actor) override;
     void unreg(ActorID id) override;
 
-    void update() override;
-    void clean() override;
+    void update();
+    void clean();
 
     void onEvent(ActorEvent& event) override;
 
 private:
-    GameSystemManager*        m_sysManager;
     std::map<ActorID, Actor*> m_registered;
     std::queue<Actor*>        m_updated;
+
+    std::unique_ptr<HandlerRegistration> m_reg;
 };

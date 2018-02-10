@@ -3,18 +3,17 @@
 #include <SDL.h>
 
 #include "factory.h"
-#include "pugi_aliases.h"
+#include "cache__renderable.h"
+#include "loader__renderable.h"
 
 class Renderable;
 class RenderSubsystem;
-class RenderableCache;
-class RenderableLoader;
 class ResourceSystem;
 
 class RenderableFactory : public Factory<Renderable>
 {
 public:
-    RenderableFactory();
+    RenderableFactory() = default;
 
     bool init(ResourceSystem& resSystem, RenderSubsystem& rendSubsystem);
 
@@ -22,11 +21,9 @@ public:
     Resource<Renderable>* get(ResourceId& id) override;
 	Resource<Renderable>& get(ResourceId& id, SDL_Rect geometry);
 
-    ~RenderableFactory();
-
 private:
-    RenderableCache*   m_cache;
-    RenderableLoader*  m_loader;
+    RenderableCache   m_cache;
+    RenderableLoader  m_loader;
 };
 
 

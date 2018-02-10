@@ -24,8 +24,6 @@ public:
 	const Modifiers& getBase() const;
 	const Modifiers& get() const;
 
-    ~MdfrComponent();
-
 private:
     Modifiers m_base;
     Modifiers m_current;

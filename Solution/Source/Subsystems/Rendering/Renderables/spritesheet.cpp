@@ -5,8 +5,7 @@
 #include "atexture.h"
 
 SprSheet::SprSheet(std::vector<ATexture*>&& textures) :
-    m_frames(std::move(textures)),
-    m_frame(0)
+    m_frames(std::move(textures))
 {}
 
 Renderable* SprSheet::clone() const
@@ -24,11 +23,11 @@ SprSheet::~SprSheet()
     free();
 }
 
-bool SprSheet::loadFromFile(std::string path, int width, int height, int frames, SDL_Renderer* const renderer)
+bool SprSheet::loadFromFile(const std::string& path, int width, int height, int frames, SDL_Renderer* renderer)
 {
     auto loadedSurface = IMG_Load(path.c_str());
-    SDL_Surface* surface = nullptr;
-    SDL_Texture* texture = nullptr;
+    SDL_Surface* surface{ nullptr };
+    SDL_Texture* texture{ nullptr };
     SDL_Rect dst;
     m_frames.resize(frames);
     for (int i = 0; i < frames; ++i)

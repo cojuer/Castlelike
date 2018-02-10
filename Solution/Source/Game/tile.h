@@ -1,26 +1,24 @@
 #pragma once
 
 #include <cstdint>
+#include <memory>
+#include <string>
 
-class Renderable;
-class Tileset;
+#include "renderable.h"
 
 class Tile
 {
 public:
-    Tile(Tileset* tileset, uint32_t id, Renderable* view, bool collisive);
-	explicit Tile(Renderable* view = nullptr, bool collisive = false);
+    Tile(std::string tileset, uint32_t id, Renderable* view, bool collisive);
 
     uint32_t       getID() const;
-    Tileset*       getTileset() const;
+    std::string    getTileset() const;
     Renderable*    getView() const;
     bool           isCollisive() const;
 
-    ~Tile();
-
 private:
-    Tileset*        m_tileset;
+    std::string     m_tileset;
     uint32_t        m_id;
-    Renderable*     m_view;
+    std::unique_ptr<Renderable> m_view;
 	bool            m_collisive;
 };

@@ -19,9 +19,9 @@ private:
     std::string          m_resID;
     std::string          m_viewID;
     
-    int                  m_level;
-    int                  m_value;
-    int                  m_maxAmount;
+    uint32_t             m_level;
+    uint32_t             m_value;
+    uint32_t             m_maxAmount;
     
     bool                 m_consumable;
 

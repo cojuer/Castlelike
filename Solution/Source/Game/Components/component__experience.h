@@ -14,8 +14,6 @@ public:
 
     std::string getStringID() const override;
 
-    ~ExperienceComponent();
-
 private:
     int countXpToLvlUp(int level) const override;
 };

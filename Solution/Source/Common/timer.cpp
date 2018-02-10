@@ -12,7 +12,7 @@ void Timer::start()
     m_started = true;
     m_paused = false;
     m_start = Clock::now();
-    m_pauseDuration = Seconds(0);
+    m_pauseDuration = TimeUnit::s(0);
 }
 
 void Timer::stop()
@@ -51,7 +51,7 @@ Duration Timer::getTicks() const
             return (Clock::now() - m_start);
         }
     }
-    return Seconds(0);
+    return TimeUnit::s(0);
 }
 
 bool Timer::isStarted() const

@@ -1,7 +1,5 @@
 #include "factions.h"
 
-#include <iostream>
-
 #include "actor.h"
 #include "utils.h"
 

@@ -4,21 +4,13 @@
 #include "widget.h"
 
 namespace gui {
-    
-Bhvr::Bhvr(Widget& parent, TrigVec&& trigs) :
-    m_parent(parent),
-    m_trigs(trigs)
-{}
 
-Bhvr::~Bhvr()
+Bhvr::Bhvr(Widget& parent, std::vector<Trigger*>&& triggers) : 
+    m_parent(parent)
 {
-    for (auto trigger : m_trigs)
+    for (auto trigger : triggers)
     {
-        delete(trigger);
-    }
-    for (auto& [key, trigger] : m_keyTrigs)
-    {
-        delete(trigger);
+        m_trigs.emplace_back(trigger);
     }
 }
 
@@ -37,7 +29,7 @@ WState Bhvr::behave(SDL_Event& ev, Vec2i coordStart)
     return after;
 }
 
-void Bhvr::changeState(SDL_Event& ev, Vec2i coordStart)
+void Bhvr::changeState(SDL_Event& event, Vec2i coordStart)
 {
     auto& state = m_parent.getState();
 
@@ -59,33 +51,33 @@ void Bhvr::changeState(SDL_Event& ev, Vec2i coordStart)
     switch (state)
     {
     case WState::MOUSE_OVER:
-        if (ev.type == SDL_EventType::SDL_MOUSEBUTTONDOWN)
+        if (event.type == SDL_EventType::SDL_MOUSEBUTTONDOWN)
         {
             m_parent.setState(WState::PRESSED);
         }
-        else if (ev.type == SDL_EventType::SDL_MOUSEMOTION &&
+        else if (event.type == SDL_EventType::SDL_MOUSEMOTION &&
             !m_parent.isPointOn({ x, y }, coordStart))
         {
             m_parent.setState(WState::MOUSE_OUT);
         }
         break;
     case WState::PRESSED:
-        if (ev.type == SDL_EventType::SDL_MOUSEBUTTONUP)
+        if (event.type == SDL_EventType::SDL_MOUSEBUTTONUP)
         {
             m_parent.setState(WState::MOUSE_OVER);
         }
-        else if (ev.type == SDL_EventType::SDL_MOUSEMOTION &&
+        else if (event.type == SDL_EventType::SDL_MOUSEMOTION &&
             !m_parent.isPointOn({ x, y }, coordStart))
         {
             m_parent.setState(WState::PRESSED_MOUSE_OUT);
         }
         break;
     case WState::PRESSED_MOUSE_OUT:
-        if (ev.type == SDL_EventType::SDL_MOUSEBUTTONUP)
+        if (event.type == SDL_EventType::SDL_MOUSEBUTTONUP)
         {
             m_parent.setState(WState::MOUSE_OUT);
         }
-        else if (ev.type == SDL_EventType::SDL_MOUSEMOTION &&
+        else if (event.type == SDL_EventType::SDL_MOUSEMOTION &&
             m_parent.isPointOn({ x, y }, coordStart))
         {
             m_parent.setState(WState::PRESSED);

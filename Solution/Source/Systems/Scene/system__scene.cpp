@@ -2,27 +2,18 @@
 
 #include <iostream>
 
+#include "subsystem_io.h"
+#include "system__actor_id.h"
 #include "system__resource.h"
 
-#include "actions.h"
 #include "scene.h"
 #include "attributes.h"
 #include "container.h"
 #include "equipment.h"
 #include "actor__door.h"
 #include "utils.h"
-#include "system__actor_id.h"
-
-#include "subsystem_io.h"
 #include "rng.h"
-
 #include "components.h"
-
-//TEST
-#include "factory__actor.h"
-#include "system__dialogue.h"
-#include "action__damage.h"
-#include "action__heal.h"
 
 const std::string SceneSystem::stringID = "system_scene";
 
@@ -32,7 +23,7 @@ bool SceneSystem::init(ResourceSystem& resSystem)
     return true;
 }
 
-void SceneSystem::load(SceneID id)
+void SceneSystem::generate()
 {
     loadTestScene1();
 }

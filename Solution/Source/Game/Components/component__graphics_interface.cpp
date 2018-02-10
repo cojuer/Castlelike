@@ -15,4 +15,4 @@ int GraphicsInterfaceComponent::getLayer() const
 	return static_cast<int>(m_layer);
 }
 
-GraphicsInterfaceComponent::~GraphicsInterfaceComponent() {}
+GraphicsInterfaceComponent::~GraphicsInterfaceComponent() = default;

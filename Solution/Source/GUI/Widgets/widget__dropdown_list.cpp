@@ -3,7 +3,6 @@
 #include "system__resource.h"
 #include "text_renderer.h"
 
-#include "spritesheet.h"
 #include "color.h"
 
 namespace gui {

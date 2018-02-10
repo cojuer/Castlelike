@@ -9,7 +9,6 @@ class AttackAction : public ActionInterface
 {
 public:
     AttackAction(ActionArgs&& args = {});
-    virtual ~AttackAction() = default;
 
     virtual void act() override;
 

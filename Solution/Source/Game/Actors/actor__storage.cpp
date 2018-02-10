@@ -7,11 +7,11 @@ StorageActor::StorageActor(ActorID id,
                            Coord pos,
                            const std::string& resID,
                            bool collisive,
-                           Container& container,
+                           Container&& container,
                            bool solid) :
     Actor(id, resID, ActorType::CONTAINER, pos, collisive)
 {
-    addComponent<BagComponent>(*new BagComponent(container));
+    addComponent<BagComponent>(*new BagComponent(std::move(container)));
     addComponent<GraphicsInterfaceComponent>(*new GraphicsComponent(5, { m_res }));
 }
 

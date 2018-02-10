@@ -4,22 +4,17 @@
 #include "loader__json.h"
 #include "parser__tileset.h"
 
-TilesetFactory::TilesetFactory() :
-	m_loader(new JsonLoader()),
-    m_parser(new TilesetParser())
-{}
-
 bool TilesetFactory::init(ResourceSystem& resSystem)
 {
 	auto inited = true;
-    inited = inited && m_parser->init(resSystem);
+    inited = inited && m_parser.init(resSystem);
 	return inited;
 }
 
 bool TilesetFactory::load(const std::string& fname)
 {
 	auto loaded = true;
-	loaded = loaded && m_loader->load(fname);
+	loaded = loaded && m_loader.load(fname);
 	return loaded;
 }
 
@@ -30,18 +25,13 @@ Resource<Tileset>* TilesetFactory::get(ResourceId& id)
 		return m_cache.at(id);
 	}
 
-	auto tsetNode = m_loader->get(id);
+	auto tsetNode = m_loader.get(id);
     if (!tsetNode) return nullptr;
     
-    auto tset = m_parser->parse(id, *tsetNode);
+    auto tset = m_parser.parse(id, *tsetNode);
     if (tset)
     {
         m_cache[id] = tset;
     }
 	return tset;
-}
-
-TilesetFactory::~TilesetFactory()
-{
-    delete(m_loader);
 }

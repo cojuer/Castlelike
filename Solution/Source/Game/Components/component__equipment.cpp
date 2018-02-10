@@ -13,9 +13,9 @@ EquipmentComponent::EquipmentComponent(Actor* parent) :
     m_dropped(false)
 {}
 
-EquipmentComponent::EquipmentComponent(Equipment& equipment, Actor* parent) :
+EquipmentComponent::EquipmentComponent(Equipment&& equipment, Actor* parent) :
 	ActorComponent(parent),
-	m_equipment(equipment),
+	m_equipment(std::move(equipment)),
     m_dropped(false)
 {}
 
@@ -48,6 +48,3 @@ Equipment& EquipmentComponent::get()
 {
 	return m_equipment;
 }
-
-EquipmentComponent::~EquipmentComponent()
-{}

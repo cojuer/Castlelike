@@ -17,8 +17,12 @@ class Options
 public:
     bool loadFile(std::string path);
 
-    // TODO: use template
-    int getInt(std::string key) const;
+    template <typename T>
+    T get(const std::string& key) const
+    {
+        auto iter = m_data.find(key);
+        return iter != m_data.end() ? iter->second : T{};
+    }
 
     std::string& operator[](std::string key);
     const std::string& at(std::string key) const;
@@ -32,3 +36,12 @@ private:
 private:
     std::map<std::string, std::string> m_data;
 };
+
+template <>
+uint32_t Options::get<uint32_t>(const std::string& key) const;
+
+template <>
+int32_t Options::get<int32_t>(const std::string& key) const;
+
+template <>
+bool Options::get<bool>(const std::string& key) const;

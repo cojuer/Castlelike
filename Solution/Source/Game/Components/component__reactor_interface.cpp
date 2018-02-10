@@ -9,5 +9,3 @@ bool ReactorComponentInterface::isReactive() const
 {
 	return m_reactive;
 }
-
-ReactorComponentInterface::~ReactorComponentInterface() {}

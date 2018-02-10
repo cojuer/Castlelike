@@ -18,7 +18,7 @@ Table::Table(const std::string& name, Widget* parent, SDL_Rect geometry, bool vi
     m_heights.resize(rows, cellHeight);
 }
 
-void Table::addChild(Widget& widg, int row, int col)
+void Table::addChildToCell(Widget& widg, int row, int col)
 {
     utils::logassert(row < m_opts.at("rows"), "add child to inexistent row");
     utils::logassert(col < m_opts.at("cols"), "add child to inexistent col");
@@ -36,7 +36,7 @@ void Table::setColWidth(int col, int width)
 
     m_widths[col] = width;
 
-    if (m_children.size() == 0) return;
+    if (m_children.empty()) return;
     for (auto& row : m_table)
     {
         for (size_t i = 0; i < row.size(); ++i)
@@ -57,7 +57,7 @@ void Table::setRowHeight(int row, int height)
 
     m_heights[row] = height;
 
-    if (m_children.size() == 0) return;
+    if (m_children.empty()) return;
     for (size_t i = 0; i < m_table.size(); ++i)
     {
         for (auto elem : m_table[i])

@@ -4,6 +4,7 @@
 
 Camera::Camera() :
     m_focus(nullptr),
+    m_transformComp(nullptr),
     m_center(0, 0),
     m_size(0, 0),
     m_viewport(0, 0, 1, 1),
@@ -11,12 +12,14 @@ Camera::Camera() :
 {}
 
 Camera::Camera(Vec2i center, Vec2i size) :
-    m_focus(nullptr),
+    m_focus(nullptr), 
+    m_transformComp(nullptr),
     m_center(center),
     m_size(size),
     m_viewport(0, 0, 1, 1),
     m_rotation(0)
-{}
+{
+}
 
 void Camera::setCenter(Vec2i center)
 {

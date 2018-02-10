@@ -4,7 +4,7 @@
 
 #include "event.h"
 
-class LoadEvent : public Event
+class LoadEvent final : public Event
 {
 public:
     explicit LoadEvent(std::string profile, 
@@ -14,8 +14,6 @@ public:
         m_profile(std::move(profile)),
         m_save(std::move(save))
     {}
-
-    virtual ~LoadEvent() = default;
 
 private:
     std::string m_profile;

@@ -4,7 +4,7 @@
 
 class Actor;
 class ResourceSystem;
-class GameSystemManager;
+class ActorRegistrar;
 
 namespace gui {
 

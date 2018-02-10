@@ -7,18 +7,17 @@
 #include "system__resource.h"
 #include "system__save.h"
 #include "system__scene.h"
-#include "game_system_manager.h"
+#include "system__shedule.h"
+#include "system__view.h"
+#include "system__actor_registrar.h"
+#include "system__control.h"
 
 #include "app_state__game.h"
 #include "system__actor_id.h"
 #include "game_gui.h"
 #include "handler_registration.h"
 
-LoadingAppState LoadingAppState::playState;
-
-LoadingAppState::LoadingAppState() :
-    m_app(nullptr)
-{}
+LoadingAppState LoadingAppState::loadState;
 
 void LoadingAppState::init(App& app)
 {
@@ -27,18 +26,33 @@ void LoadingAppState::init(App& app)
 
     EventSubsystem::AddHandler<LoadEvent>(*this);
     
-    m_app->m_resSystem->initGame();
+    m_app->m_actorRegistrar.reset(new ActorRegistrar());
+    m_app->m_controlGSystem.reset(new ControlGSystem());
+    m_app->m_lootGSystem.reset(new LootGSystem());
+    m_app->m_statsGSystem.reset(new StatsGSystem());
+    m_app->m_sheduleSystem.reset(new SheduleSystem());
+    m_app->m_viewSystem.reset(new ViewSystem());
 
+    m_app->m_resSystem->initGame();
     m_app->m_sceneSystem->init(*m_app->m_resSystem);
+    m_app->m_sheduleSystem->init();
+    m_app->m_viewSystem->init(*m_app->m_rendSubsystem,
+                              *m_app->m_resSystem,
+                              *m_app->m_sceneSystem);
+    m_app->m_controlGSystem->init(*m_app->m_inputSubsystem,
+                                  *m_app->m_sceneSystem);
+    m_app->m_lootGSystem->init(*m_app->m_actorRegistrar, 
+                               *m_app->m_sceneSystem);
+    m_app->m_statsGSystem->init();
     
     m_app->m_saveSystem->regSerializable(*m_app->m_rngHolder);
     m_app->m_saveSystem->regSerializable(IDManager::instance());
     m_app->m_saveSystem->regSerializable(*m_app->m_sceneSystem);
 
-    m_app->m_gameSysManager->init(*m_app->m_inputSubsystem, 
-                                  *m_app->m_rendSubsystem, 
-                                  *m_app->m_resSystem, 
-                                  *m_app->m_sceneSystem);
+    m_app->m_actorRegistrar->addActorHolder(*m_app->m_controlGSystem);
+    m_app->m_actorRegistrar->addActorHolder(*m_app->m_lootGSystem);
+    m_app->m_actorRegistrar->addActorHolder(*m_app->m_lootGSystem);
+    m_app->m_actorRegistrar->addActorHolder(*m_app->m_viewSystem);
 }
 
 void LoadingAppState::clean()
@@ -60,18 +74,19 @@ void LoadingAppState::start()
     }
     else
     {
-        m_app->m_sceneSystem->load("");
+        m_app->m_sceneSystem->generate();
     }
 
     for (auto& [id, actor] : m_app->m_sceneSystem->getScene()->getIDToActorMap())
     {
-        m_app->m_gameSysManager->reg(*actor);
+        m_app->m_actorRegistrar->reg(*actor);
     }
 
     m_app->m_gameGUI.reset(new gui::GameGUI());
     m_app->m_gameGUI->init(m_app->m_opts,
                            *m_app->m_rendSubsystem,
-                           *m_app->m_gameSysManager,
+                           *m_app->m_viewSystem,
+                           *m_app->m_journalSystem,
                            *m_app->m_sceneSystem,
                            *m_app->m_resSystem);
 
@@ -100,7 +115,7 @@ void LoadingAppState::render()
 
 LoadingAppState* LoadingAppState::instance()
 {
-    return &playState;
+    return &loadState;
 }
 
 void LoadingAppState::onEvent(LoadEvent& event)

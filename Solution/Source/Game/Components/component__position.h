@@ -20,8 +20,6 @@ public:
 	const Coord&    get() const;
 	void            set(Coord position);
 
-    ~PositionComponent();
-
 private:
 	Coord m_position;
 };

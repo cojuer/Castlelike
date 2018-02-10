@@ -33,7 +33,7 @@ const int& DialManager::getState() const
     return state;
 }
 
-const int& DialManager::getPhrase() const
+const uint32_t& DialManager::getPhrase() const
 {
     return phrase;
 }

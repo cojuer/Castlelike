@@ -1,6 +1,5 @@
-#pragma once
-
 #include "component__stamina.h"
+
 #include "actor.h"
 
 const std::string StaminaComponent::stringID = "stamina";
@@ -23,5 +22,3 @@ void StaminaComponent::refresh()
     //getComponent<StatComponent>("health")->setCurr(attributes.at(Attr("vit")) * 6);
     //getComponent<StatComponent>("health")->setMax(attributes.at(Attr("vit")) * 6);
 }
-
-StaminaComponent::~StaminaComponent() {}

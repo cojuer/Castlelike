@@ -25,8 +25,8 @@ public:
     SprSheet* renderSprSheet(const std::string& text, const std::string& fontName, int size, int width);
     
 private:
-    ResourceSystem*  m_resSystem;
-    RenderSubsystem* m_rendSubsystem;
+    ResourceSystem*  m_resSystem { nullptr };
+    RenderSubsystem* m_rendSubsystem { nullptr };
 
     std::map<std::pair<std::string, int>, TTF_Font*> m_fonts;
     std::map<gui::GUIText, ATexture*>                m_textures;

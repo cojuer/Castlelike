@@ -9,17 +9,15 @@
 namespace gui {
 
 Button::Button(Widget* parent) :
-    Widget(parent), 
-    m_event(nullptr)
+    Widget(parent)
 {}
 
 Button::Button(const std::string& name, Widget* parent, SDL_Rect geometry, bool visible, Renderable* sprSheet, Event* event) :
-    Widget(name, parent, geometry, visible),
-    m_event(event)
+    Widget(name, parent, geometry, visible)
 {
     if (sprSheet)
     {
-        setGraphics(sprSheet);
+        Button::setGraphics(sprSheet);
     }
 
     setBhvr({ new OnRelease(event) });
@@ -39,12 +37,9 @@ void Button::setGraphics(Renderable* rendered)
 
 bool Button::handle(SDL_Event& event, Vec2i coordStart)
 {
-    if (!m_visible) return false;
+    if (!m_visible or !m_bhvr) return false;
 
-    if (m_bhvr)
-    {
-        m_bhvr->behave(event, coordStart);
-    }
+    m_bhvr->behave(event, coordStart);
     return true;
 }
 
@@ -65,7 +60,6 @@ void Button::loadGraphics(Json& node, ResourceSystem& resSystem)
 {
     Widget::loadGraphics(node, resSystem);
     assert(!m_rendered || dynamic_cast<SprSheet*>(m_rendered));
-    //setGraphics(dynamic_cast<SprSheet*>(m_rendered));
 }
 
 } /* gui namespace. */

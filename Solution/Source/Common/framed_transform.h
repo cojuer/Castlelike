@@ -13,11 +13,11 @@ public:
     FramedTransform();
     FramedTransform(TimePoint start, Duration duration, Timeline&& timeline, bool looped = false);
 
-    void setStart(const TimePoint start) const;
+    void setStart(TimePoint start) const;
 
     TimePoint getStart() const;
     Duration  getDuration() const;
-    Transform getTransform(const TimePoint timePoint) const;
+    Transform getTransform(TimePoint timePoint) const;
     const Timeline& getTimeline() const;
 
 private:

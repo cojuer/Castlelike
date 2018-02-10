@@ -13,7 +13,7 @@ void PushAction::act()
 {
     auto& user = *get<Actor*>(m_args, ActArgType::user);
     auto& scene = *get<Scene*>(m_args, ActArgType::scene);
-    auto& coord = *get<Coord*>(m_args, ActArgType::coord);
+    auto coord = get<Coord>(m_args, ActArgType::coord);
 
     auto victims = getVictims(scene, coord);
     auto weightSum = 0;
@@ -57,7 +57,7 @@ std::vector<std::string> PushAction::getRequiredArgTypes() const
 bool PushAction::canAct() const
 {
     auto readyToAct = false;
-    readyToAct = readyToAct && (getRequiredArgTypes().size() == 0);
+    readyToAct = readyToAct && getRequiredArgTypes().empty();
     
     auto user = get<Actor*>(m_args, ActArgType::user);
     readyToAct = readyToAct && user;
@@ -107,7 +107,11 @@ void PushAction::pushActorOff(Actor& actor, int weight, Coord weightCoord, Scene
     }
 
     auto userAfterCoord = userBeforeCoord + userCoordDiff;
-    ActionArgs tgtArgs{ { ActArgType::user, &actor },{ ActArgType::scene, &scene },{ ActArgType::coord, &userAfterCoord } };
+    ActionArgs tgtArgs{ 
+        { ActArgType::user, &actor },
+        { ActArgType::scene, &scene },
+        { ActArgType::coord, userAfterCoord } 
+    };
     MoveAction tgtAction(std::move(tgtArgs));
     tgtAction.act();
 }

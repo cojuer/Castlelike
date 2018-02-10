@@ -42,7 +42,7 @@ Renderable* RenderableLoader::get(ResourceId& id)
     auto type = std::string(item.attribute("type").as_string());
     if (type == "img")       return getTexture(item);
     else if (type == "text") return getSprSheet(item);
-	else return nullptr;
+    return nullptr;
 }
 
 Renderable* RenderableLoader::getTexture(PugiNode& node) const

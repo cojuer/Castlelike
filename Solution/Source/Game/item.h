@@ -20,12 +20,12 @@ public:
     const std::string&   getName() const;
     const std::string&   getRes() const;
     const std::string&   getDesc() const;
-    const int&           getLevel() const;
-    const int&           getValue() const;
+    const uint32_t&      getLevel() const;
+    const uint32_t&      getValue() const;
     const Modifiers&     getMdfrs() const;
     Action*              getAction() const;
-    const int&           getCount() const;
-    int                  getMaxCount() const;
+    const uint32_t&      getCount() const;
+    uint32_t             getMaxCount() const;
 
     bool                 combine(Item& item);
     void                 setAmount(uint32_t amount);
@@ -36,7 +36,7 @@ public:
     bool                 isConsumable() const;
 
 protected:
-    int m_amount;
+    uint32_t m_amount;
 
     std::shared_ptr<const ItemProto> m_prototype;
 };

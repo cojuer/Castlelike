@@ -65,4 +65,4 @@ void ExperienceInterfaceComponent::updateLvl()
     }
 }
 
-ExperienceInterfaceComponent::~ExperienceInterfaceComponent() {}
+ExperienceInterfaceComponent::~ExperienceInterfaceComponent() = default;

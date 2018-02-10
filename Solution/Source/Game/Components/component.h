@@ -1,6 +1,5 @@
 #pragma once
 
-#include "pugi_aliases.h"
 #include "json_aliases.h"
 
 class Actor;
@@ -10,6 +9,13 @@ class ActorComponent
 {
 public:
     explicit ActorComponent(Actor* parent = nullptr);
+
+    ActorComponent(const ActorComponent&) = delete;
+    ActorComponent(ActorComponent&&) = delete;
+    ActorComponent& operator=(const ActorComponent&) = delete;
+    ActorComponent& operator=(ActorComponent&&) = delete;
+
+    virtual ~ActorComponent();
 
     /**
      * \brief Generate from template
@@ -30,8 +36,6 @@ public:
     Actor*       getParent() const;
 
     template<class T> static ActorComponent* create();
-
-    virtual ~ActorComponent();
 
 protected:
     Actor*      m_parent;

@@ -3,13 +3,13 @@
 #include <map>
 
 #include "camera.h"
-#include "game_system.h"
+#include "actor_holder.h"
 
 class RenderSubsystem;
 class SceneSystem;
-class GameSystemManager;
+class ActorRegistrar;
 
-class ViewSystem : public GameSystem
+class ViewSystem : public ActorHolder
 {
 public:
     ViewSystem() = default;
@@ -21,15 +21,16 @@ public:
     bool reg(Actor& actor) override;
     void unreg(ActorID id) override;
 
-    void update() override;
-    void clean() override;
+    void render();
+    void clean();
 
     const Camera& getCamera() const;
 
 private:
-    Camera*                   m_camera;
-    RenderSubsystem*          m_rendSubsystem;
-    ResourceSystem*           m_resSystem;
-    SceneSystem*              m_sceneSystem;
+    RenderSubsystem*          m_rendSubsystem { nullptr };
+    ResourceSystem*           m_resSystem { nullptr };
+    SceneSystem*              m_sceneSystem { nullptr };
+    
+    std::unique_ptr<Camera>   m_camera { nullptr };
     std::map<ActorID, Actor*> m_registered;
 };

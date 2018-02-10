@@ -18,7 +18,7 @@ Renderable* ATexture::clone() const
     return new ATexture(*this);
 }
 
-bool ATexture::loadFromFile(std::string path, RenderSubsystem& rendSubsystem)
+bool ATexture::loadFromFile(const std::string& path, RenderSubsystem& rendSubsystem)
 {
     auto loadedSurface = IMG_Load(path.c_str());
     auto texture = rendSubsystem.getSurfaceFromTexture(loadedSurface);
@@ -28,7 +28,7 @@ bool ATexture::loadFromFile(std::string path, RenderSubsystem& rendSubsystem)
     return (texture != nullptr);
 }
 
-bool ATexture::loadFromText(RenderSubsystem& rendSubsystem, std::string text, TTF_Font* font, SDL_Color color, int textWidth)
+bool ATexture::loadFromText(RenderSubsystem& rendSubsystem, const std::string& text, TTF_Font* font, SDL_Color color, int textWidth)
 {
     SDL_Surface* surface{ nullptr };
     if (textWidth > 0)
@@ -90,10 +90,5 @@ SDL_Rect ATexture::getSrcRect() const
 	return m_source;
 }
 
-ATexture::~ATexture()
-{
-    //if (m_texture != nullptr)
-    //{
-    //    SDL_DestroyTexture(m_texture);
-    //}
-}
+// FIXME: what to do with SDLTexture, stored inside?
+ATexture::~ATexture() = default;

@@ -11,7 +11,6 @@
 #include "action__attack.h"
 #include "action__move.h"
 #include "pathfinding.h"
-#include "game_system_manager.h"
 #include "component__health.h"
 
 #include "event__shedule.h"
@@ -21,10 +20,9 @@
 #include "cutscene__move.h"
 #include "component__action_pts.h"
 
-bool AIController::init(SceneSystem& sceneSystem, GameSystemManager& sysManager)
+bool AIController::init(SceneSystem& sceneSystem)
 {
     m_sceneSystem = &sceneSystem;
-    m_sysManager = &sysManager;
     return true;
 }
 
@@ -97,7 +95,8 @@ bool AIController::control(Actor& possessed)
         {
             ActionArgs input;
             // FIXME: coord by value?
-            input[ActArgType::coord] = new Coord(target->getCoord());
+            // FIXME: memory leak
+            input[ActArgType::coord] = Coord(target->getCoord());
             input[ActArgType::user] = &possessed;
             input[ActArgType::scene] = &scene;
 
@@ -115,10 +114,10 @@ bool AIController::control(Actor& possessed)
         else
         {
             auto path = ai::AStarAlgorithm::findPath(scene, possessed.getCoord(), target->getCoord());
-            if (path.size() > 0)
+            if (!path.empty())
             {
                 ActionArgs input;
-                input[ActArgType::coord] = new Coord(path.front());
+                input[ActArgType::coord] = path.front();
                 input[ActArgType::user] = &possessed;
                 input[ActArgType::scene] = &scene;
 
@@ -146,12 +145,5 @@ bool AIController::control(Actor& possessed)
     }
     
     // If no AP, turn is over
-    if (apComp->getCurr() == 0)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return (apComp->getCurr() == 0);
 }

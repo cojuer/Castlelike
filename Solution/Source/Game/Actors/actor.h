@@ -21,8 +21,13 @@ class Actor : public Object
 	using ComponentMap = std::multimap<std::type_index, ActorComponent*>;
 
 public:
-	Actor(ActorID id, const std::string& resID, const std::string& type);
-    Actor(ActorID id, const std::string& resID, const std::string& type, Coord pos, bool collisive);
+	Actor(ActorID id, std::string resID, std::string type);
+    Actor(ActorID id, std::string resID, std::string type, Coord pos, bool collisive);
+
+    Actor(const Actor&) = delete;
+    Actor(Actor&&) = delete;
+    Actor& operator=(const Actor&) = delete;
+    Actor& operator=(Actor&&) = delete;
 
     virtual void               setCoord(Coord coord);
     

@@ -9,11 +9,11 @@
 class JsonLoader
 {
 public:
-    JsonLoader();
+    JsonLoader() = default;
 
-    bool                     load(const std::string& path);
-    bool                     has(ResourceId& id);
-    Json*                    get(ResourceId& id);
+    bool  load(const std::string& path);
+    bool  has(ResourceId& id);
+    Json* get(ResourceId& id);
 
 private:
     std::map<std::string, std::unique_ptr<Json>> m_loaded;

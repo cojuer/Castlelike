@@ -13,7 +13,14 @@
 class Container
 {
 public:
-    explicit Container(int size);
+    explicit Container(uint32_t size);
+
+    Container(const Container&) = delete;
+    Container(Container&&) = default;
+    Container& operator=(const Container&) = delete;
+    Container& operator=(Container&&) = default;
+
+    ~Container();
 
     /**
      * \brief try to add item to the container.
@@ -70,13 +77,11 @@ public:
     bool             isEmpty() const;
     bool             isFull() const;
 
-    ~Container();
-
 private:
     // TODO: use unique pointers
     std::map<int, Item*> m_busyslots;
     std::set<int>      m_empties;
-    int                m_size;
+    uint32_t           m_size;
     int                m_gold;
 
     static constexpr int maxGold = 1000000000;

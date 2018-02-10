@@ -3,15 +3,13 @@
 #include "event.h"
 #include "menu_state.h"
 
-class MenuEvent : public Event
+class MenuEvent final : public Event
 {
 public:
-    MenuState newState;
+    MenuState m_state;
 
-    explicit MenuEvent(MenuState newState, Object* sender = nullptr) : Event(sender)
+    explicit MenuEvent(MenuState state, Object* sender = nullptr) : Event(sender)
     {
-        this->newState = newState;
+        m_state = state;
     }
-
-    virtual ~MenuEvent() {};
 };

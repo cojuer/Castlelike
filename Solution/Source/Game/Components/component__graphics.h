@@ -22,8 +22,6 @@ public:
 	void setState(int state);
 	std::string get() const override;
 
-    ~GraphicsComponent();
-
 private:
 	int         m_state;
 	std::vector<std::string> m_renderableIds;

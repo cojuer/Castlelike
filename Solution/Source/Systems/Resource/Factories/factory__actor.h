@@ -16,8 +16,6 @@ public:
     Resource<Actor>* generateActor(Json& node);
     Resource<Actor>* loadActor(Json& node);
 
-    ~ActorFactory();
-
 private:
     template<typename T>
     void regToAddCompMap(std::string strCompId);
@@ -29,8 +27,8 @@ private:
     void postLoadComps(Actor& actor);
 
 private:
-    ResourceSystem* m_resSystem;
-    JsonLoader       m_loader;
+    ResourceSystem* m_resSystem { nullptr };
+    JsonLoader      m_loader;
 
     std::map<std::string, void(Actor::*)(ActorComponent&)> addComp;
 };

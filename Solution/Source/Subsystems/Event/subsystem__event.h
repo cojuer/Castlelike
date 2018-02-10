@@ -27,16 +27,21 @@ public:
     static void FireEvent(Event& e);
 
 private:
-    static EventSubsystem* instance;
+    static EventSubsystem* s_instance;
 
     class EventRegistration : public HandlerRegistration
     {
         using Registrations = std::list<EventRegistration*>;
     
     public:
-        EventRegistration(void* const handler, Registrations* const registrations, Object* const sender);
+        EventRegistration(void* handler, Registrations* registrations, Object* sender);
 
-        virtual ~EventRegistration();
+        EventRegistration(const EventRegistration&) = delete;
+        EventRegistration(EventRegistration&&) = delete;
+        EventRegistration& operator=(const EventRegistration&) = delete;
+        EventRegistration& operator=(EventRegistration&&) = delete;
+
+        virtual ~EventRegistration() = default;
 
         void*   getHandler() const;
         Object* getSender() const;

@@ -1,19 +1,21 @@
 #include "app.h"
 
 #include "app_state.h"
+#include "system__journal.h"
 #include "system__resource.h"
 #include "system__scene.h"
 #include "system__save.h"
-#include "game_system_manager.h"
-
-#include "system__sound.h"
+#include "system__shedule.h"
+#include "system__control.h"
+#include "system__actor_registrar.h"
+#include "system__view.h"
 
 #include "subsystem__input.h"
 #include "subsystem__render.h"
 #include "subsystem__rng.h"
 
-#include "game_gui.h"
 #include "menu_gui.h"
+#include "game_gui.h"
 
 #include "global_time.h"
 #include "app_state__loading.h"
@@ -24,13 +26,13 @@ App::App() :
     m_rendSubsystem(new RenderSubsystem()),
     m_inputSubsystem(new InputSubsystem()),
     m_rngHolder(new RNGHolder()),
+    m_journalSystem(new JournalSystem()),
     m_resSystem(new ResourceSystem()),
     m_sceneSystem(new SceneSystem()),
     m_saveSystem(new SaveSystem()),
-    m_gameSysManager(new GameSystemManager()),
+    m_actorRegistrar(new ActorRegistrar()),
     m_gameGUI(nullptr),
     m_menuGUI(nullptr),
-    m_sEngine(new SoundEngine()), 
     m_loadSave(false),
     m_loadLast(false)
 {}

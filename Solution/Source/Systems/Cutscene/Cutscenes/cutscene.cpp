@@ -2,7 +2,8 @@
 
 Cutscene::Cutscene() :
     m_started(false),
-    m_finished(false)
+    m_finished(false),
+    m_duration(TimeUnit::s(0))
 {}
 
 Cutscene::Cutscene(ElemVec&& fragments, Duration duration) :
@@ -11,11 +12,6 @@ Cutscene::Cutscene(ElemVec&& fragments, Duration duration) :
     m_finished(false),
     m_duration(duration)
 {}
-
-Cutscene::~Cutscene()
-{
-    // TODO: delete fragments, smart pointers?
-}
 
 Cutscene::ElemVec& Cutscene::getFragments()
 {

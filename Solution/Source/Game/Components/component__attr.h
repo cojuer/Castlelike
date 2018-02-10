@@ -13,7 +13,7 @@ public:
     static const std::string stringID;
 
     explicit AttrComponent(Actor* parent = nullptr);
-	explicit AttrComponent(const Attributes& attrs, Actor* parent = nullptr);
+	explicit AttrComponent(Attributes attrs, Actor* parent = nullptr);
 
 	void load(Json& node, ResourceSystem& resSystem) override;
     Json save() const override;
@@ -21,8 +21,6 @@ public:
     std::string getStringID() const override;
 
 	const Attributes& get() const;
-
-    ~AttrComponent();
     
 private:
     Attributes  m_attrs;

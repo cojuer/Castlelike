@@ -1,7 +1,5 @@
 #include "scene.h"
 
-#include <iostream>
-
 #include "container.h"
 #include "utils.h"
 #include "system__actor_id.h"
@@ -11,13 +9,21 @@
 #include "factory__actor.h"
 
 Scene::Scene() :
+    m_width(0),
+    m_height(0),
     m_tiles(nullptr)
 {}
 
-Scene::Scene(SceneID id, size_t width, size_t height, Tiles& tiles, ActorVec actors) :
-    m_id(id),
+Scene::Scene(SceneID id, 
+             size_t width, 
+             size_t height, 
+             Tilesets tilesets,
+             Tiles& tiles, 
+             ActorVec actors) :
+    m_id(std::move(id)),
     m_width(width),
     m_height(height),
+    m_tilesets(std::move(tilesets)),
     m_tiles(&tiles)
 {
     for (auto actor : actors)
@@ -77,28 +83,45 @@ bool Scene::isEmpty(Coord coord) const
 
 bool Scene::fromJSON(const Json& node, ResourceSystem& resSystem)
 {
-    assert(node.find("tileset") != node.end());
-    assert(!node.at("tileset").is_null() && "tilesets cannot be loaded");
-    auto tset = resSystem.get<Tileset>(node.at("tileset").get<std::string>());
+    m_width = node.at("width");
+    m_height = node.at("height");
 
-    // FIXME: load
-    m_width = 100;
-    m_height = 100;
+    assert(node.find("tilesets") != node.end());
+    assert(!node.at("tilesets").is_null() && "tilesets cannot be loaded");
+    auto tsetsNode = node.at("tilesets");
+    for (auto it = tsetsNode.begin(); it != tsetsNode.end(); ++it)
+    {
+        auto tsetResID = it->get<std::string>();
+        auto tset = resSystem.get<Tileset>(tsetResID);
+        m_tilesets.push_back(tset);
+    }
+
+    // TEST: vs solution with map
+    std::vector<std::pair<int32_t, Tileset*>> tileIdToInfo;
+    auto offset = 0;
+    for (auto tileset : m_tilesets)
+    {
+        tileIdToInfo.insert(tileIdToInfo.end(), tileset->getSize(), { offset, tileset });
+        offset += tileset->getSize();
+    }
+
+
     m_tiles = new std::vector<std::vector<Tile*>>(m_height, std::vector<Tile*>(m_width));
 
     assert(!node.at("tiles").is_null() && "tiles cannot be loaded");
     auto tilesNode = node.at("tiles");
-    auto x = 0;
-    auto y = 0;
-    for (auto it = tilesNode.begin(); it != tilesNode.end(); ++it)
+    auto tileIter = tilesNode.begin();
+    for (uint32_t y = 0; y < m_height; ++y)
     {
-        if (it->get<int>() != -1)
-            (*m_tiles)[y][x] = tset->getTile(it->get<int>());
-        ++x;
-        if (x == m_width)
+        for (uint32_t x = 0; x < m_width; ++x)
         {
-            x = 0;
-            ++y;
+            auto tileID = tileIter->get<int>();
+            if (tileID != -1)
+            {
+                auto[offset, tset] = tileIdToInfo.at(tileID);
+                (*m_tiles)[y][x] = tset->getTile(tileID - offset);
+            }
+            ++tileIter;
         }
     }
 
@@ -118,13 +141,22 @@ Json Scene::toJSON() const
 {
     Json result;
 
-    // get tileset (should be reworked)
-    for (const auto& row : *m_tiles)
+    result["width"] = m_width;
+    result["height"] = m_height;
+
+    std::vector<std::string> tilesets;
+    for (auto tileset : m_tilesets)
     {
-        for (const auto& elem : row)
-        {
-            if (elem) result["tileset"] = elem->getTileset()->m_resID;
-        }
+        tilesets.push_back(tileset->getResID());
+    }
+    result["tilesets"] = tilesets;
+
+    std::map<std::string, uint32_t> offsets;
+    auto offset = 0;
+    for (auto tileset : m_tilesets)
+    {
+        offsets[tileset->getResID()] = offset;
+        offset += tileset->getSize();
     }
 
     Json tilesNode;
@@ -132,7 +164,11 @@ Json Scene::toJSON() const
     {
         for (const auto& elem : row)
         {
-            if (elem) tilesNode.push_back(elem->getID());
+            if (elem)
+            {
+                offset = offsets.at(elem->getTileset());
+                tilesNode.push_back(offset + elem->getID());
+            }
             else tilesNode.push_back(-1);
         }
     }
@@ -173,8 +209,8 @@ const std::map<ActorID, Actor*>& Scene::getIDToActorMap() const
 // FIXME: Delete out of scene check 
 Tile* Scene::getTile(Coord coord) const
 {
-    if (coord.x < 0 || coord.x >= m_width || 
-        coord.y < 0 || coord.y >= m_height)
+    if (coord.x < 0 || int64_t(coord.x) >= int64_t(m_width) || 
+        coord.y < 0 || int64_t(coord.y) >= int64_t(m_height))
     {
         return nullptr;
     }
@@ -213,10 +249,10 @@ bool Scene::addItem(Coord coord, Item* item)
     }
     else
     {
-        auto cont = new Container(36);
-        areaCont = new StorageActor(IDManager::instance().getActorID(), coord, "items_pile", false, *cont, false);
+        Container cont{ 36 };
+        cont.add(*item);
+        areaCont = new StorageActor(IDManager::instance().getActorID(), coord, "items_pile", false, std::move(cont), false);
         m_actorsByCoord.insert(std::pair<Coord, Actor*>(coord, areaCont));
-        cont->add(*item);
         return true;
     }
 }

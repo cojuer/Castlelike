@@ -1,9 +1,12 @@
 #include "framed_transform.h"
 
-#include <iostream>
 #include <cassert>
 
-FramedTransform::FramedTransform() = default;
+FramedTransform::FramedTransform() :
+    m_start(TimeUnit::s(0)),
+    m_duration(TimeUnit::s(0)),
+    m_looped(false)
+{}
 
 FramedTransform::FramedTransform(TimePoint start, Duration duration, Timeline&& timeline, bool looped) :
     m_start(start),
@@ -12,7 +15,7 @@ FramedTransform::FramedTransform(TimePoint start, Duration duration, Timeline&& 
     m_looped(looped)
 {}
 
-void FramedTransform::setStart(const TimePoint start) const
+void FramedTransform::setStart(TimePoint start) const
 {
     m_start = start;
 }
@@ -27,9 +30,9 @@ Duration FramedTransform::getDuration() const
     return m_duration;
 }
 
-Transform FramedTransform::getTransform(const TimePoint timePoint) const
+Transform FramedTransform::getTransform(TimePoint timePoint) const
 {
-    assert(m_timeline.size() != 0 && "empty transform timeline");
+    assert(!m_timeline.empty() && "empty transform timeline");
     if (timePoint - m_start >= m_duration && !m_looped)
     {
         return m_timeline.rbegin()->second;

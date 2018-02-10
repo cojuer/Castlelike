@@ -5,9 +5,9 @@ ContainerInterfaceComponent::ContainerInterfaceComponent(Actor* parent) :
     m_container(36)
 {}
 
-ContainerInterfaceComponent::ContainerInterfaceComponent(Container& container, Actor* parent) :
+ContainerInterfaceComponent::ContainerInterfaceComponent(Container&& container, Actor* parent) :
     ActorComponent(parent),
-    m_container(container)
+    m_container(std::move(container))
 {}
 
 bool ContainerInterfaceComponent::add(Item& item)
@@ -65,7 +65,7 @@ const int& ContainerInterfaceComponent::getGold() const
     return m_container.getGold();
 }
 
-bool ContainerInterfaceComponent::hasItem(const std::string id) const
+bool ContainerInterfaceComponent::hasItem(const std::string& id) const
 {
     return m_container.hasItem(id);
 }

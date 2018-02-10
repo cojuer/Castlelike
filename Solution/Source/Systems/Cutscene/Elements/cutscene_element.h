@@ -18,8 +18,8 @@ public:
     bool hasFinished() const;
 
 protected:
-    bool      m_started;
-    bool      m_finished;
+    bool      m_started{ false };
+    bool      m_finished{ false };
     TimePoint m_start;
     Duration  m_duration;
 };

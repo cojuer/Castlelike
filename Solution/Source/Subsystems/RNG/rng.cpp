@@ -29,7 +29,7 @@ int RNG::getFrom(int min, int max) const
     return min + floor(rescaled);
 }
 
-void RNG::load(Json& node)
+void RNG::load(const Json& node)
 {
     m_min = node.at("min").get<int>();
     m_max = node.at("max").get<int>();

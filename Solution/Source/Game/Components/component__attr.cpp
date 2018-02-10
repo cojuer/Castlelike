@@ -8,9 +8,9 @@ AttrComponent::AttrComponent(Actor* parent) :
 	m_points(0)
 {}
 
-AttrComponent::AttrComponent(const Attributes& attrs, Actor* parent) :
+AttrComponent::AttrComponent(Attributes attrs, Actor* parent) :
 	ActorComponent(parent),
-	m_attrs(attrs),
+	m_attrs(std::move(attrs)),
 	m_points(0)
 {}
 
@@ -45,6 +45,3 @@ const Attributes& AttrComponent::get() const
 {
     return m_attrs;
 }
-
-AttrComponent::~AttrComponent()
-{}

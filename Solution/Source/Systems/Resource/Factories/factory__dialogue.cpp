@@ -27,5 +27,3 @@ Resource<Dialogue>* DialFactory::get(ResourceId& id)
     }
     return dial;
 }
-
-DialFactory::~DialFactory() = default;

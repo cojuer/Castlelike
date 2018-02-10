@@ -19,10 +19,16 @@ namespace gui {
 class CreationUI;
 class Widget;
 
-class MenuGUI : public InitObject
+class MenuGUI final : public InitObject
 {
 public:
     MenuGUI();
+
+    MenuGUI(const MenuGUI&) = delete;
+    MenuGUI(MenuGUI&&) = delete;
+    MenuGUI& operator=(const MenuGUI&) = delete;
+    MenuGUI& operator=(MenuGUI&&) = delete;
+
     ~MenuGUI();
 
     bool             init(const Options& opts, 
@@ -46,9 +52,9 @@ public:
 private:
     const Options*   m_opts;
 
-    RenderSubsystem* m_rendSubsys;
-    ResourceSystem*  m_resSystem;
-    SaveSystem*      m_saveSystem;
+    RenderSubsystem* m_rendSubsys{ nullptr };
+    ResourceSystem*  m_resSystem{ nullptr };
+    SaveSystem*      m_saveSystem{ nullptr };
 
     MenuState        m_state;
     std::map<MenuState, std::unique_ptr<Widget>> m_pages;

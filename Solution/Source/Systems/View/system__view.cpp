@@ -21,7 +21,7 @@ bool ViewSystem::init(RenderSubsystem& rendSubsys,
     m_rendSubsystem = &rendSubsys;
     m_sceneSystem = &sceneSystem;
 
-    m_camera = new Camera({ 0, 0 }, { 1120, 660 });
+    m_camera.reset(new Camera({ 0, 0 }, { 1120, 660 }));
     m_camera->setViewport({ 0, 0, 1120, 660 });
     auto& vport = m_camera->getViewport();
     SDL_Rect rect{ vport.x, vport.y, vport.w, vport.h };
@@ -48,7 +48,7 @@ void ViewSystem::unreg(ActorID id)
     m_registered.erase(id);
 }
 
-void ViewSystem::update()
+void ViewSystem::render()
 {
     m_camera->focus(*m_sceneSystem->getScene()->getHero());
 

@@ -1,15 +1,13 @@
 #include "subsystem__event.h"
 
-EventSubsystem* EventSubsystem::instance = nullptr;
+EventSubsystem* EventSubsystem::s_instance = nullptr;
 
-EventSubsystem::EventRegistration::EventRegistration(void* const handler, Registrations* const registrations, Object* const sender) :
+EventSubsystem::EventRegistration::EventRegistration(void* handler, Registrations* registrations, Object* sender) :
     m_handler(handler),
     m_registrations(registrations),
     m_sender(sender),
     m_registered(true)
 {}
-
-EventSubsystem::EventRegistration::~EventRegistration() = default;
 
 void* EventSubsystem::EventRegistration::getHandler() const
 {
@@ -36,12 +34,12 @@ EventSubsystem::~EventSubsystem() = default;
 
 EventSubsystem* EventSubsystem::GetInstance()
 {
-    if (instance == nullptr)
+    if (s_instance == nullptr)
     {
-        instance = new EventSubsystem();
+        s_instance = new EventSubsystem();
     }
 
-    return instance;
+    return s_instance;
 }
 
 void EventSubsystem::FireEvent(Event& e)

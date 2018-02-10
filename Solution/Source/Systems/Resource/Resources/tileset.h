@@ -1,21 +1,15 @@
 #pragma once
 
 #include <map>
-#include <memory>
 #include <vector>
 
-#include "renderable.h"
 #include "resource_id.h"
-#include "atexture.h"
 
 class Tile;
-class Renderable;
 
-struct Tileset
+class Tileset
 {
-    Tileset(ResourceId id);
-    Tile* getTile(uint32_t id);
-
+public:
     struct Terrain
     {
         std::string m_name;
@@ -23,16 +17,17 @@ struct Tileset
         std::vector<uint32_t> m_tiles;
     };
 
+    Tileset(ResourceId id, 
+            std::map<std::string, Terrain>&& terrains,
+            std::vector<Tile>&& tiles);
+
+    ResourceId getResID() const;
+    Terrain    getTerrain(const std::string& name) const;
+    Tile*      getTile(uint32_t id);
+    uint32_t   getSize() const;
+
+private:
     ResourceId m_resID;
-	ATexture* m_image;
-    uint32_t m_rows;
-    uint32_t m_cols;
-    uint32_t m_tileW;
-    uint32_t m_tileH;
-	uint8_t m_margin;
-	uint8_t m_spacing;
     std::map<std::string, Terrain> m_terrains;
-    std::vector<std::unique_ptr<ATexture>> m_tileTextures;
     std::vector<Tile> m_tiles;
-    std::vector<std::string> m_tileTerrs;
 };

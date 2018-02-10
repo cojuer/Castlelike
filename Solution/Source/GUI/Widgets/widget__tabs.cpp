@@ -11,18 +11,12 @@ TabWidget::TabWidget(const std::string& name, Widget* parent, int x, int y, int 
     m_rendered = rendered;
 }
 
-TabWidget::~TabWidget()
+void TabWidget::addTab(Button& button, Widget& panel)
 {
-    for (auto& [button, panel] : m_tabs)
-    {
-        delete(button);
-        delete(panel);
-    }
-}
-
-void TabWidget::addTab(Button* button, Widget* panel)
-{
-    m_tabs.push_back({ button, panel });
+    // TODO: check name collisions
+    m_tabs.push_back({ &button, &panel });
+    addChild(button);
+    addChild(panel);
 }
 
 bool TabWidget::handle(SDL_Event& event, Vec2i coordStart)

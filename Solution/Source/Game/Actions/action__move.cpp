@@ -16,7 +16,7 @@ void MoveAction::act()
 {
     auto& user = *get<Actor*>(m_args, ActArgType::user);
     auto& scene = *get<Scene*>(m_args, ActArgType::scene);
-    auto& coord = *get<Coord*>(m_args, ActArgType::coord);
+    auto coord = get<Coord>(m_args, ActArgType::coord);
 
     if (scene.isEmpty(coord))
     {
@@ -61,9 +61,5 @@ std::vector<std::string> MoveAction::getRequiredArgTypes() const
 
 bool MoveAction::canAct() const
 {
-    if (getRequiredArgTypes().size() == 0)
-    {
-        return true;
-    }
-    return false;
+    return getRequiredArgTypes().empty();
 }

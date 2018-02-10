@@ -14,6 +14,4 @@ public:
     std::string getStringID() const override;
 
 	void refresh() override;
-
-    ~HealthComponent();
 };

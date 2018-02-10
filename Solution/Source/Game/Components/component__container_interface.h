@@ -11,7 +11,14 @@ public:
     static const std::string stringID;
 
     explicit ContainerInterfaceComponent(Actor* parent = nullptr);
-    explicit ContainerInterfaceComponent(Container& container, Actor* parent = nullptr);
+    explicit ContainerInterfaceComponent(Container&& container, Actor* parent = nullptr);
+
+    ContainerInterfaceComponent(const ContainerInterfaceComponent&) = delete;
+    ContainerInterfaceComponent(ContainerInterfaceComponent&&) = delete;
+    ContainerInterfaceComponent& operator=(const ContainerInterfaceComponent&) = delete;
+    ContainerInterfaceComponent& operator=(ContainerInterfaceComponent&&) = delete;
+
+    virtual ~ContainerInterfaceComponent();
 
     bool add(Item& item);
     bool addToSlot(Item& item, int index);
@@ -27,12 +34,10 @@ public:
     unsigned int     getItemsNumber() const;
     const int&       getGold() const;
 
-    bool             hasItem(const std::string id) const;
+    bool             hasItem(const std::string& id) const;
 
     bool             isEmpty() const;
     bool             isFull() const;
-
-    ~ContainerInterfaceComponent();
 
 protected:
     Container  m_container;

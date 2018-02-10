@@ -4,7 +4,7 @@
 
 struct Transform
 {
-    Vec2i m_shift;
-    float m_angle;
-    float m_scale;
+    Vec2i m_shift { 0, 0 };
+    float m_angle { 0 };
+    float m_scale { 1 };
 };

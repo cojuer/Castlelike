@@ -2,8 +2,6 @@
 
 #include "subsystem_io.h"
 
-JsonLoader::JsonLoader() {};
-
 bool JsonLoader::load(const std::string& path)
 {
     m_loaded[path] = IOSubsystem::getJSON(path);

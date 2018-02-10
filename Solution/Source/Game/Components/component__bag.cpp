@@ -12,15 +12,15 @@ BagComponent::BagComponent(Actor* parent) :
     m_dropped(false)
 {}
 
-BagComponent::BagComponent(Container& container, Actor* parent) :
-    ContainerInterfaceComponent(container, parent),
+BagComponent::BagComponent(Container&& container, Actor* parent) :
+    ContainerInterfaceComponent(std::move(container), parent),
     m_dropped(false)
 {}
 
 void BagComponent::load(Json& node, ResourceSystem& resSystem)
 {
     assert(!node.at("size").is_null());
-    m_container = Container{ node.at("size").get<int>() };
+    m_container = Container{ node.at("size").get<uint32_t>() };
     //assert(!node.at("slots").is_null());
     for (auto it = node.at("slots").begin(); it != node.at("slots").end(); ++it)
     {
@@ -55,6 +55,3 @@ bool BagComponent::isDropped() const
 {
     return m_dropped;
 }
-
-BagComponent::~BagComponent()
-{}

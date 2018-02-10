@@ -1,7 +1,6 @@
 #include "actor__door.h"
 
 #include "component__graphics.h"
-#include "component__reactor.h"
 #include "component__reactor__door.h"
 
 Door::Door(ActorID id, Coord pos, const std::string& resID, bool collisive) :

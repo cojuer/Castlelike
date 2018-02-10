@@ -13,7 +13,7 @@ public:
 
     void onEvent(MenuEvent& event) override
     {
-        m_menuGUI.setState(event.newState);
+        m_menuGUI.setState(event.m_state);
     }
 
 private:

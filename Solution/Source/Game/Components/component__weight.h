@@ -12,6 +12,4 @@ public:
     WeightComponent(int base, int current, int max, Actor* parent = nullptr);
 
     std::string getStringID() const override;
-
-    ~WeightComponent();
 };

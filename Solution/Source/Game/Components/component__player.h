@@ -19,8 +19,6 @@ public:
     bool       possess();
     bool       isPossessed() const;
 
-    ~PlayerComponent();
-
 private:
     bool        m_possessed;
 };

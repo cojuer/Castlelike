@@ -2,7 +2,6 @@
 
 #include "item.h"
 
-#include <iostream>
 #include <string>
 #include <cassert>
 
@@ -54,7 +53,7 @@ Item* Equipment::getItem(const std::string& slotType) const
 bool Equipment::canEquip(const std::string& slotType, const Item& item)
 {
     // FIXME: rework
-    auto itemClass = item.getClass();
+    const auto& itemClass = item.getClass();
     if (slotType == "lhand") 
     {
         return (itemClass == std::string("weapon"));

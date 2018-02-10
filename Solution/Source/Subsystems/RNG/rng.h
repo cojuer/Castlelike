@@ -13,7 +13,7 @@ public:
     int get() const;
     int getFrom(int min, int max) const;
 
-    void load(Json& node);
+    void load(const Json& node);
     Json save() const;
 
 private:

@@ -5,6 +5,7 @@
 #include "component__reactor_interface.h"
 #include "actor.h"
 
+struct Reaction;
 class ResourceSystem;
   
 class ReactorComponent final : public ReactorComponentInterface
@@ -24,8 +25,6 @@ public:
     void addReaction(std::string condition, Reaction&& reaction);
 
     void react(const std::string& condition, ActionArgs input) override;
-
-    ~ReactorComponent();
 
 private:
     Reactions m_reactions;

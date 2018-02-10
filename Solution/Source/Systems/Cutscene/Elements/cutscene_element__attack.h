@@ -12,13 +12,13 @@ class AttackCutsceneElem : public CutsceneElem
 public:
     AttackCutsceneElem();
 
-    bool init(Actor& actor, Coord tileDst, Duration duration);
+    bool init(Actor& actor, Coord destination, Duration duration);
 
     void onStart() override;
     void update(TimePoint now) override;
     void onFinish() override;
 
 private:
-    Actor*          m_actor;
+    Actor*          m_actor { nullptr };
     FramedTransform m_transform;
 };

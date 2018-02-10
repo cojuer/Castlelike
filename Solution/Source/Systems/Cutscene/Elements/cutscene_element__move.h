@@ -19,6 +19,6 @@ public:
     void onFinish() override;
 
 private:
-    Actor*          m_actor;
+    Actor*          m_actor { nullptr };
     FramedTransform m_transform;
 };

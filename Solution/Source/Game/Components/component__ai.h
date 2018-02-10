@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "component.h"
 
 class Behaviour;
@@ -23,9 +25,7 @@ public:
     bool       possess();
     bool       isPossessed() const;
 
-    ~AIComponent();
-
 private:
-    Behaviour*  m_bhvr;
+    std::unique_ptr<Behaviour> m_bhvr;
     bool        m_possessed;
 };

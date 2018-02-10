@@ -13,7 +13,7 @@ std::vector<Actor*> SwingAction::getVictims() const
 {
     auto& attacker = *get<Actor*>(m_args, ActArgType::user);
     auto& scene = *get<Scene*>(m_args, ActArgType::scene);
-    auto& coord = *get<Coord*>(m_args, ActArgType::coord);
+    auto coord = get<Coord>(m_args, ActArgType::coord);
 
     auto userCoord = attacker.getCoord();
     std::vector<Actor*> victims;

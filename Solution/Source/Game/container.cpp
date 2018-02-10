@@ -3,12 +3,12 @@
 #include <cassert>
 #include <iostream>
 
-Container::Container(int maxsize) :
-    m_size(maxsize),
+Container::Container(uint32_t size) :
+    m_size(size),
     m_gold(0)
 {
     auto end = m_empties.end();
-    for (auto i = 0; i < m_size; ++i)
+    for (uint32_t i = 0; i < m_size; ++i)
     {
         m_empties.insert(end, i);
     }
@@ -140,9 +140,9 @@ bool Container::takeGold(Container& cont)
     return true;
 }
 
-// FIXME: should container delete items?
 Container::~Container()
 {
+    // TODO: use unique pointers?
     for (auto&[index, item] : m_busyslots)
     {
         delete(item);

@@ -3,24 +3,24 @@
 #include <SDL.h>
 
 #include <map>
+#include <memory>
 #include <vector>
 
 #include "vec2.h"
 #include "widget_state.h"
+#include "trigger.h"
 
 namespace gui {
 
-class Trigger;
 class Widget;
 
 class Bhvr
 {
-    using KeyTrigMap = std::map<SDL_Keycode, Trigger*>;
-    using TrigVec    = std::vector<Trigger*>;
+    using KeyTrigMap = std::map<SDL_Keycode, std::unique_ptr<Trigger>>;
+    using TrigVec    = std::vector<std::unique_ptr<Trigger>>;
 
 public:
-    Bhvr(Widget& parent, TrigVec&& triggers);
-    ~Bhvr();
+    Bhvr(Widget& parent, std::vector<Trigger*>&& triggers);
 
     WState          behave(SDL_Event& ev, Vec2i coordStart = { 0, 0 });
 

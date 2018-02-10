@@ -12,8 +12,8 @@ LootComponent::LootComponent(Actor* parent) :
 	ContainerInterfaceComponent(parent)
 {}
 
-LootComponent::LootComponent(Container& container, Actor* parent) :
-	ContainerInterfaceComponent(container, parent)
+LootComponent::LootComponent(Container&& container, Actor* parent) :
+	ContainerInterfaceComponent(std::move(container), parent)
 {}
 
 void LootComponent::generate(Json& node, ResourceSystem& resSystem)
@@ -84,5 +84,3 @@ Container& LootComponent::get()
 {
 	return m_container;
 }
-
-LootComponent::~LootComponent() {}

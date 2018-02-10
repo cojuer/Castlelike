@@ -7,14 +7,14 @@
 
 class SceneSystem;
 class InputSubsystem;
-class GameSystemManager;
+class ActorRegistrar;
 
 class PlayerController : public Controller
 {
 public:
     PlayerController() = default;
 
-    bool init(SceneSystem& sceneSystem, InputSubsystem& inputSubsystem, GameSystemManager& sysManager);
+    bool init(SceneSystem& sceneSystem, InputSubsystem& inputSubsystem);
 
     bool possess(Actor& actor) override;
     void release(ActorID actorID) override;
@@ -23,9 +23,8 @@ public:
     std::map<ActorID, Actor*>& getPossessed();
 
 private:
-    SceneSystem*             m_sceneSystem;
-    InputSubsystem*           m_inputSubsystem;
-    GameSystemManager*            m_sysManager;
-    Direction                 m_heroDir;
+    SceneSystem*              m_sceneSystem { nullptr };
+    InputSubsystem*           m_inputSubsystem { nullptr };
+    Direction                 m_heroDir { Direction::NONE };
     std::map<ActorID, Actor*> m_registered;
 };

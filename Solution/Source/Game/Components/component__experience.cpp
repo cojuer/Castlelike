@@ -24,5 +24,3 @@ int ExperienceComponent::countXpToLvlUp(int level) const
     // TODO: some formula needed
     return (level + 1) * 100;
 }
-
-ExperienceComponent::~ExperienceComponent() {}

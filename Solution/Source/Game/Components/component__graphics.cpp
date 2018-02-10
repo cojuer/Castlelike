@@ -8,7 +8,7 @@ const std::string GraphicsComponent::stringID = "graphics";
 GraphicsComponent::GraphicsComponent(unsigned layer, std::vector<std::string> renderableIds, Actor* parent) :
     GraphicsInterfaceComponent(layer, parent), 
     m_state(0),
-    m_renderableIds(renderableIds)
+    m_renderableIds(std::move(renderableIds))
 {}
 
 GraphicsComponent::GraphicsComponent(Actor* parent) :
@@ -33,7 +33,7 @@ void GraphicsComponent::load(Json& node, ResourceSystem& resSystem)
     m_layer = node["layer"];
     for (auto& rendNode : node["sprites"])
     {
-        m_renderableIds.push_back(rendNode);
+        m_renderableIds.push_back(rendNode.get<std::string>());
     }
 }
 
@@ -51,5 +51,3 @@ std::string GraphicsComponent::get() const
 {
 	return m_renderableIds.at(m_state);
 }
-
-GraphicsComponent::~GraphicsComponent() {}

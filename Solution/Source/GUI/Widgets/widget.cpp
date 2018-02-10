@@ -1,7 +1,5 @@
 #include "widget.h"
 
-#include <iostream>
-
 #include "renderable.h"
 #include "atexture.h"
 
@@ -25,25 +23,25 @@ Widget::Widget(Widget* parent) :
 
 void Widget::setTransform(FramedTransform transform)
 {
-    m_transform = new FramedTransform(transform);
+    m_transform.reset(new FramedTransform(std::move(transform)));
 }
 
-Widget::Widget(const std::string& name, Widget* parent, SDL_Rect geometry, bool visible, Renderable* rendered, WState state) :
+Widget::Widget(std::string name, Widget* parent, SDL_Rect geometry, bool visible, Renderable* rendered, WState state) :
     m_parent(parent),
     m_rendered(rendered),
     m_transform(nullptr),
-    m_name(name),
+    m_name(std::move(name)),
     m_geometry(geometry),
     m_bhvr(nullptr),
     m_state(state),
     m_visible(visible)
 {}
 
-Widget::Widget(const std::string& name, Widget* parent, int x, int y, bool visible, Renderable* rendered) :
+Widget::Widget(std::string name, Widget* parent, int x, int y, bool visible, Renderable* rendered) :
     m_parent(parent),
     m_rendered(rendered),
     m_transform(nullptr),
-    m_name(name),
+    m_name(std::move(name)),
     m_geometry({x, y,
         rendered->getTexture()->getWidth(),
         rendered->getTexture()->getHeight()}), 
@@ -70,7 +68,7 @@ void Widget::setGeometry(const SDL_Rect& geometry)
 
 void Widget::setGeometry(SDL_Rect&& geometry)
 {
-    m_geometry = std::move(geometry);
+    m_geometry = geometry;
 }
 
 void Widget::setGraphics(Renderable* rendered)
@@ -174,21 +172,21 @@ void Widget::loadGeometry(Json& node, const Options& opts)
     auto geom = node["geom"];
     if (geom.is_null())
     {
-        setGeometry({ 0, 0, opts.getInt(OptType::WIDTH), opts.getInt(OptType::HEIGHT) });
+        setGeometry({ 0, 0, opts.get<int>(OptType::WIDTH), opts.get<int>(OptType::HEIGHT) });
         return;
     }
 
-    int x = geom["x"].is_null() ? 0 : geom["x"];
-    int y = geom["y"].is_null() ? 0 : geom["y"];
-    int w = geom["w"].is_null() ? opts.getInt(OptType::WIDTH) : geom["w"];
-    int h = geom["h"].is_null() ? opts.getInt(OptType::HEIGHT) : geom["h"];
+    int x = geom["x"].is_null() ? 0 : geom["x"].get<int32_t>();
+    int y = geom["y"].is_null() ? 0 : geom["y"].get<int32_t>();
+    int w = geom["w"].is_null() ? opts.get<int>(OptType::WIDTH) : geom["w"].get<int32_t>();
+    int h = geom["h"].is_null() ? opts.get<int>(OptType::HEIGHT) : geom["h"].get<int32_t>();
     auto halign = geom["halign"].is_null() ? std::string{} : geom["halign"].get<std::string>();
     auto valign = geom["valign"].is_null() ? std::string{} : geom["valign"].get<std::string>();
 
     auto parentX = m_parent ? m_parent->getPos().x : 0;
     auto parentY = m_parent ? m_parent->getPos().y : 0;
-    auto parentW = m_parent ? m_parent->getWidth() : opts.getInt(OptType::WIDTH);
-    auto parentH = m_parent ? m_parent->getHeight() : opts.getInt(OptType::HEIGHT);
+    auto parentW = m_parent ? m_parent->getWidth() : opts.get<int>(OptType::WIDTH);
+    auto parentH = m_parent ? m_parent->getHeight() : opts.get<int>(OptType::HEIGHT);
     
     if (halign == std::string{ 'l' })
         x = parentX;
@@ -314,7 +312,7 @@ void Widget::setGUIText(GUIText text)
 
 void Widget::setText(std::string text)
 {
-    m_text = text;
+    m_text = std::move(text);
 }
 
 void Widget::setTextStyle(TextStyle style)
@@ -365,7 +363,7 @@ void Widget::renderSelf(RenderSubsystem& rendSubsystem, ResourceSystem& resSyste
     auto dstRect = m_geometry;
     dstRect.x += coordStart.x;
     dstRect.y += coordStart.y;
-    rendSubsystem.render(m_rendered, m_transform, dstRect);
+    rendSubsystem.render(m_rendered, m_transform.get(), dstRect);
 }
 
 void Widget::renderText(RenderSubsystem& rendSubsystem, ResourceSystem& resSystem, Vec2i coordStart) const
@@ -382,12 +380,12 @@ void Widget::renderText(RenderSubsystem& rendSubsystem, ResourceSystem& resSyste
                           font, 
                           m_textStyle.m_color, 
                           m_textStyle.m_width);
-    auto dstRect = m_geometry;
+    SDL_Rect dstRect;
     dstRect.x = coordStart.x;
     dstRect.y = coordStart.y;
     dstRect.w = texture->getWidth();
     dstRect.h = texture->getHeight();
-    rendSubsystem.render(texture, m_transform, dstRect);
+    rendSubsystem.render(texture, m_transform.get(), dstRect);
     SDL_DestroyTexture(texture->getSDLTexture());
     delete(texture);
 }

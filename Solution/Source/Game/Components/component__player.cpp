@@ -37,6 +37,3 @@ bool PlayerComponent::isPossessed() const
 {
     return m_possessed;
 }
-
-PlayerComponent::~PlayerComponent()
-{}

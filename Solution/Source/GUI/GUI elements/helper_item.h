@@ -1,7 +1,6 @@
 #pragma once
 
 #include <memory>
-#include <string>
 
 #include "widget.h"
 
@@ -23,20 +22,20 @@ public:
 
     void setItem(const Item& item);
 
-    void render(RenderSubsystem& rendSubsys, ResourceSystem& resSystem) const;
-
-    ~ItemHelper();
+    void render(RenderSubsystem& rendSubsystem, 
+                ResourceSystem& resSystem, 
+                Vec2i coordStart) const override;
 
 private:
     void initPrimaryStatsSection(const Item& item);
 
 private:
-    static constexpr int width = 200;
-    static constexpr int lMargin = 5;
-    static constexpr int rMargin = 5;
-    static constexpr int tMargin = 5;
-    static constexpr int bMargin = 5;
-    static constexpr int spacing = 5;
+    static constexpr int s_width = 200;
+    static constexpr int s_lMargin = 5;
+    static constexpr int s_rMargin = 5;
+    static constexpr int s_tMargin = 5;
+    static constexpr int s_bMargin = 5;
+    static constexpr int s_spacing = 5;
 
     bool itemHasPrimary;
     bool itemHasSecondary;

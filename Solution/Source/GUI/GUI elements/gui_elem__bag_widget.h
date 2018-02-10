@@ -30,7 +30,7 @@ public:
     void                    refresh();
     void                    resetSlots();
 
-    void                    render(RenderSubsystem& rendSubsystem, ResourceSystem& resSystem, Vec2i coordStart = { 0, 0 }) const override;
+    void                    render(RenderSubsystem& rendSubsystem, ResourceSystem& resSystem, Vec2i coordStart) const override;
 
 private:
     Container*              m_container;

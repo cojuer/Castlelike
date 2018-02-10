@@ -1,20 +1,14 @@
 #include "parser__widget.h"
 
-#include <iostream>
+#include "system__resource.h"
 
+#include "widget.h"
 #include "widget__button.h"
 #include "widget__progress_bar.h"
-#include "system__resource.h"
-#include "widget.h"
 #include "gui_elem__bag_widget.h"
 #include "gui_elem__equip_widget.h"
-#include "game_gui.h"
 #include "gui_elem__action_panel.h"
 #include "gui_elem__loading.h"
-
-WidgetParser::WidgetParser() :
-    m_resSystem(nullptr)
-{}
 
 bool WidgetParser::init(ResourceSystem& resSystem, const Options& opts)
 {

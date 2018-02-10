@@ -11,7 +11,7 @@ public:
     static const std::string stringID;
 
 	explicit EquipmentComponent(Actor* parent = nullptr);
-	explicit EquipmentComponent(Equipment& equipment, Actor* parent = nullptr);
+	explicit EquipmentComponent(Equipment&& equipment, Actor* parent = nullptr);
 
 	void load(Json& node, ResourceSystem& resSystem) override;
     Json save() const override;
@@ -19,8 +19,6 @@ public:
     std::string getStringID() const override;
 
 	Equipment& get();
-
-    ~EquipmentComponent();
 
 private:
 	Equipment  m_equipment;

@@ -9,7 +9,6 @@
 #include "subsystem__event.h"
 #include "listener__dialogue.h"
 
-#include "rng.h"
 #include "subsystem__rng.h"
 
 // FIXME: load in opts
@@ -48,8 +47,6 @@ bool ResourceSystem::init(RenderSubsystem& rendSubsystem, RNGHolder& rngHolder, 
 
     m_actorFactory.reset(new ActorFactory());
     m_componentFactory.reset(new ComponentFactory());
-
-    m_journal = new Journal();
 
     m_widgetFactory->init(*this, opts);
     m_rendFactory->init(*this, rendSubsystem);
