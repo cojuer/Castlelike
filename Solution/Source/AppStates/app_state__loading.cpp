@@ -27,9 +27,9 @@ void LoadingAppState::init(App& app)
     EventSubsystem::AddHandler<LoadEvent>(*this);
     
     m_app->m_actorRegistrar.reset(new ActorRegistrar());
-    m_app->m_controlGSystem.reset(new ControlGSystem());
-    m_app->m_lootGSystem.reset(new LootGSystem());
-    m_app->m_statsGSystem.reset(new StatsGSystem());
+    m_app->m_controlSystem.reset(new ControlGSystem());
+    m_app->m_lootSystem.reset(new LootGSystem());
+    m_app->m_statsSystem.reset(new StatsGSystem());
     m_app->m_sheduleSystem.reset(new SheduleSystem());
     m_app->m_viewSystem.reset(new ViewSystem());
 
@@ -39,19 +39,19 @@ void LoadingAppState::init(App& app)
     m_app->m_viewSystem->init(*m_app->m_rendSubsystem,
                               *m_app->m_resSystem,
                               *m_app->m_sceneSystem);
-    m_app->m_controlGSystem->init(*m_app->m_inputSubsystem,
+    m_app->m_controlSystem->init(*m_app->m_inputSubsystem,
                                   *m_app->m_sceneSystem);
-    m_app->m_lootGSystem->init(*m_app->m_actorRegistrar, 
+    m_app->m_lootSystem->init(*m_app->m_actorRegistrar, 
                                *m_app->m_sceneSystem);
-    m_app->m_statsGSystem->init();
+    m_app->m_statsSystem->init();
     
     m_app->m_saveSystem->regSerializable(*m_app->m_rngHolder);
     m_app->m_saveSystem->regSerializable(IDManager::instance());
     m_app->m_saveSystem->regSerializable(*m_app->m_sceneSystem);
 
-    m_app->m_actorRegistrar->addActorHolder(*m_app->m_controlGSystem);
-    m_app->m_actorRegistrar->addActorHolder(*m_app->m_lootGSystem);
-    m_app->m_actorRegistrar->addActorHolder(*m_app->m_lootGSystem);
+    m_app->m_actorRegistrar->addActorHolder(*m_app->m_controlSystem);
+    m_app->m_actorRegistrar->addActorHolder(*m_app->m_lootSystem);
+    m_app->m_actorRegistrar->addActorHolder(*m_app->m_statsSystem);
     m_app->m_actorRegistrar->addActorHolder(*m_app->m_viewSystem);
 }
 

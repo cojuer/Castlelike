@@ -73,9 +73,9 @@ private:
     std::unique_ptr<ActorRegistrar> m_actorRegistrar;
     std::unique_ptr<ViewSystem>     m_viewSystem;
 
-    std::unique_ptr<ControlGSystem> m_controlGSystem;
-    std::unique_ptr<LootGSystem>    m_lootGSystem;
-    std::unique_ptr<StatsGSystem>   m_statsGSystem;
+    std::unique_ptr<ControlGSystem> m_controlSystem;
+    std::unique_ptr<LootGSystem>    m_lootSystem;
+    std::unique_ptr<StatsGSystem>   m_statsSystem;
     
     std::unique_ptr<gui::GameGUI>    m_gameGUI;
     std::unique_ptr<gui::MenuGUI>    m_menuGUI;

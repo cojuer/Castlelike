@@ -27,9 +27,9 @@ void GameAppState::init(App& app)
 void GameAppState::clean()
 {
     m_app->m_gameGUI.reset();
-    m_app->m_controlGSystem->clean();
-    m_app->m_lootGSystem->clean();
-    m_app->m_statsGSystem->clean();
+    m_app->m_controlSystem->clean();
+    m_app->m_lootSystem->clean();
+    m_app->m_statsSystem->clean();
     m_app->m_sceneSystem->clean();
     m_app->m_journalSystem->clean();
     m_app->m_viewSystem->clean();
@@ -88,10 +88,10 @@ void GameAppState::update()
     }
     else
     {
-        m_app->m_controlGSystem->update();
+        m_app->m_controlSystem->update();
     }
-    m_app->m_lootGSystem->update();
-    m_app->m_statsGSystem->update();
+    m_app->m_lootSystem->update();
+    m_app->m_statsSystem->update();
 }
 
 void GameAppState::render()
