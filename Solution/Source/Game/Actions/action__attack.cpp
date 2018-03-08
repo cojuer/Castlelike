@@ -84,9 +84,15 @@ HitType AttackAction::chooseHitType(const Actor& attacker, const Actor& victim, 
     auto attOffRating = attMdfrComp->get().weak_at("off_rating");
 
     auto vicMdfrComp = victim.getComponent<MdfrComponent>();
-    auto vicDefRating = vicMdfrComp->get().weak_at("def_rating");
-
-    return attack::getHitType(rng, attOffRating, vicDefRating);
+    if (!vicMdfrComp)
+    {
+        return HitType::NORM;
+    }
+    else
+    {
+        auto vicDefRating = vicMdfrComp->get().weak_at("def_rating");
+        return attack::getHitType(rng, attOffRating, vicDefRating);
+    }
 }
 
 int AttackAction::countDamage(HitType hitType, Actor& attacker, Actor& victim)
@@ -98,9 +104,16 @@ int AttackAction::countDamage(HitType hitType, Actor& attacker, Actor& victim)
         auto& attMdfrs = attMdfrComp->get();
         
         auto vicMdfrComp = victim.getComponent<MdfrComponent>();
-        auto& vicMdfrs = vicMdfrComp->get();
-
-        damage = attack::getDamage(attMdfrs, vicMdfrs, hitType);
+        
+        if (vicMdfrComp)
+        {
+            auto& vicMdfrs = vicMdfrComp->get();
+            damage = attack::getDamage(attMdfrs, vicMdfrs, hitType);
+        }
+        else
+        {
+            damage = attack::getDamage(attMdfrs, hitType);
+        }
     }
     return damage;
 }

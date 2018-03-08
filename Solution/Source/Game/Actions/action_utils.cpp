@@ -89,6 +89,22 @@ int getDamage(const Modifiers& attMdfrs, const Modifiers& vicMdfrs, HitType hitT
     return damage;
 }
 
+int getDamage(const Modifiers& attMdfrs, HitType hitType)
+{
+    int damage = 0;
+    if (hitType != HitType::FAIL)
+    {
+        auto attDamage = attMdfrs.weak_at(Dmg("dmg_ph"));
+        if (hitType == HitType::WEAK)
+        {
+            attDamage /= 2;
+        }
+
+        damage = attDamage;
+    }
+    return damage;
+}
+
 void updateExperience(Actor& attacker, Actor& victim)
 {
     auto attXpComponent = attacker.getComponent<ExperienceInterfaceComponent>();
