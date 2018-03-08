@@ -8,8 +8,10 @@
 #include "system__scene.h"
 #include "system__actor_registrar.h"
 
+#include "component__bag.h"
 #include "component__health.h"
 #include "component__loot.h"
+#include "component__equipment.h"
 
 bool LootGSystem::init(ActorRegistrar& actorRegistrar, SceneSystem& sceneSystem)
 {
@@ -42,29 +44,35 @@ void LootGSystem::update()
         if (m_registered.find(actor->getID()) == m_registered.end()) continue;
 
         auto hpComponent = actor->getComponent<HealthComponent>();
+
         auto lootComp = actor->getComponent<LootComponent>();
+        auto bagComp = actor->getComponent<BagComponent>();
+        auto equipComp = actor->getComponent<EquipmentComponent>();
 
         // Registered actor always has hpComponent
         if (hpComponent->getCurr() <= 0)
-        { 
-            auto coord = actor->getCoord();
-            auto scene = m_sceneSystem->getScene();
-            // FIXME: no Storage Actors after loading
-            auto areaCont = dynamic_cast<StorageActor*>(scene->getActor(coord, ActorType::CONTAINER));
-            if (!areaCont)
+        {
+            if (lootComp or bagComp or equipComp)
             {
-                Container cont{ 36 };
-                if (lootComp)
+                auto coord = actor->getCoord();
+                auto scene = m_sceneSystem->getScene();
+                // FIXME: no Storage Actors after loading
+                auto areaCont = dynamic_cast<StorageActor*>(scene->getActor(coord, ActorType::CONTAINER));
+                if (!areaCont)
                 {
-                    cont.takeFrom(lootComp->get());
+                    Container cont{ 36 };
+                    if (lootComp)
+                    {
+                        cont.takeFrom(lootComp->get());
+                    }
+                    areaCont = new StorageActor(IDManager::instance().getActorID(), coord, actor->getRes() + "_remains", false, std::move(cont), false);
+                    scene->addActor(*areaCont);
+                    m_actorRegistrar->reg(*areaCont);
                 }
-                areaCont = new StorageActor(IDManager::instance().getActorID(), coord, actor->getRes() + "_remains", false, std::move(cont), false);
-                scene->addActor(*areaCont);
-                m_actorRegistrar->reg(*areaCont);
-            }
-            else if (lootComp)
-            {
-                areaCont->getContainer().takeFrom(lootComp->get());
+                else if (lootComp)
+                {
+                    areaCont->getContainer().takeFrom(lootComp->get());
+                }
             }
             iter = m_registered.erase(iter);
             m_actorRegistrar->unreg(actor->getID());
