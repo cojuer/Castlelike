@@ -4,6 +4,7 @@
 
 #include "system__resource.h"
 #include "spritesheet.h"
+#include "animation.h"
 #include "text_renderer.h"
 #include "color.h"
 
@@ -42,6 +43,7 @@ Renderable* RenderableLoader::get(ResourceId& id)
     auto type = std::string(item.attribute("type").as_string());
     if (type == "img")       return getTexture(item);
     else if (type == "text") return getSprSheet(item);
+    else if (type == "animation") return getAnimation(item);
     return nullptr;
 }
 
@@ -52,11 +54,30 @@ Renderable* RenderableLoader::getTexture(PugiNode& node) const
     texture.loadFromFile(path, *m_rendSubsystem);
     return &texture;
 }
-// TODO: rewrite
+
 Renderable* RenderableLoader::getAnimation(PugiNode& node) const
 {
-    auto& texture = *new ATexture();
-    return &texture;
+    auto path = std::string("Assets\\Images\\") + std::string(node.attribute("path").as_string());
+    auto duration = node.attribute("duration").as_int();
+    
+    Animation::TimeLine frames{};
+    for (PugiNode frame = node.child("frame"); frame; frame = frame.next_sibling("frame"))
+    {
+        auto& texture = *new ATexture();
+        texture.loadFromFile(path, *m_rendSubsystem);
+        texture.setSrcRect({
+            frame.attribute("x").as_int(), frame.attribute("y").as_int(),
+            frame.attribute("w").as_int(), frame.attribute("h").as_int()
+        });
+        auto timepoint = TimePoint(TimeUnit::ms(frame.attribute("time").as_int()));
+        frames[timepoint] = &texture;
+    }
+    auto res = new Animation{
+        TimePoint(TimeUnit::ms(0)), 
+        Duration(TimeUnit::ms(duration) - TimeUnit::ms(0)), 
+        std::move(frames), true
+    };
+    return res;
 }
 
 Renderable* RenderableLoader::getSprSheet(PugiNode& node) const

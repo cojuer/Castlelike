@@ -114,16 +114,17 @@ void MdfrComponent::refresh()
             m_current["dmg_ph"] += m_base["dmg_ph"];
         }
     }
-    m_current[Mdfr("off_rating")] = m_base.weak_at(Mdfr("off_rating"))
-                                    + m_current.weak_at(Dmg("dmg_ph"));
+    m_current[Mdfr("off_rating")] = m_base.weak_at(Mdfr("off_rating"));
+    m_current[Mdfr("def_rating")] = m_base.weak_at(Mdfr("def_rating"));
 
-    m_current[Mdfr("def_rating")] = m_base.weak_at(Mdfr("def_rating"))
-                                    + m_current.weak_at(Arm("arm_ph")) * 2;
-
-    auto& attributes = m_parent->getComponent<AttrComponent>()->get();
-    m_current["dodge"] += attributes.at(Attr("dex")) * 3 +
-                          attributes.at(Attr("per")) +
-                          attributes.at(Attr("chr"));
-    m_current["accuracy"] += attributes.at(Attr("dex")) * 3 +
-                             attributes.at(Attr("per")) * 2;
+    auto attrComp = m_parent->getComponent<AttrComponent>();
+    if (attrComp)
+    {
+        auto& attributes = attrComp->get();
+        m_current["dodge"] += attributes.at(Attr("dex")) * 3 +
+            attributes.at(Attr("per")) +
+            attributes.at(Attr("chr"));
+        m_current["accuracy"] += attributes.at(Attr("dex")) * 3 +
+            attributes.at(Attr("per")) * 2;
+    }
 }

@@ -77,7 +77,9 @@ bool Scene::isEmpty(Coord coord) const
     {
         empty = empty && !(iter->second->isCollisive());
     }
-    empty = empty && !(*m_tiles)[coord.y][coord.x]->isCollisive();
+    auto tile = (*m_tiles)[coord.y][coord.x];
+    /* consider non-existing tiles non-empty */
+    empty = empty && tile && !tile->isCollisive();
     return empty;
 }
 

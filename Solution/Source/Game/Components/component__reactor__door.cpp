@@ -15,12 +15,14 @@ DoorReactorComponent::DoorReactorComponent(Actor* parent) :
 void DoorReactorComponent::load(Json& node, ResourceSystem& resSystem)
 {
     m_state = static_cast<State>(node.at("state").get<int>());
+	m_distance = node.at("distance").get<int>();
 }
 
 Json DoorReactorComponent::save() const
 {
     Json node;
     node["state"] = static_cast<int>(m_state);
+	node["distance"] = m_distance;
     return { { getStringID(), node } };
 }
 
@@ -34,6 +36,7 @@ void DoorReactorComponent::onOpened(const std::string& condition, const ActionAr
     auto& scene = *get<Scene*>(input, ActArgType::scene);
 	auto collisionComponent = m_parent->getComponent<CollisionComponent>();
 	auto graphicsComponent = m_parent->getComponent<GraphicsComponent>();
+
 	if (condition == "on_use")
 	{
 		if (scene.isEmpty(m_parent->getCoord()))
@@ -61,15 +64,22 @@ void DoorReactorComponent::react(const std::string& condition, ActionArgs input)
 {
 	if (!m_reactive) return;
 
-	switch(m_state)
-	{
-	case State::OPENED:
-		onOpened(condition, std::move(input));
-		break;
-	case State::CLOSED:
-		onClosed(condition, std::move(input));
-		break;
-	default:
-		break;
+	auto& scene = *get<Scene*>(input, ActArgType::scene);
+	auto coord = m_parent->getCoord();
+	auto heroCoord = scene.getHero()->getCoord();
+	auto heroDistance = abs(heroCoord.x - coord.x) + abs(heroCoord.y - coord.y);
+
+	if (heroDistance <= m_distance) {
+		switch (m_state)
+		{
+		case State::OPENED:
+			onOpened(condition, std::move(input));
+			break;
+		case State::CLOSED:
+			onClosed(condition, std::move(input));
+			break;
+		default:
+			break;
+		}
 	}
 }

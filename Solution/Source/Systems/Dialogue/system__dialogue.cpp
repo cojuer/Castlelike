@@ -68,8 +68,12 @@ void DialManager::nextPhrase()
     }
     else
     {
-        state = -1;
-        phrase = 0;
+        auto& dl_phrase = *getCurPhrase();
+        if (dl_phrase.nextState != DlGotoState::NONE)
+        {
+            state = dl_phrase.nextState;
+            phrase = 0;
+        }
     }
     refresh();
 }

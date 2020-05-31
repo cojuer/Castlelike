@@ -5,6 +5,7 @@
 
 #include "subsystem__input.h"
 #include "subsystem__render.h"
+#include "subsystem__event.h"
 #include "system__actor_id.h"
 #include "system__journal.h"
 #include "system__save.h"
@@ -57,6 +58,7 @@ void GameAppState::handle()
             switch(event.key.keysym.sym)
             {
             case SDLK_F5:
+                EventSubsystem::FireEvent(*new JournalEvent("jrn_game_saved", {}));
                 m_app->m_saveSystem->saveLast();
                 break;
             case SDLK_F9:
@@ -92,6 +94,11 @@ void GameAppState::update()
     }
     m_app->m_lootGSystem->update();
     m_app->m_statsGSystem->update();
+
+    /* hero is dead and was removed by loot system */
+    if (m_app->m_sceneSystem->getScene()->getHero() == nullptr) {
+        m_app->changeState(*MenuAppState::instance());
+    }
 }
 
 void GameAppState::render()

@@ -18,6 +18,7 @@ public:
 
     // FIXME: not everyone should have access to this methods
     bool             loadFromFile(const std::string& path, RenderSubsystem& rendSubsystem);
+    bool             loadFromFile(const std::string& path, RenderSubsystem& rendSubsystem, SDL_Rect rect);
     bool             loadFromText(RenderSubsystem& rendSubsystem, const std::string& text, TTF_Font* font, SDL_Color color, int textWidth = 0);
 
 	void             setSrcRect(SDL_Rect srcRect);

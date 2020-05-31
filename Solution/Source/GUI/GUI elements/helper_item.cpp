@@ -35,7 +35,7 @@ bool ItemHelper::init()
     m_primStatsSection->setTextStyle({ Font::latoBold, FontSize::medium, Color::silver, width });
     m_secStatsSection.reset(new Widget("sec_stat", nullptr, { 0 ,0, 200, 20 }, true));
     m_secStatsSection->setTextStyle({ Font::latoRegular, FontSize::medium, Color::silver, width });
-    m_descrSection.reset(new Widget("desc", nullptr, { 0 ,0, 200, 20 }, true));
+    m_descrSection.reset(new Widget("desc", nullptr, { 0 ,0, 200, 40 }, true));
     m_descrSection->setTextStyle({ Font::latoRegular, FontSize::medium, Color::silver, width });
     return true;
 }
@@ -46,7 +46,7 @@ void ItemHelper::setItem(const Item& item)
     m_descrSection->setText(item.getDesc());
     m_infoSection->setText(item.getClass() + ", " + item.getType());
     
-    itemHasDescription = true;
+    itemHasDescription = item.getDesc().length() > 0;
     itemHasSecondary = false;
 
     initPrimaryStatsSection(item);
@@ -63,6 +63,8 @@ void ItemHelper::render(RenderSubsystem& rendSubsystem,
     std::string strdamage = "delete";
 
     Vec2i pos(x - s_width, y - 65);
+    if (pos.x < 0) { pos.x = 0; }
+    if (pos.y < 0) { pos.y = 0; }
 
     auto height = s_tMargin;
     height += m_titleSection->getHeight() + s_spacing;

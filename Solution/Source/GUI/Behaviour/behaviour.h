@@ -22,7 +22,7 @@ class Bhvr
 public:
     Bhvr(Widget& parent, std::vector<Trigger*>&& triggers);
 
-    WState          behave(SDL_Event& ev, Vec2i coordStart = { 0, 0 });
+    void            behave(SDL_Event& ev, Vec2i coordStart = { 0, 0 });
 
 private:
     void changeState(SDL_Event& event, Vec2i coordStart);

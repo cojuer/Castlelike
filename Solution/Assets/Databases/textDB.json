@@ -1,0 +1,77 @@
+{
+    "hero_name" : "Hero",
+    "npc_rat_name" : "Bat",
+    "npc_rat_desc" : "Small flying creature",
+
+    "hit_weak" : "Weak",
+    "hit_norm" : "Normal",
+    "hit_hard" : "Strong",
+    "hit_crit" : "Critical",
+
+    "jrn_attack" : "{0} attacks {1}. {2} hit. -{3}HP.",
+    "jrn_attack_miss" : "{0} attacks {1}. Miss.",
+    "jrn_attack_block" : "{0} attacks {1}. Hit is blocked.",
+    "jrn_pickup" : "{0} picks up {1}.",
+    "jrn_empty_loot": "{0} finds nothing useful.",
+    "jrn_game_saved": "Game saved",
+    
+    "item_bone_club_name" : "Bone club",
+    "item_bone_club_desc" : "Large and heavy bone with comfortable grip.",
+    
+    "item_rusty_sword_name" : "Rusty sword",
+    "item_rusty_sword_desc" : "Old long sword, that has seen many battles.",
+
+    "item_leather_jacket_name" : "Leather jacket",
+    "item_leather_jacket_desc" : "",
+
+    "item_leather_boots_name" : "Leather boots",
+    "item_leather_boots_desc" : "",
+    
+    "item_leather_helmet_name" : "Leather helmet",
+    "item_leather_helmet_desc" : "",
+    
+    "item_leather_gloves_name" : "Leather gloves",
+    "item_leather_gloves_desc" : "",
+    
+    "item_leather_spaulders_name" : "Leather spaulders",
+    "item_leather_spaulders_desc" : "",
+    
+    "item_leather_pants_name" : "Leather pants",
+    "item_leather_pants_desc" : "",
+    
+    "item_leather_bracers_name" : "Leather bracers",
+    "item_leather_bracers_desc" : "",
+
+    "dmg_ph": "physical damage",
+    "arm_ph": "physical armor",
+
+    "armor" : "Armor",
+    "armor_desc" : "Armor increases character's defense rating and absorbs damage dealt to the character.",
+    
+    "def_rating" : "Defense rating",
+    "def_rating_desc" : "Defense rating affects power and accuracy of hits dealt to the character. It consists of armor rating, dodge rating and blocking rating.",
+
+    "off_rating" : "Offense rating",
+    "off_rating_desc" : "Offense rating determines accuracy and strength of character's hits. It depends on accuracy and damage of the weapon used.",
+
+    "action_attack_name" : "Attack",
+    "action_attack_desc" : "Attack with equipped weapon or unarmed.",
+    
+    "action_move_name" : "Move",
+    "action_move_desc" : "Move to the given position if possible.",
+
+    "action_discard_name" : "Push",
+    "action_discard_desc" : "Try to push object or person. If hero weight is smaller he will be pushed instead.",
+
+    "action_whirlwind_name" : "Whirlwind attack",
+    "action_whirlwind_desc" : "Attack everyone around.",
+
+    "action_swing_name" : "Swing",
+    "action_swing_desc" : "Attack all objects or persons nearby in given direction.",
+
+    "action_mighty_blow_name" : "Mighty blow",
+    "action_mighty_blow_desc" : "Move to given position and attack.",
+
+    "rusted_gate_name": "Rusted gate",
+    "gate_name": "Gate"
+}

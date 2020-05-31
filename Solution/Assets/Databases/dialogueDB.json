@@ -1,0 +1,161 @@
+{
+    "1": {
+        "actors": [
+            "hero",
+            "tooltip"
+        ],
+        "states" : [
+            {
+                "phrases" : [
+                    {
+                        "actor" : "tooltip",
+                        "text" : "Hello, traveler! To show next lines press LMB on dialogue panel. '>' symbol shows that there are still entries to read. >"
+                    },
+                    {
+                        "actor" : "tooltip",
+                        "text" : "Uh-oh, it seems you are stuck here. There is only one way out and it is blocked by gate. >"
+                    },
+                    {
+                        "actor" : "tooltip",
+                        "text" : "The gate seems rusty, but you cannot break it without proper tool. >"
+                    },
+                    {
+                        "actor" : "tooltip",
+                        "text" : "To interact with different game objects press LMB on them. Try to find something in those remains around. To end dialogue press LMB one more time.",
+                        "goto" : -1
+                    }
+                ],
+                "answers": [
+                    {
+                        "actor" : "hero",
+                        "text" : "Well, I found this bone... What to do next?",
+                        "goto" : 1
+                    },
+                    {
+                        "actor" : "hero",
+                        "text" : "Walk away",
+                        "goto" : -1
+                    }
+                ]
+            },
+            {
+                "phrases" : [
+                    {
+                        "actor" : "tooltip",
+                        "text" : "You can equip items by clicking RMB on item or by dragging item into correct equipment slot. >"
+                    },
+                    {
+                        "actor" : "tooltip",
+                        "text" : "To attack object move at it. If you cannot attack object nothing will happen. Otherwise, attack animation will play.",
+                        "goto" : -1
+                    }
+                ]
+            }
+        ]
+    },
+    "2": {
+        "actors": [
+            "hero",
+            "tooltip"
+        ],
+        "states" : [
+            {
+                "phrases" : [
+                    {
+                        "actor" : "tooltip",
+                        "text" : "You see room full of hungry bats. In the center of the room the old chest chest stands half buried into ground. Something useful may be inside. >"
+                    },
+                    {
+                        "actor" : "tooltip",
+                        "text" : "Sometimes, rushing into combat head on isn't the best way to survive. Before fighting you should estimate your power and power of enemies you are facing.",
+                        "goto": 1
+                    }
+                ]
+            },
+            {
+                "phrases" : [
+                    {
+                        "actor" : "tooltip",
+                        "text" : "You can take your chances and try to fight. Or you can find another path and come later when you are ready."
+                    }
+                ],
+                "answers": [
+                    {
+                        "actor" : "hero",
+                        "text" : "Yeah, I'm definitely ready.",
+                        "goto" : 2
+                    },
+                    {
+                        "actor" : "hero",
+                        "text" : "I'd better find some other way.",
+                        "goto" : 3
+                    }
+                ]
+            },
+            {
+                "phrases" : [
+                    {
+                        "actor" : "tooltip",
+                        "text" : "Good luck and may gods of random be on your side!",
+                        "goto": -1
+                    }
+                ]
+            },
+            {
+                "phrases" : [
+                    {
+                        "actor" : "tooltip",
+                        "text" : "Be attentive and you surely will succeed.",
+                        "goto" : -1
+                    }
+                ]
+            }
+        ]
+    },
+    "3": {
+        "actors": [
+            "hero",
+            "tooltip"
+        ],
+        "states" : [
+            {
+                "phrases" : [
+                    {
+                        "actor" : "tooltip",
+                        "text" : "If you cannot break something try to interact with it.",
+                        "goto": -1
+                    }
+                ]
+            }
+        ]
+    },
+    "100": {
+        "actors": [
+            "hero",
+            "narrator"
+        ],
+        "states" : [
+            {
+                "phrases" : [
+                    {
+                        "actor" : "narrator",
+                        "text" : "At the last moment before opening the chest you notice trickle of blood flowing from under the lid of the chest. >"
+                    },
+                    {
+                        "actor" : "narrator",
+                        "text" : "Too late you understand that the chest is wavering slightly as if if were alive. >"
+                    },
+                    {
+                        "actor" : "narrator",
+                        "text" : "The last thing you see are the huge sharp fangs of the opened chest aimed at your neck. After that you die... >"
+                    },
+                    {
+                        "actor" : "narrator",
+                        "text" : "Thank you for playing through demo of Castlelike. Press Esc to return to main menu.",
+                        "goto" : -2
+                    }
+                ]
+            }
+        ]
+    }
+}

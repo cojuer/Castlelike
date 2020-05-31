@@ -58,25 +58,14 @@ bool AIController::control(Actor& possessed)
 
     auto coord = possessed.getCoord();
 
+    auto& hero = *scene.getHero();
     std::vector<Actor*> targets;
-    for (auto x = coord.x - 4; x <= coord.x + 4; ++x)
+    /* any logic for finding targets can be implemented here */
+    if (utils::coordDist(coord, hero.getCoord()) <= 3) 
     {
-        for (auto y = coord.y - 4; y <= coord.y + 4; ++y)
-        {
-            if (scene.getTile({x, y}))
-            {
-                auto actors = scene.getActorsAtCoord({ x, y });
-                for (auto actor : actors)
-                {
-                    if (actor->getID() != possessed.getID() &&
-                        actor->getComponent<HealthComponent>())
-                    {
-                        targets.push_back(actor);
-                    }
-                }
-            }
-        }
+        targets.push_back(&hero);
     }
+    
     Actor* target = nullptr;
     int minRange = 10;
     for (auto& actor : targets)

@@ -28,6 +28,7 @@ bool ActorFactory::init(ResourceSystem& resSystem)
     regToAddCompMap<EquipmentComponent>(EquipmentComponent::stringID);
     regToAddCompMap<ReactorComponentInterface>(ReactorComponent::stringID);
     regToAddCompMap<ReactorComponentInterface>(DoorReactorComponent::stringID);
+    regToAddCompMap<ReactorComponentInterface>(DialReactorComponent::stringID);
     return true;
 }
 

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<factionsDB>
+    <faction name="roamers"/>
+    <faction name="rats"/>
+
+    <relation a="rats" b="roamers" val="-130"/>
+    <relation a="roamers" b="rats" val="-80"/>
+
+</factionsDB>

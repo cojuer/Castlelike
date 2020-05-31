@@ -25,4 +25,6 @@ public:
 
 protected:
 	bool      m_reactive;
+    /* max distance from hero at which reaction launches */
+    int       m_distance;
 };

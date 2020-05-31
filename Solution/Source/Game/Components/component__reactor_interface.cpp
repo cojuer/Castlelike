@@ -2,6 +2,7 @@
 
 ReactorComponentInterface::ReactorComponentInterface(Actor* parent) :
 	ActorComponent(parent),
+	m_distance(1),
     m_reactive(true)
 {}
 

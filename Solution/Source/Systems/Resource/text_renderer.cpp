@@ -62,12 +62,31 @@ ATexture* TextRenderer::renderTexture(const std::string& text, gui::TextStyle st
     }
 }
 
-SprSheet* TextRenderer::renderSprSheet(const std::string& text, const std::string& fontName, int size, int width)
+SprSheet* TextRenderer::renderSprSheet(
+    const std::string& text, 
+    const std::string& fontName, 
+    int size, 
+    int width)
 {
     std::vector<ATexture*> textures{ 5 };
     for (auto i = 0; i < 5; ++i)
     {
         textures[i] = renderTexture(text, fontName, size, Color::white);
+    }
+    return new SprSheet(std::move(textures));
+}
+
+SprSheet* TextRenderer::renderSprSheet(
+    const std::string& text,
+    const std::string& fontName,
+    int size,
+    int width,
+    std::array<Color, 5> colors)
+{
+    std::vector<ATexture*> textures{ 5 };
+    for (auto i = 0; i < 5; ++i)
+    {
+        textures[i] = renderTexture(text, fontName, size, colors[i]);
     }
     return new SprSheet(std::move(textures));
 }

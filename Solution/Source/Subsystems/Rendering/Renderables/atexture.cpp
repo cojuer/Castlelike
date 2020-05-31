@@ -28,6 +28,16 @@ bool ATexture::loadFromFile(const std::string& path, RenderSubsystem& rendSubsys
     return (texture != nullptr);
 }
 
+bool ATexture::loadFromFile(const std::string& path, RenderSubsystem& rendSubsystem, SDL_Rect rect)
+{
+    auto loadedSurface = IMG_Load(path.c_str());
+    auto texture = rendSubsystem.getSurfaceFromTexture(loadedSurface);
+    SDL_FreeSurface(loadedSurface);
+    this->m_texture = texture;
+    SDL_QueryTexture(texture, nullptr, nullptr, &rect.w, &rect.h);
+    return (texture != nullptr);
+}
+
 bool ATexture::loadFromText(RenderSubsystem& rendSubsystem, const std::string& text, TTF_Font* font, SDL_Color color, int textWidth)
 {
     SDL_Surface* surface{ nullptr };

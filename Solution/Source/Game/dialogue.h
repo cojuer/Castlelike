@@ -1,8 +1,14 @@
 #pragma once
 
 #include <vector>
+#include <string>
 
 static constexpr auto dialMaxAnswers = 6;
+
+enum DlGotoState {
+    END = -1, /* end dialogue */
+    NONE = -2, /* remain at same spot */
+};
 
 struct DialPhrase;
 struct DialAnswer;

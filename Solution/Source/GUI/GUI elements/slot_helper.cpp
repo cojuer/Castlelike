@@ -8,6 +8,7 @@
 
 #include "item.h"
 #include "slot__item.h"
+#include "slot__action.h"
 
 namespace gui {
 
@@ -27,6 +28,11 @@ void SlotHelper::setSlot(Slot* slot)
             auto& item = *(bagSlot->getItem());
             m_itemHelper.setItem(item);
         }
+        else if (curSlot->getSlotType() == SlotType::SKILL)
+        {
+            auto actionSlot = dynamic_cast<ActSlot*>(curSlot);
+            m_actionHelper.setAction(actionSlot->getAction());
+        }
         timer.start();
     }
 }
@@ -42,6 +48,10 @@ void SlotHelper::render(RenderSubsystem& rendSubsys, ResourceSystem& resSystem) 
         if (curSlot->getSlotType() == SlotType::ITEM)
         {
             m_itemHelper.render(rendSubsys, resSystem, { 0, 0 });
+        }
+        else if (curSlot->getSlotType() == SlotType::SKILL)
+        {
+            m_actionHelper.render(rendSubsys, resSystem, { 0, 0 });
         }
     }
 }

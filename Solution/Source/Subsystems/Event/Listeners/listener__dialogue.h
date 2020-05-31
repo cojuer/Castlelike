@@ -20,6 +20,9 @@ public:
         std::cout << "on dialogue event" << std::endl;
         switch (event.type)
         {
+        case DlEvType::START_DL:
+            dlManager.startDial(event.dl_id);
+            break;
         case DlEvType::NEXT_PHRASE:
             dlManager.nextPhrase();
             break;

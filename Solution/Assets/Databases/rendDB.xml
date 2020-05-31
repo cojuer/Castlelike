@@ -1,0 +1,117 @@
+<?xml version="1.0" ?>
+<rendDB>
+    <item frames="5" id="text_continue" type="text">
+        <frame b="90" font="Lato-Bold" g="90" r="90" size="25" text="Continue"/>
+        <frame b="150" font="Lato-Bold" g="150" r="150" size="25" text="Continue"/>
+        <frame b="230" font="Lato-Bold" g="230" r="230" size="25" text="Continue"/>
+        <frame b="90" font="Lato-Bold" g="90" r="90" size="25" text="Continue"/>
+        <frame b="50" font="Lato-Bold" g="50" r="50" size="25" text="Continue"/>
+    </item>
+    <item frames="5" id="text_new_game" type="text">
+        <frame b="90" font="Lato-Bold" g="90" r="90" size="25" text="New game"/>
+        <frame b="150" font="Lato-Bold" g="150" r="150" size="25" text="New game"/>
+        <frame b="230" font="Lato-Bold" g="230" r="230" size="25" text="New game"/>
+        <frame b="90" font="Lato-Bold" g="90" r="90" size="25" text="New game"/>
+        <frame b="50" font="Lato-Bold" g="50" r="50" size="25" text="New game"/>
+    </item>
+    <item frames="4" id="text_load_game" type="text">
+        <frame b="90" font="Lato-Bold" g="90" r="90" size="25" text="Load game"/>
+        <frame b="150" font="Lato-Bold" g="150" r="150" size="25" text="Load game"/>
+        <frame b="230" font="Lato-Bold" g="230" r="230" size="25" text="Load game"/>
+        <frame b="90" font="Lato-Bold" g="90" r="90" size="25" text="Load game"/>
+    </item>
+    <item frames="4" id="text_options" type="text">
+        <frame b="90" font="Lato-Bold" g="90" r="90" size="25" text="Options"/>
+        <frame b="150" font="Lato-Bold" g="150" r="150" size="25" text="Options"/>
+        <frame b="230" font="Lato-Bold" g="230" r="230" size="25" text="Options"/>
+        <frame b="90" font="Lato-Bold" g="90" r="90" size="25" text="Options"/>
+    </item>
+    <item frames="4" id="text_credits" type="text">
+        <frame b="90" font="Lato-Bold" g="90" r="90" size="25" text="Credits"/>
+        <frame b="150" font="Lato-Bold" g="150" r="150" size="25" text="Credits"/>
+        <frame b="230" font="Lato-Bold" g="230" r="230" size="25" text="Credits"/>
+        <frame b="90" font="Lato-Bold" g="90" r="90" size="25" text="Credits"/>
+    </item>
+    <item frames="4" id="text_quit" type="text">
+        <frame b="90" font="Lato-Bold" g="90" r="90" size="25" text="Quit"/>
+        <frame b="150" font="Lato-Bold" g="150" r="150" size="25" text="Quit"/>
+        <frame b="230" font="Lato-Bold" g="230" r="230" size="25" text="Quit"/>
+        <frame b="90" font="Lato-Bold" g="90" r="90" size="25" text="Quit"/>
+    </item>
+    <item id="Hero" type="animation" path="Hero.png" duration="800">
+        <frame time="0" x="0" y="0" w="64" h="128"/>
+        <frame time="200" x="64" y="0" w="64" h="128"/>
+        <frame time="400" x="128" y="0" w="64" h="128"/>
+        <frame time="600" x="192" y="0" w="64" h="128"/>
+    </item>
+        <item id="npc_skeleton" type="animation" path="npc_skeleton.png" duration="800">
+        <frame time="0" x="0" y="0" w="64" h="128"/>
+        <frame time="200" x="64" y="0" w="64" h="128"/>
+        <frame time="400" x="128" y="0" w="64" h="128"/>
+        <frame time="600" x="192" y="0" w="64" h="128"/>
+    </item>
+    <item id="npc_rat" type="animation" path="npc_rat.png" duration="800">
+        <frame time="0" x="0" y="0" w="64" h="128"/>
+        <!-- <frame time="100" x="64" y="0" w="64" h="128"/> -->
+        <frame time="200" x="128" y="0" w="64" h="128"/>
+        <!-- <frame time="300" x="192" y="0" w="64" h="128"/> -->
+        <frame time="400" x="256" y="0" w="64" h="128"/>
+        <!-- <frame time="500" x="320" y="0" w="64" h="128"/> -->
+        <frame time="600" x="384" y="0" w="64" h="128"/>
+        <!-- <frame time="700" x="448" y="0" w="64" h="128"/> -->
+    </item>
+    <item id="actionswdg_back" path="actionswdg_back.png" type="img"/>
+    <item id="bag_back_texture" path="bag_back_texture.png" type="img"/>
+    <item id="cursor_simple" path="cursor_simple.png" type="img"/>
+    <item id="cursor_action" path="cursor_action.png" type="img"/>
+    <item id="equipment_back_texture" path="equipment_back_texture.png" type="img"/>
+    <item id="helper_back" path="helper_back.png" type="img"/>
+    <item id="menu_texture" path="menu_texture.png" type="img"/>
+    <item id="hero_panel_back_texture" path="hero_panel_back_texture.png" type="img"/>
+    <item id="hero_test_portrait_texture" path="hero_test_portrait_texture.png" type="img"/>
+    <item id="items_pile" path="items_pile.png" type="img"/>
+    <item id="item_bone_club" path="item_bone_club.png" type="img"/>
+    <item id="item_rusty_sword" path="item_rusty_sword.png" type="img"/>
+    <item id="npc_rat_remains" path="npc_rat_remains.png" type="img"/>
+    <item id="npc_skeleton_remains" path="npc_skeleton_remains.png" type="img"/>
+    <item id="text_buffer_back" path="text_buffer_back.png" type="img"/>
+    <item id="tile_frame" path="tile_frame.png" type="img"/>
+    <item id="page_credits" path="page_credits.png" type="img"/>
+
+    <item id="item_leather_jacket" path="item_leather_jacket.png" type="img"/>
+    <item id="item_leather_helmet" path="item_leather_helmet.png" type="img"/>
+    <item id="item_leather_boots" path="item_leather_boots.png" type="img"/>
+    <item id="item_leather_pants" path="item_leather_pants.png" type="img"/>
+    <item id="item_leather_gloves" path="item_leather_gloves.png" type="img"/>
+    <item id="item_leather_spaulders" path="item_leather_spaulders.png" type="img"/>
+    <item id="item_leather_bracers" path="item_leather_bracers.png" type="img"/>
+
+    <item id="action_attack" path="action_attack.png" type="img"/>
+    <item id="action_move" path="action_move.png" type="img"/>
+    <item id="action_discard" path="action_discard.png" type="img"/>
+    <item id="action_whirlwind" path="action_whirlwind.png" type="img"/>
+    <item id="action_mighty_blow" path="action_mighty_blow.png" type="img"/>
+    <item id="action_swing" path="action_swing.png" type="img"/>
+
+    <item id="img_hp_bar" path="img_hp_bar.png" type="img"/>
+    <item id="img_mp_bar" path="img_mp_bar.png" type="img"/>
+    <item id="img_xp_bar" path="img_xp_bar.png" type="img"/>
+
+    <item id="tileset_dungeon" path="tileset_dungeon.png" type="img"/>
+
+    <item id="load_menu" path="load_menu.png" type="img"/>
+    <item id="tooltip" path="tooltip.png" type="img"/>
+
+    <item id="remains" path="remains.png" type="img"/>
+    <item id="dl_wdg_texture" path="dl_wdg_texture.png" type="img"/>
+
+    <item id="rusted_gate" path="rusted_gate.png" type="img"/>
+    <item id="rusted_gate_remains" path="rusted_gate_remains.png" type="img"/>
+
+    <item id="gate" path="gate.png" type="img"/>
+    <item id="gate_opened" path="gate_opened.png" type="img"/>
+    <item id="gate_remains" path="gate_remains.png" type="img"/>
+
+    <item id="loading_screen" path="loading_screen.png" type="img"/>
+    <item id="golden_chest" path="golden_chest.png" type="img"/>
+</rendDB>

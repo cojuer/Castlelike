@@ -6,7 +6,7 @@
 #include "json.hpp"
 
 // TODO: rework when fs will not be experimental
-namespace fs = std::experimental::filesystem;
+namespace fs = std::filesystem;
 
 using Json = nlohmann::json;
 

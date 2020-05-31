@@ -1,0 +1,183 @@
+{
+    "load_page" : {
+        "type" : "widget",
+        "children" : {
+            "load_menu" : {
+                "type" : "load_wdg",
+                "geom" : {
+                    "w" : 600,
+                    "h" : 400,
+                    "halign" : "c",
+                    "valign" : "c"
+                },
+                "graphics": {
+                    "res": "load_menu"
+                }
+            }
+        }
+    },
+    "main_menu" : {
+        "type": "panel",
+        "geom": {
+            "x": 0,
+            "y": 450,
+            "w": 1280,
+            "h": 720
+        },
+        "children": {
+            "continue" : {
+                "type": "button",
+                "geom": {
+                    "x": 20,
+                    "y": 20
+                },
+                "graphics": {
+                    "res": "text_continue"
+                }
+            },
+            "but_ng" : {
+                "type": "button",
+                "geom": {
+                    "x": 20,
+                    "y": 50
+                },
+                "graphics": {
+                    "res": "text_new_game"
+                }
+            },
+            "but_lg" : {
+                "type": "button",
+                "geom": {
+                    "x": 20,
+                    "y": 80
+                },
+                "graphics": {
+                    "res": "text_load_game"
+                }
+            },
+            "but_crd" : {
+                "type": "button",
+                "geom": {
+                    "x": 20,
+                    "y": 110
+                },
+                "graphics": {
+                    "res": "text_credits"
+                }
+            },
+            "but_qt" : {
+                "type": "button",
+                "geom": {
+                    "x": 20,
+                    "y": 140
+                },
+                "graphics": {
+                    "res": "text_quit"
+                }
+            }
+        }
+    },
+    "inventory" : {
+        "type": "panel",
+        "geom": {
+            "x": 700,
+            "y": 100,
+            "w": 350,
+            "h": 550
+        },
+        "graphics": {
+            "res": "equipment_back_texture"
+        }
+    },
+    "bag" : {
+        "type": "bag",
+        "geom": {
+            "x": 10,
+            "y": 280,
+            "w": 350,
+            "h": 250
+        },
+        "options": {
+            "cols" : 6,
+            "rows" : 4
+        }
+    },
+    "secbag" : {
+        "type": "bag",
+        "geom": {
+            "x": 100,
+            "y": 150,
+            "w": 316,
+            "h": 360
+        },
+        "graphics": {
+            "res": "bag_back_texture"
+        },
+        "options": {
+            "cols" : 6,
+            "rows" : 6,
+            "lmargin" : 12,
+            "tmargin" : 49
+        }
+    },
+    "equipment" : {
+        "type": "equip",
+        "geom": {
+            "x": 0,
+            "y": 0,
+            "w": 350,
+            "h": 550
+        }
+    },
+    "actpanel" : {
+        "type": "actpanel",
+        "geom": {
+            "x": 297,
+            "y": 602,
+            "w": 526,
+            "h": 58
+        },
+        "graphics": {
+            "res": "actionswdg_back"
+        },
+        "options": {
+            "size" : 6
+        }
+    },
+    "hp_bar" : {
+        "type": "progbar",
+        "geom": {
+            "x": 297,
+            "y": 570,
+            "w": 263,
+            "h": 23
+        },
+        "graphics": {
+            "res": "img_hp_bar"
+        }
+    },
+    "sp_bar" : {
+        "type": "progbar",
+        "geom": {
+            "x": 560,
+            "y": 570,
+            "w": 263,
+            "h": 23
+        },
+        "graphics": {
+            "res": "img_mp_bar"
+        }
+    },
+    "xp_bar" : {
+        "type": "progbar",
+        "geom": {
+            "x": 297,
+            "y": 592,
+            "w": 526,
+            "h": 10
+        },
+        "graphics": {
+            "res": "img_xp_bar"
+        }
+    }
+}

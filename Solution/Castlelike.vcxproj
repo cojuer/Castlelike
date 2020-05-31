@@ -15,19 +15,19 @@
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>HeroCreator</RootNamespace>
     <ProjectName>Castlelike</ProjectName>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -115,7 +115,9 @@
   <ItemGroup>
     <ClCompile Include="3rd party\Pugixml\pugixml.cpp" />
     <ClCompile Include="Source\AppStates\app_state__loading.cpp" />
+    <ClCompile Include="Source\Game\Components\component__reactor_dialogue.cpp" />
     <ClCompile Include="Source\GUI\GUI elements\gui_elem__loading.cpp" />
+    <ClCompile Include="Source\GUI\GUI elements\helper_action.cpp" />
     <ClCompile Include="Source\GUI\Widgets\widget__dropdown_list.cpp" />
     <ClCompile Include="Source\Subsystems\Event\Events\event__shedule.cpp" />
     <ClCompile Include="Source\Game\Actions\action_args.cpp" />
@@ -266,10 +268,13 @@
     <ClInclude Include="Source\Common\init_object.h" />
     <ClInclude Include="Source\Common\json_serializable.h" />
     <ClInclude Include="Source\Common\time_aliases.h" />
+    <ClInclude Include="Source\Game\Components\component__reactor_dialogue.h" />
     <ClInclude Include="Source\GUI\Common\gui_text.h" />
     <ClInclude Include="Source\GUI\Common\gui_text_style.h" />
     <ClInclude Include="Source\GUI\GUI elements\gui_elem__loading.h" />
+    <ClInclude Include="Source\GUI\GUI elements\helper_action.h" />
     <ClInclude Include="Source\GUI\Widgets\widget__dropdown_list.h" />
+    <ClInclude Include="Source\Subsystems\Event\Events\event__control.h" />
     <ClInclude Include="Source\Subsystems\Event\Events\event__load.h" />
     <ClInclude Include="Source\Subsystems\Event\Events\event__shedule.h" />
     <ClInclude Include="Source\Subsystems\Event\Events\event__actor.h" />
@@ -291,6 +296,7 @@
     <ClInclude Include="Source\Game\Components\component__transform.h" />
     <ClInclude Include="Source\Game\Components\component__weight.h" />
     <ClInclude Include="Source\GUI\Common\color.h" />
+    <ClInclude Include="Source\Subsystems\Event\Listeners\listener__control.h" />
     <ClInclude Include="Source\Systems\Journal\system__journal.h" />
     <ClInclude Include="Source\Systems\Resource\Parsers\parser__dialogue.h" />
     <ClInclude Include="Source\Systems\Resource\Parsers\parser__widget.h" />

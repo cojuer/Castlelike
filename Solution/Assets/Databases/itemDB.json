@@ -1,0 +1,74 @@
+{
+    "item_rusty_sword" : {
+        "value" : 6,
+        "class" : "weapon",
+        "type" : "sword",
+        "modifiers" : {
+            "dmg_ph" : 200
+        }
+    },
+    "item_bone_club" : {
+        "value" : 1,
+        "class" : "weapon",
+        "type" : "club",
+        "modifiers" : {
+            "dmg_ph" : 100
+        }
+    },
+    "item_leather_jacket" : {
+        "value" : 1,
+        "class" : "medium_armor",
+        "type" : "chest",
+        "modifiers" : {
+            "arm_ph" : 18
+        }
+    },
+    "item_leather_gloves" : {
+        "value" : 1,
+        "class" : "medium_armor",
+        "type" : "hands",
+        "modifiers" : {
+            "arm_ph" : 5
+        }
+    },
+    "item_leather_boots" : {
+        "value" : 1,
+        "class" : "medium_armor",
+        "type" : "feet",
+        "modifiers" : {
+            "arm_ph" : 5
+        }
+    },
+    "item_leather_pants" : {
+        "value" : 1,
+        "class" : "medium_armor",
+        "type" : "legs",
+        "modifiers" : {
+            "arm_ph" : 7
+        }
+    },
+    "item_leather_bracers" : {
+        "value" : 1,
+        "class" : "medium_armor",
+        "type" : "wrist",
+        "modifiers" : {
+            "arm_ph" : 7
+        }
+    },
+    "item_leather_helmet" : {
+        "value" : 1,
+        "class" : "medium_armor",
+        "type" : "head",
+        "modifiers" : {
+            "arm_ph" : 11
+        }
+    },
+    "item_leather_spaulders" : {
+        "value" : 1,
+        "class" : "medium_armor",
+        "type" : "shoulders",
+        "modifiers" : {
+            "arm_ph" : 6
+        }
+    }
+}

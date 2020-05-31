@@ -1,0 +1,74 @@
+{
+    "npc_rat" : {
+        "type" : "common",
+        "components" : {
+            "position" : {
+                "x" : 0,
+                "y" : 0
+            },
+            "transform" : {
+                "x" : 0,
+                "y" : 0
+            },
+            "ai" : [],
+            "collision" : true,
+            "weight": [ 4, 4, 100 ],
+            "attributes" : {
+                "str" : 3,
+                "dex" : 9,
+                "int" : 3,
+                "per" : 8,
+                "chr" : 3,
+                "vit" : 4
+            },
+            "modifiers" : {
+                "dmg_ph" : 300
+            },
+            "health" : [ 0, 360, 360 ],
+            "action_pts" : [ 0, 0, 1 ],
+            "loot" : [
+                {
+                  "name": "item_small_bone",
+                  "min": 1,
+                  "max": 3,
+                  "chance": 70
+                },
+                {
+                  "name": "item_rat_meat",
+                  "min": 1,
+                  "max": 2,
+                  "chance": 90
+                }
+            ],
+            "graphics" : {
+                "layer" : 10,
+                "sprites" : [
+                    "npc_rat"
+                ]
+            }
+        }
+    },
+    "idol" : {
+        "type" : "common",
+        "components" : {
+            "position" : {
+                "x" : 1,
+                "y" : 0
+            },
+            "transform" : {
+                "x" : 0,
+                "y" : 0
+            },
+            "collision" : true,
+            "graphics" : {
+                "layer" : 10,
+                "sprites" : [
+                    "items_pile"
+                ]
+            },
+            "reactor_dl" : {
+                "id": 0
+            }
+        }
+    }
+}

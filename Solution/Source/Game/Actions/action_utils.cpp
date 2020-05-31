@@ -48,7 +48,9 @@ HitType getHitType(RNG& rng, int offRating, int defRating)
         chanceToHitCrit = 33.3 + (offRating - defRating - 100) * 0.1;
     }
 
-    auto hitRandom = rng.get();
+    /* FIXME: better to use subsystem for RNG but it is not widely used currently */
+    // auto hitRandom = rng.get();
+    auto hitRandom = rand() % 100;
     auto hitType = HitType::FAIL;
     Vec2d failRange{ 0.0, chanceToFail };
     Vec2d weakRange{ failRange.y, failRange.y + chanceToHitWeak };
@@ -119,7 +121,7 @@ void updateJournal(const Actor& attacker, const Actor& victim, HitType hitType, 
     }
     else
     {
-        auto vecInit = { attacker.getRes(), victim.getRes() };
+        auto vecInit = { attacker.getRes() + "_name", victim.getRes() + "_name" };
         JournalEvent ev = { std::string("jrn_attack_block"), vecInit };
         EventSubsystem::FireEvent(ev);
     }

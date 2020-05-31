@@ -3,6 +3,8 @@
 #include "trigger.h"
 #include "widget.h"
 
+#include <iostream>
+
 namespace gui {
 
 Bhvr::Bhvr(Widget& parent, std::vector<Trigger*>&& triggers) : 
@@ -14,7 +16,7 @@ Bhvr::Bhvr(Widget& parent, std::vector<Trigger*>&& triggers) :
     }
 }
 
-WState Bhvr::behave(SDL_Event& ev, Vec2i coordStart)
+void Bhvr::behave(SDL_Event& ev, Vec2i coordStart)
 {
     WState before = m_parent.getState();
     changeState(ev, coordStart);
@@ -24,9 +26,6 @@ WState Bhvr::behave(SDL_Event& ev, Vec2i coordStart)
     {
         trigger->handle(m_parent, ev, before, after);
     }
-
-    m_parent.setState(after);
-    return after;
 }
 
 void Bhvr::changeState(SDL_Event& event, Vec2i coordStart)

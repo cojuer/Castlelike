@@ -31,6 +31,7 @@ void EquipmentComponent::load(Json& node, ResourceSystem& resSystem)
 Json EquipmentComponent::save() const
 {
     Json node;
+    node["slots"] = Json::object();
     for (auto& type : Equipment::types)
     {
         if (!m_equipment.isEquipped(type)) continue;

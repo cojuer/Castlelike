@@ -23,6 +23,7 @@ public:
     ATexture* renderTexture(const std::string& text, const std::string& fontName, uint32_t size, Color color, uint32_t width = 0);
     ATexture* renderTexture(const std::string& text, gui::TextStyle style);
     SprSheet* renderSprSheet(const std::string& text, const std::string& fontName, int size, int width);
+    SprSheet* renderSprSheet(const std::string& text, const std::string& fontName, int size, int width, std::array<Color, 5> colors);
     
 private:
     ResourceSystem*  m_resSystem { nullptr };

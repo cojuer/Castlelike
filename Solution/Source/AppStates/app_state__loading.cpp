@@ -1,9 +1,12 @@
 #include "app_state__loading.h"
 
+#include <filesystem>
+
 #include "subsystem__event.h"
 #include "subsystem__input.h"
 #include "subsystem__render.h"
 #include "subsystem__rng.h"
+#include "subsystem_io.h"
 #include "system__resource.h"
 #include "system__save.h"
 #include "system__scene.h"
@@ -15,7 +18,12 @@
 #include "app_state__game.h"
 #include "system__actor_id.h"
 #include "game_gui.h"
+#include "widget.h"
 #include "handler_registration.h"
+#include "listener__control.h"
+#include "json_aliases.h"
+
+namespace fs = std::filesystem;
 
 LoadingAppState LoadingAppState::loadState;
 
@@ -41,6 +49,10 @@ void LoadingAppState::init(App& app)
                               *m_app->m_sceneSystem);
     m_app->m_controlGSystem->init(*m_app->m_inputSubsystem,
                                   *m_app->m_sceneSystem);
+
+    auto listener = new ControlListener(*m_app->m_controlGSystem->m_plController);
+    EventSubsystem::AddHandler(*listener);
+
     m_app->m_lootGSystem->init(*m_app->m_actorRegistrar, 
                                *m_app->m_sceneSystem);
     m_app->m_statsGSystem->init();
@@ -51,8 +63,20 @@ void LoadingAppState::init(App& app)
 
     m_app->m_actorRegistrar->addActorHolder(*m_app->m_controlGSystem);
     m_app->m_actorRegistrar->addActorHolder(*m_app->m_lootGSystem);
-    m_app->m_actorRegistrar->addActorHolder(*m_app->m_lootGSystem);
     m_app->m_actorRegistrar->addActorHolder(*m_app->m_viewSystem);
+    m_app->m_actorRegistrar->addActorHolder(*m_app->m_statsGSystem);
+
+    auto fullScreenRect = SDL_Rect{
+        0, 0,
+        m_app->m_opts.get<int>(OptType::WIDTH), 
+        m_app->m_opts.get<int>(OptType::HEIGHT) 
+    };
+    m_loadingScreen.reset(
+        new gui::Widget(
+            "loading_screen", nullptr, fullScreenRect, true,
+            m_app->m_resSystem->get<Renderable>("loading_screen")
+        )
+    );
 }
 
 void LoadingAppState::clean()
@@ -61,6 +85,9 @@ void LoadingAppState::clean()
 
 void LoadingAppState::start()
 {
+    /* hack to enable control on start, better way is to add start/stop to every game system */
+    m_app->m_controlGSystem->m_plController->set_to_control(true);
+
     if (m_app->m_loadSave)
     {
         if (m_app->m_loadLast)
@@ -74,7 +101,10 @@ void LoadingAppState::start()
     }
     else
     {
-        m_app->m_sceneSystem->generate();
+        auto demoPath = fs::path("Assets") / "Databases" / "sceneDB.json";
+        Json sceneDBnode;
+        *IOSubsystem::getInStream(demoPath) >> sceneDBnode;
+        m_app->m_saveSystem->loadJson(sceneDBnode["demo"], *m_app->m_resSystem);
     }
 
     for (auto& [id, actor] : m_app->m_sceneSystem->getScene()->getIDToActorMap())
@@ -89,8 +119,6 @@ void LoadingAppState::start()
                            *m_app->m_journalSystem,
                            *m_app->m_sceneSystem,
                            *m_app->m_resSystem);
-
-    m_app->changeState(*GameAppState::instance());
 }
 
 void LoadingAppState::pause()
@@ -102,6 +130,13 @@ void LoadingAppState::resume()
 void LoadingAppState::handle()
 {
     m_app->m_inputSubsystem->update();
+
+    for (auto event : m_app->m_inputSubsystem->getEvents())
+    {
+        if (event.type == SDL_KEYDOWN || event.type == SDL_MOUSEBUTTONUP) {
+            m_app->changeState(*GameAppState::instance());
+        }
+    }
 }
 
 void LoadingAppState::update()
@@ -110,6 +145,7 @@ void LoadingAppState::update()
 void LoadingAppState::render()
 {
     m_app->m_rendSubsystem->clear();
+    m_loadingScreen->render(*m_app->m_rendSubsystem, *m_app->m_resSystem);
     m_app->m_rendSubsystem->renderPresent();
 }
 

@@ -15,6 +15,7 @@
 #include "component__player.h"
 #include "component__position.h"
 #include "component__reactor.h"
+#include "component__reactor_dialogue.h"
 #include "component__reactor__door.h"
 #include "component__stamina.h"
 #include "component__stat.h"

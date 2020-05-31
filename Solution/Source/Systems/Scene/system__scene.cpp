@@ -92,8 +92,7 @@ void SceneSystem::loadTestScene1()
         "item_golden_sword",
         "item_rusty_sword",
         "item_knife",
-        "item_steel_sword",
-        "item_hide_bracers"
+        "item_leather_bracers"
     };
     for (auto& itemName : initialItems)
     {
@@ -153,6 +152,7 @@ void SceneSystem::loadTestScene1()
             actors.push_back(rat);
         }
     }
+
     std::cout << "actors size: " << actors.size() << std::endl;
 
     auto heroCoord = findEmpty();
@@ -161,6 +161,11 @@ void SceneSystem::loadTestScene1()
     auto door = new Door(idManager.getActorID(), { heroCoord.x + 1, heroCoord.y }, "door_normal", true);
     actors.push_back(door);
     m_scene->addActor(*door);
+
+    auto idol = m_resSystem->get<Actor>("idol");
+    idol->setCoord({ heroCoord.x + 2, heroCoord.y + 1 });
+    m_scene->addActor(*idol);
+
     actors.push_back(hero);
 }
 

@@ -2,6 +2,7 @@
 
 #include <map>
 #include <vector>
+#include <string>
 
 // Debug functions
 const std::string& Mdfr(const std::string& str);

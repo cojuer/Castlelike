@@ -17,7 +17,10 @@ class ControlGSystem : public ActorHolder
 public:
     ControlGSystem() = default;
 
-    bool init(InputSubsystem& inputSubsystem, SceneSystem& sceneSystem);
+    bool init(
+        InputSubsystem& inputSubsystem,
+        SceneSystem& sceneSystem
+    );
 
     bool reg(Actor& actor) override;
     void unreg(ActorID id) override;

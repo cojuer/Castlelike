@@ -26,6 +26,7 @@ ComponentFactory::ComponentFactory() :
     m_map[ExperienceComponent::stringID] = &ActorComponent::create<ExperienceComponent>;
     m_map[ReactorComponent::stringID] =    &ActorComponent::create<ReactorComponent>;
     m_map[DoorReactorComponent::stringID] = &ActorComponent::create<DoorReactorComponent>;
+    m_map[DialReactorComponent::stringID] = &ActorComponent::create<DialReactorComponent>;
 }
 
 bool ComponentFactory::init(ResourceSystem& resSystem)

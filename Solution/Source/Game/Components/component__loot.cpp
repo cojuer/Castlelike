@@ -67,6 +67,7 @@ Json LootComponent::save() const
 {
     Json node;
     node["size"] = m_container.getSize();
+    node["slots"] = Json::object();
     auto& slots = m_container.m_busyslots;
     for (auto&[index, item] : slots)
     {

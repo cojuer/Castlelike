@@ -20,9 +20,16 @@ public:
     void release(ActorID actorID) override;
     bool control(Actor& actor) override;
 
+    void set_to_control(bool value);
+
     std::map<ActorID, Actor*>& getPossessed();
 
 private:
+
+    auto turn_ended(Actor& actor) -> bool;
+
+private:
+    bool                      m_to_control{ true };
     SceneSystem*              m_sceneSystem { nullptr };
     InputSubsystem*           m_inputSubsystem { nullptr };
     Direction                 m_heroDir { Direction::NONE };

@@ -9,7 +9,7 @@
 
 #include "json_serializable.h"
 
-namespace fs = std::experimental::filesystem;
+namespace fs = std::filesystem;
 
 const std::string SaveSystem::extension = ".json";
 const std::string SaveSystem::format = "CASTLELIKE_SAVEFILE";
@@ -55,8 +55,8 @@ bool SaveSystem::init()
                 continue;
             }
 
-            auto profName = profDir.filename().u8string();
-            auto saveName = savePath.stem().u8string();
+            auto profName = profDir.filename().string();
+            auto saveName = savePath.stem().string();
             auto iter = m_saves.find(profName);
             if (iter == m_saves.end())
             {
@@ -68,6 +68,7 @@ bool SaveSystem::init()
             }
         }
     }
+    m_currProfile = m_saves.cbegin()->first;
 
     return true;
 }
@@ -106,11 +107,7 @@ void SaveSystem::loadLast(ResourceSystem& resSystem)
     auto savePath = fs::path(profDirPath) / profile / saveFileName;
     Json save;
     *IOSubsystem::getInStream(savePath) >> save;
-    auto& body = save.at("body");
-    for (auto serializable : m_serializables)
-    {
-        serializable->load(body.at(serializable->getStringID()), resSystem);
-    }
+    this->loadJson(save, resSystem);
 }
 
 void SaveSystem::save(const std::string& profile, const std::string& saveName)
@@ -160,6 +157,11 @@ void SaveSystem::load(const std::string& profile, const std::string& saveName, R
     auto savePath = fs::path(profDirPath) / profile / (saveName + extension);
     Json save;
     *IOSubsystem::getInStream(savePath) >> save;
+    this->loadJson(save, resSystem);
+}
+
+void SaveSystem::loadJson(Json& save, ResourceSystem& resSystem)
+{
     auto& body = save.at("body");
     for (auto serializable : m_serializables)
     {

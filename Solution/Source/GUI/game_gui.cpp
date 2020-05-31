@@ -15,6 +15,7 @@
 #include "event__dialogue.h"
 #include "text_renderer.h"
 #include "listener__gui.h"
+#include "event__control.h"
 
 #include "widget__button.h"
 #include "widget__progress_bar.h"
@@ -25,6 +26,7 @@
 #include "gui_elem__equip_widget.h"
 #include "gui_elem__action_panel.h"
 #include "gui_elem__hero_widget.h"
+#include "on_release.h"
 
 #include "component__action_pts.h"
 #include "component__bag.h"
@@ -64,7 +66,7 @@ bool GameGUI::init(Options& opts,
     m_textBufferBack = std::make_unique<Widget>(
         std::string("journal_back"), 
         nullptr, 
-        SDL_Rect{ 0, 0, 300, 150 }, 
+        SDL_Rect{ 0, 0, 400, 150 }, 
         true, 
         m_resSystem->get<Renderable>("text_buffer_back")
     );
@@ -76,18 +78,23 @@ bool GameGUI::init(Options& opts,
         nullptr, 
         SDL_Rect{ 0, 500, m_opts->get<int>(OptType::WIDTH), 160 }, 
         false, 
-        m_resSystem->get<Renderable>("hero_panel_back_texture")
+        m_resSystem->get<Renderable>("dl_wdg_texture")
     );
 
     //! init status check
     initHeroBars();
+    initActionsWdg();
     initHeroPanel();
     initInventory();
     initBagWidget();
-    initActionsWdg();
     initDlMenu();
 
     return true;
+}
+
+auto GameGUI::setState(GameGUIState state) -> void
+{
+    m_state = state;
 }
 
 void GameGUI::initHeroBars()
@@ -150,12 +157,14 @@ void GameGUI::initActionsWdg()
     m_actionsWdg = std::unique_ptr<ActPanel>(dcast<ActPanel*>(m_resSystem->get<Widget>("actpanel")));
     // TEST
     auto& slots = m_actionsWdg->getSlots();
-    slots[0].setAction("action_move", *m_resSystem);
+    /*slots[0].setAction("action_move", *m_resSystem);
     slots[1].setAction("action_attack", *m_resSystem);
     slots[2].setAction("action_discard", *m_resSystem);
     slots[3].setAction("action_whirlwind", *m_resSystem);
     slots[4].setAction("action_swing", *m_resSystem);
-    slots[5].setAction("action_mighty_blow", *m_resSystem);
+    slots[5].setAction("action_mighty_blow", *m_resSystem);*/
+    slots[0].setAction("action_attack", *m_resSystem);
+    slots[1].setAction("action_whirlwind", *m_resSystem);
     // TEST
     m_widgets.push_back(m_actionsWdg.get());
 }
@@ -163,22 +172,22 @@ void GameGUI::initActionsWdg()
 // FIXME: rewrite
 void GameGUI::initDlMenu()
 {
-    //dialWdg->setTrigger(new ButtonTrigger(dialWdg, new DlEvent(DlEvType::NEXT_PHRASE)));
+    m_dialWdg->setBhvr({ new OnRelease{new DlEvent(DlEvType::NEXT_PHRASE)} });
 
-    const int tMarg = 20;
+    const int wMarg = 20;
     const int lMarg = 20;
 
     const std::string& text = m_resSystem->dialogueManager->getCurText();
-    Widget* textPanel = new TextWidget("text", m_dialWdg.get(), { lMarg, tMarg, m_opts->get<int>(OptType::WIDTH), 100 }, true, Font::latoRegular, FontSize::medium, Color::silver, &text);
+    Widget* textPanel = new TextWidget("text", m_dialWdg.get(), { lMarg, wMarg, m_opts->get<int>(OptType::WIDTH) - 2 * wMarg, 100 }, true, Font::latoRegular, FontSize::medium, Color::silver, &text);
 
-    int height = tMarg + 2 * FontSize::medium;
+    int height = wMarg + 2 * FontSize::medium;
     for (int i = 0; i < dialMaxAnswers; ++i)
     {
         auto childName{ std::string("answer ") + std::to_string(i) };
         SDL_Rect childGeom{ lMarg, height, 0, 0 };
         auto answer = new Button(childName, nullptr, childGeom, true, nullptr, new DlEvent(DlEvType::CHOOSE_ANSWER, i));
         m_dialWdg->addChild(*answer);
-        height += FontSize::medium;
+        height += FontSize::medium + 5; // 5 is added for buttons to not overlap
     }
 
     m_dialWdg->addChild("text", *textPanel);
@@ -202,6 +211,8 @@ void GameGUI::handle(SDL_Event& event)
     case GameGUIState::CUTSCENE:
         handleStateCutscene(event);
         break;
+    case GameGUIState::DIALOGUE:
+        handleStateDialogue(event);
     default:
         break;
     }
@@ -209,20 +220,12 @@ void GameGUI::handle(SDL_Event& event)
 
 void GameGUI::handleDialogue(SDL_Event& event)
 {
-    if (!m_dialWdg->isVisible()) return;
-    
-    auto& dlMgr = *m_resSystem->dialogueManager;
-    // FIXME: what is happening here?
-    if (dlMgr.getPhrase() + 1 == dlMgr.getCurState()->phrases.size() &&
-        dlMgr.getCurPhrase()->nextState != -1)
-    {
-        m_dialWdg->setState(WState::INACTIVE);
-    }
-    else if (m_dialWdg->getState() == WState::INACTIVE)
-    {
-        m_dialWdg->setState(WState::MOUSE_OUT);
-    }
     m_dialWdg->handle(event);
+}
+
+bool GameGUI::canHeroPerformAction()
+{
+    return !m_dialWdg->isVisible();
 }
 
 GameGUI::~GameGUI()
@@ -334,8 +337,15 @@ void GameGUI::handleKeyboard(SDL_Event& event)
             ActionArgs input;
             input[ActArgType::user] = m_hero;
             input[ActArgType::scene] = &scene;
-            m_action = m_resSystem->actionManager->getAction(slots[access_flag].getAction(), std::move(input));
-            m_state = GameGUIState::ACTION_INPUT;
+            m_action.reset(m_resSystem->actionManager->getAction(slots[access_flag].getAction(), std::move(input)));
+            /* check whether can act immediately */
+            if (m_action->canAct()) {
+                m_action->act();
+                m_action.reset(nullptr);
+            }
+            else {
+                m_state = GameGUIState::ACTION_INPUT;
+            }
         }
     }
 }
@@ -366,14 +376,20 @@ void GameGUI::handleStateNormal(SDL_Event& event)
         if (utils::coordDist({ x, y }, m_hero->getCoord()) <= 1 && contActor)
         {
             auto& container = contActor->getComponent<BagComponent>()->get();
-            m_lootWdg->setContainer(&container);
-            m_lootWdg->setVisible(true);
+            if (container.getItemsNumber() > 0) {
+                m_lootWdg->setContainer(&container);
+                m_lootWdg->setVisible(true);
+            }
+            else {
+                auto jrn_args = { scene.getHero()->getRes() + std::string("_name") };
+                EventSubsystem::FireEvent(*new JournalEvent("jrn_empty_loot", jrn_args));
+            }
         }
 		auto actors = scene.getActorsAtCoord({ x, y });
-		for (auto& actor : actors)
+        for (auto& actor : actors)
 		{
 			auto component = actor->getComponent<ReactorComponentInterface>();
-			if (component)
+            if (component)
             {
                 component->react("on_use", { {ActArgType::scene, &scene } });
 			}
@@ -382,9 +398,20 @@ void GameGUI::handleStateNormal(SDL_Event& event)
 
     handleInventory(event);
     handleDialogue(event);
-
+    /* FIXME: there should be only one place which decides which slot shoudld be given to helper */
     auto& slots = m_actionsWdg->getSlots();
     auto coord = m_actionsWdg->getPos();
+    if (m_actionsWdg->isPointOn({ x, y }))
+    {
+        auto& slots = m_actionsWdg->getSlots();
+        for (size_t i = 0; i < slots.size(); ++i)
+        {
+            if (slots[i].isPointOn({ x, y }, coord))
+            {
+                m_slotHelper->setSlot(&slots[i]);
+            }
+        }
+    }
     for (auto& slot: slots)
     {
         if (slot.handle(event, coord) &&
@@ -393,14 +420,28 @@ void GameGUI::handleStateNormal(SDL_Event& event)
             ActionArgs input;
             input[ActArgType::user] = m_hero;
             input[ActArgType::scene] = &scene;
-            m_action = m_resSystem->actionManager->getAction(slot.getAction(), std::move(input));
-            m_state = GameGUIState::ACTION_INPUT;
+            m_action.reset(m_resSystem->actionManager->getAction(slot.getAction(), std::move(input)));
+            /* check whether can act immediately */
+            if (m_action->canAct()) {
+                m_action->act();
+                m_action.reset(nullptr);
+            }
+            else {
+                m_state = GameGUIState::ACTION_INPUT;
+            }
         }
     }
 }
 
 void GameGUI::handleStateActInput(SDL_Event& event)
 {
+    if (event.type == SDL_MOUSEBUTTONUP &&
+        event.button.button == SDL_BUTTON_RIGHT)
+    {
+        m_action.reset(nullptr);
+        m_state = GameGUIState::NORMAL;
+    }
+
     int x, y;
     SDL_GetMouseState(&x, &y);
 
@@ -414,10 +455,11 @@ void GameGUI::handleStateActInput(SDL_Event& event)
         x = center.x + std::round((x - viewport.x - viewport.w / 2 - 32) / 64.);
         y = center.y + std::round((y - viewport.y - viewport.h / 2 - 32) / 64.);
         m_action->setArg(ActArgType::coord, Coord(x, y));
-        m_action->act();
-        delete(m_action);
-        m_action = nullptr;
-        m_state = GameGUIState::NORMAL;
+        if (m_action->canAct()) {
+            m_action->act();
+            m_action.reset(nullptr);
+            m_state = GameGUIState::NORMAL;
+        }
     }
 }
 
@@ -427,6 +469,11 @@ void GameGUI::handleStateActAnim(SDL_Event& event)
 
 void GameGUI::handleStateCutscene(SDL_Event& event)
 {
+}
+
+void GameGUI::handleStateDialogue(SDL_Event& event)
+{
+    handleDialogue(event);
 }
 
 void GameGUI::updateCurSlot()
@@ -667,32 +714,45 @@ void GameGUI::refreshDlMenu()
 
     if (dlMgr.getState() == -1)
     {
+        EventSubsystem::FireEvent(*new ControlEvent(CONTROL::ENABLE));
+        this->setState(GameGUIState::NORMAL);
+        m_dialWdg->setState(WState::MOUSE_OUT);
         m_dialWdg->setVisible(false);
         for (auto i = 0; i < dialMaxAnswers; ++i)
         {
             auto widg = m_dialWdg->getChild(std::string("answer ") + std::to_string(i));
             auto butt = dcast<Button*>(widg);
+            butt->setState(WState::MOUSE_OUT);
             butt->setVisible(false);
         }
         return;
     }
 
-    //if (dlMgr.getPhrase() == dlMgr.getCurState()->phrases.size() - 1)
-    //{
-        for (unsigned i = 0; i < dlMgr.getCurState()->answers.size(); ++i)
-        {
-            auto widg = m_dialWdg->getChild(std::string("answer ") + std::to_string(i));
-            auto butt = dcast<Button*>(widg);
-            butt->setGraphics(m_resSystem->textRenderer->renderSprSheet(dlMgr.getCurState()->answers[i].text, Font::latoRegular, FontSize::medium, m_opts->get<int>(OptType::WIDTH)));
-            butt->setVisible(true);
-        }
-        for (unsigned i = dlMgr.getCurState()->answers.size(); i < dialMaxAnswers; ++i)
-        {
-            auto widg = m_dialWdg->getChild(std::string("answer ") + std::to_string(i));
-            auto butt = dcast<Button*>(widg);
-            butt->setVisible(false);
-        }
-    //}
+    std::array<Color, 5> answer_colors = {
+        Color{90, 90, 90},
+        Color{150, 150, 150},
+        Color{230, 230, 230},
+        Color{90, 90, 90},
+        Color{50, 50, 50},
+    };
+    for (unsigned i = 0; i < dlMgr.getCurState()->answers.size(); ++i)
+    {
+        auto widg = m_dialWdg->getChild(std::string("answer ") + std::to_string(i));
+        auto butt = dcast<Button*>(widg);
+        butt->setGraphics(
+            m_resSystem->textRenderer->renderSprSheet(
+                dlMgr.getCurState()->answers[i].text, Font::latoRegular, FontSize::medium, 
+                m_opts->get<int>(OptType::WIDTH), answer_colors
+            )
+        );
+        butt->setVisible(true);
+    }
+    for (unsigned i = dlMgr.getCurState()->answers.size(); i < dialMaxAnswers; ++i)
+    {
+        auto widg = m_dialWdg->getChild(std::string("answer ") + std::to_string(i));
+        auto butt = dcast<Button*>(widg);
+        butt->setVisible(false);
+    }
 }
 
 bool GameGUI::updateCurSlot(std::vector<ItemSlot>& slots, ActSlotType slotsType, Vec2i coordStart)
@@ -751,7 +811,7 @@ void GameGUI::render() const
 
     renderTileFrame();
     renderTextBuffer();
-    renderTextBuffer();
+    // renderTextBuffer();
     for (auto& widget : m_widgets)
     {
         widget->render(*m_rendSubsystem, *m_resSystem);
@@ -789,7 +849,12 @@ void GameGUI::renderCursor() const
     int x, y;
     SDL_GetMouseState(&x, &y);
     SDL_Rect dst = { x, y, 24, 24 };
-    m_rendSubsystem->render(m_resSystem->get<Renderable>("cursor_simple"), dst);
+    if (m_state == GameGUIState::ACTION_INPUT) {
+        m_rendSubsystem->render(m_resSystem->get<Renderable>("cursor_action"), dst);
+    }
+    else {
+        m_rendSubsystem->render(m_resSystem->get<Renderable>("cursor_simple"), dst);
+    }
 }
 
 } /* gui namespace. */

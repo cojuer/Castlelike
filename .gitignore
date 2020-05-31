@@ -7,8 +7,6 @@
 *.opendb
 *.TMP
 .vs/
-Solution/Assets/
 Solution/Game/
 Solution/Release/
 Solution/Temp/
-Solution/Profiles/

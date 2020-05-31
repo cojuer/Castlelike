@@ -4,6 +4,7 @@
 #include <map>
 #include <set>
 #include <vector>
+#include "json_aliases.h"
 
 class ResourceSystem;
 class JSONSerializable;
@@ -40,6 +41,7 @@ public:
     void loadLast(ResourceSystem& resSystem);
     void save(const std::string& profile, const std::string& saveName);
     void load(const std::string& profile, const std::string& saveName, ResourceSystem& resSystem);
+    void loadJson(Json& save, ResourceSystem& resSystem);
 
     const Profile&       getCurrProfile() const;
     std::vector<Profile> getProfiles() const;

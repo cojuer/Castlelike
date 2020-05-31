@@ -14,7 +14,7 @@ Dialogue* DialogueParser::parse(const std::string& nodeName, Json& node)
             dPhrase.actor = phrase["actor"].get<std::string>();
             //dPhrase.condition = phrase["condition"].get<std::string>();
             //dPhrase.action = phrase["action"].get<std::string>();
-            dPhrase.nextState = phrase["goto"].is_null() ? -1 : phrase["goto"].get<int32_t>();
+            dPhrase.nextState = phrase["goto"].is_null() ? DlGotoState::NONE : phrase["goto"].get<int32_t>();
             dPhrase.text = phrase["text"].get<std::string>();
             dState.phrases.push_back(dPhrase);
         }
@@ -25,7 +25,7 @@ Dialogue* DialogueParser::parse(const std::string& nodeName, Json& node)
             dAnswer.actor = answer["actor"].get<std::string>();
             //dAnswer.condition = answer["condition"].get<std::string>();
             //dAnswer.action = answer["action"].get<std::string>();
-            dAnswer.nextState = answer["goto"].is_null() ? -1 : answer["goto"].get<int32_t>();
+            dAnswer.nextState = answer["goto"].is_null() ? DlGotoState::END : answer["goto"].get<int32_t>();
             dAnswer.text = answer["text"].get<std::string>();
             dState.answers.push_back(dAnswer);
         }

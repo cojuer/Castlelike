@@ -53,7 +53,8 @@ enum class GameGUIState
     NORMAL,
     ACTION_INPUT,
     ACTION_ANIM,
-    CUTSCENE
+    CUTSCENE,
+    DIALOGUE
 };
 
 class GameGUI final : public Object
@@ -78,6 +79,8 @@ public:
                           JournalSystem& journalSystem,
                           SceneSystem& sceneSystem, 
                           ResourceSystem& resSystem);
+
+    auto setState(GameGUIState state) -> void;
 
     void             initHeroBars();
     void             initHeroPanel();
@@ -104,6 +107,8 @@ public:
 
     void             handle(SDL_Event& event);
 
+    bool             canHeroPerformAction();
+
 private:
     void             handleDialogue(SDL_Event& event);
     void             handleInventory(SDL_Event& event);
@@ -113,6 +118,7 @@ private:
     void             handleStateActInput(SDL_Event& event);
     void             handleStateActAnim(SDL_Event& event);
     void             handleStateCutscene(SDL_Event& event);
+    void             handleStateDialogue(SDL_Event& event);
 
     void             updateCurSlot();
 
@@ -170,7 +176,7 @@ private:
     ActSlotType      m_currentSlotType;
     int              m_currentSlotIndex{};
 
-    ActionInterface* m_action{};
+    std::unique_ptr<ActionInterface> m_action{};
 
     std::unique_ptr<HandlerRegistration> m_reg;
     std::unique_ptr<GUIListener> m_listener;

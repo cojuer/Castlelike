@@ -13,6 +13,7 @@
 #include "component__player.h"
 
 #include "event__shedule.h"
+#include "event__gui.h"
 #include "subsystem__event.h"
 
 #include "cutscene__attack.h"
@@ -45,13 +46,12 @@ void PlayerController::release(ActorID actorID)
 
 bool PlayerController::control(Actor& actor)
 {
-    // If no AP, turn is over
-    auto apComp = actor.getComponent<ActionPtsComponent>();
-    if (apComp->getCurr() == 0)
-    {
-        return true;
-    }
+    /* return value shows whether turn is finished */
+    if (!m_to_control) return this->turn_ended(actor);
 
+    if (this->turn_ended(actor)) { return true; }
+
+    auto apComp = actor.getComponent<ActionPtsComponent>();
     auto& events = m_inputSubsystem->getEvents();
     for (auto& event: events)
     {
@@ -64,6 +64,10 @@ bool PlayerController::control(Actor& actor)
             case SDLK_s: m_heroDir = Direction::DOWNWARD; break;
             case SDLK_a: m_heroDir = Direction::LEFTWARD; break;
             case SDLK_d: m_heroDir = Direction::RIGHTWARD; break;
+            case SDLK_r:
+                /* skip turn */
+                apComp->setCurr(0);
+                return true;
             default: break;
             }
         }
@@ -87,6 +91,9 @@ bool PlayerController::control(Actor& actor)
             auto action = new MoveAction{ std::move(input) };
             SheduleEvent actionEvent{ action };
             EventSubsystem::FireEvent(actionEvent);
+
+            /* not the best place to fire as hero can be moved not only through player actions */
+            EventSubsystem::FireEvent(*new GUIEvent(EventId::HERO_MOVED));
         }
         else 
         {
@@ -113,11 +120,22 @@ bool PlayerController::control(Actor& actor)
         m_heroDir = Direction::NONE;
     }
 
-    // If no AP, turn is over
-    return (apComp->getCurr() == 0);
+    return this->turn_ended(actor);
+}
+
+void PlayerController::set_to_control(bool value)
+{
+    m_to_control = value;
 }
 
 std::map<ActorID, Actor*>& PlayerController::getPossessed()
 {
     return m_registered;
+}
+
+auto PlayerController::turn_ended(Actor& actor) -> bool
+{
+    /* expecting every controlled actor to hace AP component */
+    auto apComp = actor.getComponent<ActionPtsComponent>();
+    return apComp->getCurr() == 0;
 }

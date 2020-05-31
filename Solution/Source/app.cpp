@@ -46,7 +46,6 @@ bool App::init()
     
     // TEST
     m_saveSystem->init();
-    m_saveSystem->useProfile("test");
 
     bool inited = true;
     inited = inited && m_rendSubsystem->init(m_opts);

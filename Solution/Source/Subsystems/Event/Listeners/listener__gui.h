@@ -5,6 +5,7 @@
 
 #include "event_handler.h"
 #include "event__gui.h"
+#include "event__control.h"
 
 class GUIListener : public EventHandler<GUIEvent>
 {
@@ -27,7 +28,9 @@ public:
             iggui.m_lootWdg->setVisible(false);
             break;
         case EventId::START_DIALOG:
+            EventSubsystem::FireEvent(*new ControlEvent(CONTROL::DISABLE));
             iggui.m_dialWdg->setVisible(true);
+            iggui.setState(gui::GameGUIState::DIALOGUE);
             iggui.refreshDlMenu();
             break;
         case EventId::REFRESH_DIALOG:

@@ -31,6 +31,7 @@ void HeroPanel::init(ResourceSystem& resSystem, Actor& hero)
     widget = new Widget("name", this, 35, 90, true, texture);
     addChild(*widget);
 
+    /* attribute names */
     texture = resSystem.textRenderer->renderTexture("Strength", fName, fSize, fColor);
     widget = new Widget("str", this, 20, 120, true, texture);
     addChild(*widget);
@@ -55,6 +56,7 @@ void HeroPanel::init(ResourceSystem& resSystem, Actor& hero)
     widget = new Widget("per", this, 20, 220, true, texture);
     addChild(*widget);
 
+    /* attribute values */
     widget = new NumberWidget("str_n", this, { 140, 120, 0, 0 }, true, &attrs.at(Attr("str")));
     addChild(*widget);
 
@@ -73,109 +75,66 @@ void HeroPanel::init(ResourceSystem& resSystem, Actor& hero)
     widget = new NumberWidget("per_n", this, { 140, 220, 0, 0 }, true, &attrs.at(Attr("per")));
     addChild(*widget);
 
+    auto mdfr_col_1_offset = 160;
+    auto mdfr_col_2_offset = 220;
+    auto mdfr_col_3_offset = 280;
+    auto mdfr_col_4_offset = 340;
+
     texture = resSystem.textRenderer->renderTexture("Damage", fName, fSize, fColor);
-    addChild(*new Widget("dmg", this, 200, 120, true, texture));
+    addChild(*new Widget("dmg", this, mdfr_col_1_offset, 120, true, texture));
 
-    texture = resSystem.get<Renderable>("ph_dmg");
-    addChild(*new Widget("dmg_ph_icon", this, 200, 140, true, texture));
-
-    widget = new NumberWidget("dmg_ph_n", this, { 220, 140, 0, 0 }, true, &mdfrs.at("dmg_ph"));
+    widget = new NumberWidget("dmg_ph_n", this, { mdfr_col_1_offset + 20, 140, 0, 0 }, true, &mdfrs.at("dmg_ph"));
     addChild(*widget);
 
-    texture = resSystem.get<Renderable>("m_dmg");
-    addChild(*new Widget("dmg_m_icon", this, 200, 160, true, texture));
-
-    widget = new NumberWidget("dmg_m_n", this, { 220, 160, 0, 0 }, true, &mdfrs.at("dmg_mgc"));
+    widget = new NumberWidget("dmg_m_n", this, { mdfr_col_1_offset + 20, 160, 0, 0 }, true, &mdfrs.at("dmg_mgc"));
     addChild(*widget);
 
-    texture = resSystem.get<Renderable>("f_dmg");
-    addChild(*new Widget("dmg_f_icon", this, 240, 140, true, texture));
-
-    widget = new NumberWidget("dmg_f_n", this, { 260, 140, 0, 0 }, true, &mdfrs.at("dmg_fr"));
+    widget = new NumberWidget("dmg_f_n", this, { mdfr_col_2_offset + 20, 140, 0, 0 }, true, &mdfrs.at("dmg_fr"));
     addChild(*widget);
 
-    texture = resSystem.get<Renderable>("fr_dmg");
-    addChild(*new Widget("dmg_fr_icon", this, 240, 160, true, texture));
-
-    widget = new NumberWidget("dmg_fr_n", this, { 260, 160, 0, 0 }, true, &mdfrs.at("dmg_frz"));
+    widget = new NumberWidget("dmg_fr_n", this, { mdfr_col_2_offset + 20, 160, 0, 0 }, true, &mdfrs.at("dmg_frz"));
     addChild(*widget);
 
-    texture = resSystem.get<Renderable>("l_dmg");
-    addChild(*new Widget("dmg_l_icon", this, 280, 140, true, texture));
-
-    widget = new NumberWidget("dmg_l_n", this, { 300, 140, 0, 0 }, true, &mdfrs.at("dmg_lig"));
+    widget = new NumberWidget("dmg_l_n", this, { mdfr_col_3_offset + 20, 140, 0, 0 }, true, &mdfrs.at("dmg_lig"));
     addChild(*widget);
 
-    texture = resSystem.get<Renderable>("p_dmg");
-    addChild(*new Widget("dmg_p_icon", this, 280, 160, true, texture));
-
-    widget = new NumberWidget("dmg_p_n", this, { 300, 160, 0, 0 }, true, &mdfrs.at("dmg_psn"));
+    widget = new NumberWidget("dmg_p_n", this, { mdfr_col_3_offset + 20, 160, 0, 0 }, true, &mdfrs.at("dmg_psn"));
     addChild(*widget);
 
-    texture = resSystem.get<Renderable>("ch_dmg");
-    addChild(*new Widget("dmg_ch_icon", this, 320, 140, true, texture));
-
-    widget = new NumberWidget("dmg_ch_n", this, { 340, 140, 0, 0 }, true, &mdfrs.at("dmg_ch"));
+    widget = new NumberWidget("dmg_ch_n", this, { mdfr_col_4_offset + 20, 140, 0, 0 }, true, &mdfrs.at("dmg_ch"));
     addChild(*widget);
 
     texture = resSystem.textRenderer->renderTexture("Resistance", fName, fSize, fColor);
-    addChild(*new Widget("res", this, 200, 180, true, texture));
+    addChild(*new Widget("res", this, mdfr_col_1_offset, 180, true, texture));
 
-    texture = resSystem.get<Renderable>("ph_dmg");
-    addChild(*new Widget("res_ph_icon", this, 200, 200, true, texture));
-
-    widget = new NumberWidget("res_ph_n", this, { 220, 200, 0, 0 }, true, &mdfrs.at("res_ph"));
+    widget = new NumberWidget("res_ph_n", this, { mdfr_col_1_offset + 20, 200, 0, 0 }, true, &mdfrs.at("res_ph"));
     addChild(*widget);
 
-    texture = resSystem.get<Renderable>("m_dmg");
-    addChild(*new Widget("res_m_icon", this, 200, 220, true, texture));
-
-    widget = new NumberWidget("res_m_n", this, { 220, 220, 0, 0 }, true, &mdfrs.at("res_mgc"));
+    widget = new NumberWidget("res_m_n", this, { mdfr_col_1_offset + 20, 220, 0, 0 }, true, &mdfrs.at("res_mgc"));
     addChild(*widget);
 
-    texture = resSystem.get<Renderable>("f_dmg");
-    addChild(*new Widget("res_f_icon", this, 240, 200, true, texture));
-
-    widget = new NumberWidget("res_f_n", this, { 260, 200, 0, 0 }, true, &mdfrs.at("res_fr"));
+    widget = new NumberWidget("res_f_n", this, { mdfr_col_2_offset + 20, 200, 0, 0 }, true, &mdfrs.at("res_fr"));
     addChild(*widget);
 
-    texture = resSystem.get<Renderable>("fr_dmg");
-    addChild(*new Widget("res_fr_icon", this, 240, 220, true, texture));
-
-    widget = new NumberWidget("res_fr_n", this, { 260, 220, 0, 0 }, true, &mdfrs.at("res_frz"));
+    widget = new NumberWidget("res_fr_n", this, { mdfr_col_2_offset + 20, 220, 0, 0 }, true, &mdfrs.at("res_frz"));
     addChild(*widget);
 
-    texture = resSystem.get<Renderable>("l_dmg");
-    addChild(*new Widget("res_l_icon", this, 280, 200, true, texture));
-
-    widget = new NumberWidget("res_l_n", this, { 300, 200, 0, 0 }, true, &mdfrs.at("res_lig"));
+    widget = new NumberWidget("res_l_n", this, { mdfr_col_3_offset + 20, 200, 0, 0 }, true, &mdfrs.at("res_lig"));
     addChild(*widget);
 
-    texture = resSystem.get<Renderable>("p_dmg");
-    addChild(*new Widget("res_p_icon", this, 280, 220, true, texture));
-
-    widget = new NumberWidget("res_p_n", this, { 300, 220, 0, 0 }, true, &mdfrs.at("res_psn"));
+    widget = new NumberWidget("res_p_n", this, { mdfr_col_3_offset + 20, 220, 0, 0 }, true, &mdfrs.at("res_psn"));
     addChild(*widget);
 
-    texture = resSystem.get<Renderable>("ch_dmg");
-    addChild(*new Widget("res_ch_icon", this, 320, 200, true, texture));
-
-    widget = new NumberWidget("res_ch_n", this, { 340, 200, 0, 0 }, true, &mdfrs.at("res_ch"));
+    widget = new NumberWidget("res_ch_n", this, { mdfr_col_4_offset + 20, 200, 0, 0 }, true, &mdfrs.at("res_ch"));
     addChild(*widget);
 
     texture = resSystem.textRenderer->renderTexture("Armor", fName, fSize, fColor);
-    addChild(*new Widget("arm", this, 200, 240, true, texture));
+    addChild(*new Widget("arm", this, mdfr_col_1_offset, 240, true, texture));
 
-    texture = resSystem.get<Renderable>("ph_dmg");
-    addChild(*new Widget("arm_ph_icon", this, 200, 260, true, texture));
-
-    widget = new NumberWidget("arm_ph_n", this, { 220, 260, 0, 0 }, true, &mdfrs.at("arm_ph"));
+    widget = new NumberWidget("arm_ph_n", this, { mdfr_col_1_offset + 20, 260, 0, 0 }, true, &mdfrs.at("arm_ph"));
     addChild(*widget);
 
-    texture = resSystem.get<Renderable>("m_dmg");
-    addChild(*new Widget("arm_m_icon", this, 240, 260, true, texture));
-
-    widget = new NumberWidget("arm_m_n", this, { 260, 260, 0, 0 }, true, &mdfrs.at("arm_mgc"));
+    widget = new NumberWidget("arm_m_n", this, { mdfr_col_2_offset + 20, 260, 0, 0 }, true, &mdfrs.at("arm_mgc"));
     addChild(*widget);
 }
 

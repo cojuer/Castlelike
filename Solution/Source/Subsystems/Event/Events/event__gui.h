@@ -7,6 +7,7 @@ enum class EventId
     NONE = 0,
     HERO_MOVED,
     START_DIALOG,
+    END_DIALOG,
     REFRESH_DIALOG
 };
 
